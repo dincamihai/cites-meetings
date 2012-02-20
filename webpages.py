@@ -8,7 +8,9 @@ webpages = flask.Blueprint('webpages', __name__)
 
 @webpages.route('/')
 def home():
-    return "hello world"
+    return flask.render_template('layout.html', **{
+        'content': "Hello world!"
+    })
 
 
 @webpages.route('/edit')
