@@ -6,7 +6,7 @@ countries = ['it', 'no']
 
 Person = fl.Dict.of(
     fl.String.named('name_title').using(optional=True) \
-        .with_properties(label=u"Title"),
+        .with_properties(label=u"Personal title"),
 
     fl.String.named('first_name') \
         .with_properties(label=u"First name"),
