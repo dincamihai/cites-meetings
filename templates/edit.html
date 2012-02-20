@@ -1,0 +1,5 @@
+{%- for name in mk.children_order(person) %}
+  <div class="form-field">
+    {{ mk.widget(person[name]) }}
+  </div>
+{%- endfor %}

@@ -1,0 +1,21 @@
+{% macro _label(mk, field) %}
+  {{ mk.label(field, contents=field.properties.label) }}
+{% endmacro %}
+
+{% macro _errors(mk, field) %}
+  {% for msg in field.errors %}
+    <span class="error">{{ msg }}</span>
+  {% endfor -%}
+{% endmacro %}
+
+{% macro input(mk, field) %}
+  {{ _label(mk, field) }}
+  {{ mk.input(field, class="field-%s" % field.name) }}
+  {{- _errors(mk, field) -}}
+{% endmacro %}
+
+{% macro textarea(mk, field) %}
+  {{ _label(mk, field) }}
+  {{ mk.input(field, class="field-%s" % field.name) }}
+  {{- _errors(mk, field) -}}
+{% endmacro %}
