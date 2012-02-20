@@ -1,14 +1,12 @@
+{% from 'bits.html' import css_link, flash_messages -%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>CITES - Meetings</title>
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='lib/bootstrap.css') }}">
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='lib/bootstrap-responsive.css') }}">
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    {{ css_link('lib/bootstrap.css') }}
+    {{ css_link('lib/bootstrap-responsive.css') }}
+    {{ css_link('style.css') }}
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -41,7 +39,6 @@
     </div>
 
     <div class="container">
-      {% from 'bits.html' import flash_messages %}
       {{ flash_messages() }}
 
       {% block content %}

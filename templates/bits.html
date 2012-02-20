@@ -1,6 +1,10 @@
-{% macro flash_messages() %}
+{% macro css_link(filename) -%}
+<link rel="stylesheet" href="{{ url_for('static', filename=filename) }}">
+{%- endmacro %}
+
+{% macro flash_messages() -%}
   {% for category, message in get_flashed_messages(with_categories=True) %}
     {% set category_cls = 'alert-'+category if category else '' %}
     <p class="alert {{ category_cls }}">{{ message }}</p>
   {% endfor %}
-{% endmacro %}
+{%- endmacro %}
