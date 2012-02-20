@@ -13,12 +13,26 @@ def home():
     })
 
 
-@webpages.route('/edit')
+@webpages.route('/edit', methods=['GET', 'POST'])
 def edit():
     app = flask.current_app
+
+    if flask.request.method == 'POST':
+        person = schema.Person.from_flat(flask.request.form.to_dict())
+
+        if person.validate():
+            # TODO save person
+            flask.flash("Person information saved", 'success')
+
+        else:
+            flask.flash(u"Errors in person information", 'error')
+
+    else:
+        person = schema.Person()
+
     return flask.render_template('edit.html', **{
         'mk': MarkupGenerator(app.jinja_env.get_template('widgets.html')),
-        'person': schema.Person(),
+        'person': person,
     })
 
 
