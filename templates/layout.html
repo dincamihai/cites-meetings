@@ -41,6 +41,9 @@
     </div>
 
     <div class="container">
+      {% from 'bits.html' import flash_messages %}
+      {{ flash_messages() }}
+
       {% block content %}
         {{ content }}
       {% endblock %}
