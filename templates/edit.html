@@ -1,5 +1,25 @@
-{%- for name in mk.children_order(person) %}
-  <div class="form-field">
-    {{ mk.widget(person[name]) }}
-  </div>
-{%- endfor %}
+{% extends 'layout.html' %}
+{% block content %}
+
+<form class="form-horizontal">
+  <fieldset>
+    <legend>Edit person</legend>
+
+    {%- for name in mk.children_order(person) %}
+      {% set field = person[name] %}
+
+      <div class="control-group">
+        {{ mk.label(field,
+                    class='control-label',
+                    contents=field.properties.label) }}
+        <div class="controls">
+          {{ mk.widget(field) }}
+        </div>
+      </div>
+
+    {%- endfor %}
+
+  </fieldset>
+</form>
+
+{% endblock %}
