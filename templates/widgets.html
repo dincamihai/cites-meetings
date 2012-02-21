@@ -5,3 +5,16 @@
 {% macro textarea(mk, field) %}
   {{ mk.textarea(field, class="field-%s" % field.name) }}
 {% endmacro %}
+
+{% macro select(mk, field) %}
+  {{ mk.select.open(field, class="field-%s" % field.name) }}
+  {{ mk.option(field, contents="") }}
+
+  {% for value in field.valid_values %}
+    {% set value_label = (field.properties.value_labels[value]
+            if field.properties.value_labels else value) %}
+    {{ mk.option(field, value=value, contents=value_label) }}
+  {% endfor %}
+
+  {{ mk.select.close() }}
+{% endmacro %}

@@ -1,8 +1,19 @@
 import flatland as fl
+import os
+import json
+
+def _load_json(name):
+    with open(os.path.join(os.path.dirname(__file__), name), "rb") as f:
+        return json.load(f)
+
+def valid_enum(element, state):
+    if not element.valid_value(element, element.value):
+        element.add_error(u"Selected value is not valid")
+        return False
+    return True
 
 
-countries = ['it', 'no']
-
+countries = _load_json("data/countries.json")
 
 Person = fl.Dict.of(
     fl.String.named('name_title').using(optional=True) \
@@ -18,8 +29,10 @@ Person = fl.Dict.of(
         .with_properties(label=u"Address",
                          widget='textarea'),
 
-    fl.Enum.named('country').valued(*countries) \
-        .with_properties(label=u"Country"),
+    fl.Enum.named("country").valued(*sorted(countries.keys())) \
+        .using(validators=[valid_enum]) \
+        .with_properties(label=u"Country", widget="select",
+                         value_labels=countries),
 
     fl.String.named('phone').using(optional=True) \
         .with_properties(label=u"Telephone"),
