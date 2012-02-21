@@ -8,3 +8,4 @@ flatland==dev
 SQLAlchemy==0.7.5
 Flask-SQLAlchemy==0.15
 MySQL-python==1.2.3
+flup==1.0.2
