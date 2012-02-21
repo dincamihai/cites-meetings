@@ -74,3 +74,15 @@ class PersonFormTest(unittest.TestCase):
             person_row = database.Person.query.first_or_404()
             data = flask.json.loads(person_row.data)
             self.assertEqual(data['invitation'], True)
+
+    def test_missing_first_name_no_save(self):
+        import database
+
+        resp = self.client.post('/new', data={
+            'last_name': u"Smith",
+            'country': 'it',
+            'invitation': 'on',
+        }, follow_redirects=True)
+
+        with self.app.test_request_context():
+            self.assertEqual(database.Person.query.count(), 0)
