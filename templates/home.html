@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+
+<h2>Participants</h2>
+
+<table class="table table-bordered table-striped">
+
+  <thead>
+    <th>Name</th>
+    <th>Country</th>
+    <th>Invitation</th>
+  </thead>
+
+  <tbody>
+  {% for person in people %}
+
+    <tr>
+      <td>
+        {{ person['name_title'] }}
+        {{ person['first_name'] }}
+        {{ person['last_name'] }}
+      </td>
+      <td>
+        {{ person['country'] }}
+      </td>
+      <td>
+        {% if person['invitation'] %}
+          <i class="icon-ok"></i>
+        {% endif %}
+      </td>
+    </tr>
+
+  {% endfor %}
+  </tbody>
+
+</table>
+
+{% endblock %}
