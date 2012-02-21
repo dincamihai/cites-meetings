@@ -1,4 +1,5 @@
 import unittest
+import flask
 
 
 _testing_db_uri = None
@@ -38,3 +39,22 @@ class PersonFormTest(unittest.TestCase):
     def test_homepage(self):
         resp = self.client.get('/')
         self.assertEqual(resp.status_code, 200)
+
+    def test_submit_minimal(self):
+        import database
+
+        resp = self.client.post('/new', data={
+            'first_name': u"Joe",
+            'last_name': u"Smith",
+            'country': 'it',
+            'invitation': '',
+        }, follow_redirects=True)
+        self.assertIn("Person information saved", resp.data)
+
+        with self.app.test_request_context():
+            person_row = database.Person.query.first_or_404()
+            data = flask.json.loads(person_row.data)
+            self.assertEqual(data['first_name'], u"Joe")
+            self.assertEqual(data['last_name'], u"Smith")
+            self.assertEqual(data['country'], 'it')
+            self.assertEqual(data['invitation'], False)
