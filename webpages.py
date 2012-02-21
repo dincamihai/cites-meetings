@@ -9,8 +9,9 @@ webpages = flask.Blueprint('webpages', __name__)
 
 @webpages.route('/')
 def home():
-    return flask.render_template('layout.html', **{
-        'content': "Hello world!"
+    return flask.render_template('home.html', **{
+        'people': [flask.json.loads(r.data)
+                   for r in database.Person.query.all()],
     })
 
 
