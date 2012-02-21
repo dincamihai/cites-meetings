@@ -8,6 +8,7 @@ import webpages
 
 default_config = {
     'SQLALCHEMY_DATABASE_URI': 'mysql://cites:cites@localhost/cites',
+    'TESTING_SQLALCHEMY_DATABASE_URI': 'mysql://cites:cites@localhost/cites_test',
 }
 
 

@@ -8,12 +8,16 @@
     {%- for name in mk.children_order(person) %}
       {% set field = person[name] %}
 
-      <div class="control-group">
+      {% set error_cls = 'error' if field.errors else '' %}
+      <div class="control-group {{ error_cls }}">
         {{ mk.label(field,
                     class='control-label',
                     contents=field.properties.label) }}
         <div class="controls">
           {{ mk.widget(field) }}
+        {% for message in field.errors %}
+          <span class="help-inline">{{ message }}</span>
+        {% endfor %}
         </div>
       </div>
 
