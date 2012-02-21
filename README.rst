@@ -31,3 +31,7 @@ Quick installation
 6. Run a test server::
 
     ./app.py runserver
+
+7. Deploy (after customizing `local_fabfile.py`)::
+
+    fab deploy
