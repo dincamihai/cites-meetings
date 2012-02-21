@@ -1,29 +1,30 @@
-{% extends 'layout.html' %}
-{% block content %}
+{% extends "layout.html" %}
 
+{% block content %}
 <form class="form-horizontal" method="post">
   <fieldset>
-    <legend>Edit person</legend>
-
-    {%- for name in mk.children_order(person) %}
-      {% set field = person[name] %}
-
-      <div class="control-group">
-        {{ mk.label(field,
-                    class='control-label',
-                    contents=field.properties.label) }}
-        <div class="controls">
-          {{ mk.widget(field) }}
-        </div>
-      </div>
-
-    {%- endfor %}
-
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Save</button>
-    </div>
-
+    <legend>{{ person.personal.label }}</legend>
+    {{ mk.widget(person.personal) }}
   </fieldset>
-</form>
 
+  <fieldset>
+    <legend>{{ person.representing.label }}</legend>
+    {{ mk.widget(person.representing) }}
+  </fieldset>
+
+  <fieldset>
+    <legend>{{ person.type.label }}</legend>
+    {{ mk.widget(person.type) }}
+  </fieldset>
+
+  <fieldset>
+    <legend>{{ person.info.label }}</legend>
+    {{ mk.widget(person.info) }}
+  </fieldset>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save</button>
+  </div>
+
+</form>
 {% endblock %}

@@ -1,14 +1,18 @@
 {% macro input(mk, field) %}
-  {{ mk.input(field, class="field-%s" % field.name) }}
+  {{ mk.input(field, id="field-%s" % field.name,
+              class=field.properties.css_class) }}
 {% endmacro %}
 
 {% macro textarea(mk, field) %}
-  {{ mk.textarea(field, class="field-%s" % field.name) }}
+  {{ mk.textarea(field, id="field-%s" % field.name,
+                 class=field.properties.css_class)
+  }}
 {% endmacro %}
 
 {% macro select(mk, field) %}
-  {{ mk.select.open(field, class="field-%s" % field.name) }}
-  {{ mk.option(field, contents="") }}
+  {{ mk.select.open(field, id="field-%s" % field.name,
+                    class=field.properties.css_class) }}
+  {{ mk.option(field, contents="Please select an option") }}
 
   {% for value in field.valid_values %}
     {% set value_label = (field.properties.value_labels[value]
@@ -17,4 +21,18 @@
   {% endfor %}
 
   {{ mk.select.close() }}
+{% endmacro %}
+
+{% macro checkbox(mk, field) %}
+  {{ mk.input(field, type="checkbox") }}
+{% endmacro %}
+
+{% macro group(mk, group) %}
+  {%- for name in mk.children_order(group) %}
+    {% set field = group[name] %}
+    <div class="control-group">
+      {{ mk.label(field, class='control-label', contents=field.label) }}
+      <div class="controls"> {{ mk.widget(field) }} </div>
+    </div>
+  {%- endfor %}
 {% endmacro %}
