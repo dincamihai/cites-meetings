@@ -1,6 +1,7 @@
 import flask
 import flatland.out.markup
 import schema
+import database
 
 
 webpages = flask.Blueprint('webpages', __name__)
@@ -13,22 +14,38 @@ def home():
     })
 
 
-@webpages.route('/edit', methods=['GET', 'POST'])
-def edit():
+@webpages.route('/new', methods=['GET', 'POST'])
+@webpages.route('/edit/<int:person_id>', methods=['GET', 'POST'])
+def edit(person_id=None):
     app = flask.current_app
+
+    if person_id is None:
+        person_row = None
+    else:
+        person_row = database.Person.query.get_or_404(person_id)
 
     if flask.request.method == 'POST':
         person = schema.Person.from_flat(flask.request.form.to_dict())
 
         if person.validate():
-            # TODO save person
+            if person_row is None:
+                person_row = database.Person()
+            session = database.adb.session
+            person_row.data = flask.json.dumps(person.value)
+            session.add(person_row)
+            session.commit()
             flask.flash("Person information saved", 'success')
+            edit_url = flask.url_for('webpages.edit', person_id=person_row.id)
+            return flask.redirect(edit_url)
 
         else:
             flask.flash(u"Errors in person information", 'error')
 
     else:
-        person = schema.Person()
+        if person_row is None:
+            person = schema.Person()
+        else:
+            person = schema.Person(flask.json.loads(person_row.data))
 
     return flask.render_template('edit.html', **{
         'mk': MarkupGenerator(app.jinja_env.get_template('widgets.html')),
