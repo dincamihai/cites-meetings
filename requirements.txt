@@ -7,4 +7,4 @@ blinker==1.2
 flatland==dev
 SQLAlchemy==0.7.5
 Flask-SQLAlchemy==0.15
-psycopg2==2.4.4
+MySQL-python==1.2.3

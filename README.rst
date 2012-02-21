@@ -16,6 +16,12 @@ Quick installation
 
     pip install -r requirements.txt
 
-4. Run a test server::
+4. Set up the database::
+
+    mysql -u root -e 'create database cites'
+    mysql -u root -e 'grant all privileges on cites.* to cites@localhost identified by "cites";'
+    ./app.py syncdb
+
+5. Run a test server::
 
     ./app.py runserver

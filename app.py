@@ -7,7 +7,7 @@ import webpages
 
 
 default_config = {
-    'SQLALCHEMY_DATABASE_URI': 'postgresql://localhost/cites',
+    'SQLALCHEMY_DATABASE_URI': 'mysql://cites:cites@localhost/cites',
 }
 
 
