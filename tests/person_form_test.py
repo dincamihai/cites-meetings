@@ -86,3 +86,13 @@ class PersonFormTest(unittest.TestCase):
 
         with self.app.test_request_context():
             self.assertEqual(database.Person.query.count(), 0)
+
+    def test_missing_first_name_error_text(self):
+        resp = self.client.post('/new', data={
+            'last_name': u"Smith",
+            'country': 'it',
+            'invitation': 'on',
+        }, follow_redirects=True)
+
+        self.assertIn("Errors in person information", resp.data)
+        self.assertIn("First name is required", resp.data)

@@ -27,3 +27,13 @@ Person = fl.Dict.of(
     fl.Boolean.named('invitation') \
         .with_properties(label=u"Invitation"),
 )
+
+
+from flatland.signals import validator_validated
+from flatland.schema.base import NotEmpty
+@validator_validated.connect
+def validated(sender, element, result, **kwargs):
+    if sender is NotEmpty:
+        if not result:
+            label = element.properties.get('label', element.name)
+            element.add_error(u"%s is required" % label)
