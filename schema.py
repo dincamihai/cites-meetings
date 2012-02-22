@@ -90,16 +90,13 @@ Person = fl.Dict.of(
                     .including_validators(IsEmail()),
 
         CommonString.named("phone") \
-                    .using(label=u"Phone") \
-                    .including_validators(IsPhone()),
+                    .using(label=u"Phone"),
 
         CommonString.named("cellular") \
-                    .using(label=u"Cellular") \
-                    .including_validators(IsPhone()),
+                    .using(label=u"Cellular"),
 
         CommonString.named("fax") \
-                    .using(label=u"Fax") \
-                    .including_validators(IsPhone()),
+                    .using(label=u"Fax"),
 
         CommonString.named("place") \
                     .using(label=u"Place"),

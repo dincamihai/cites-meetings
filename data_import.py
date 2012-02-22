@@ -83,6 +83,12 @@ def data_import(file):
         session = database.adb.session
 
         for item in data:
+            # NULL objects for country => ""
+            if item["personal_country"].strip() == "NULL":
+                item["personal_country"] = ""
+            if item["representing_country"].strip() == "NULL":
+                item["representing_country"] = ""
+
             person = schema.Person.from_flat(item)
             if person.validate():
                 log.info("Person %r added." %
@@ -95,6 +101,8 @@ def data_import(file):
                # import pdb; pdb.set_trace()
                log.error("Person is not valid.")
                log.error("%s" % item)
+               for element in person.all_children:
+                   log.error("%r, %r" % (element.name, element.errors))
 
         session.commit()
 
