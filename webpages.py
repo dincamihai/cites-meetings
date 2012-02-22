@@ -23,13 +23,15 @@ def edit(person_id=None):
         person_row = database.Person.query.get_or_404(person_id)
 
     if flask.request.method == 'POST':
-        person = schema.Person.from_flat(flask.request.form.to_dict())
+        form_data = dict(schema.Person.from_defaults().flatten())
+        form_data.update(flask.request.form.to_dict())
+        person = schema.Person.from_flat(form_data)
 
         if person.validate():
             if person_row is None:
                 person_row = database.Person()
             session = database.adb.session
-            person_row.data = flask.json.dumps(person.value)
+            person_row.data = flask.json.dumps(dict(person.flatten()))
             session.add(person_row)
             session.commit()
             flask.flash("Person information saved", 'success')
@@ -43,7 +45,7 @@ def edit(person_id=None):
         if person_row is None:
             person = schema.Person()
         else:
-            person = schema.Person(flask.json.loads(person_row.data))
+            person = schema.Person.from_flat(flask.json.loads(person_row.data))
 
     return flask.render_template('edit.html', **{
         'mk': MarkupGenerator(app.jinja_env.get_template('widgets.html')),
