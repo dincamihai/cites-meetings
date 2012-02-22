@@ -21,9 +21,6 @@ class EnumValue(Validator):
     fail = fl.validation.base.N_(u'%(u)s is not a valid value for %(label)s.')
 
     def validate(self, element, state):
-        # pass NULL values if optiona is True
-        if element.optional and not element.value:
-            return True
         if element.valid_values:
             if element.value not in element.valid_values:
                 return self.note_error(element, state, 'fail')
