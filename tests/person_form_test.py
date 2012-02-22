@@ -157,3 +157,69 @@ class PersonFormTest(unittest.TestCase):
 
         [data] = self._get_person_data()
         self.assertEqual(data['info_acknowledge'], u"2010-01-15")
+
+    def test_phone_empty(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'personal_cellular': u"",
+        }, follow_redirects=True)
+        self.assertIn("Person information saved", resp.data)
+
+        [data] = self._get_person_data()
+        self.assertEqual(data['personal_cellular'], u"")
+
+
+    def test_phone_err(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'personal_cellular': u"xkcd",
+        }, follow_redirects=True)
+
+        self.assertIn("Cellular is not valid", resp.data)
+        self.assertEqual(self._get_person_data(), [])
+
+    def test_phone_ok(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'personal_cellular': u"123 45 6789",
+        }, follow_redirects=True)
+        self.assertIn("Person information saved", resp.data)
+
+        [data] = self._get_person_data()
+        self.assertEqual(data['personal_cellular'], u"123 45 6789")
+
+
+class PhoneValidatorTest(unittest.TestCase):
+
+    ok_values = [
+        '123 456 7890',
+        '1 2 3',
+        '12 3456 7890',
+    ]
+
+    bad_values = [
+        'xzzx',
+        '+123 456 7890',
+        '(123) 456 7890',
+    ]
+
+    def test_ok_values(self):
+        from schema import IsPhone, CommonString
+        PhoneField = CommonString.including_validators(IsPhone())
+
+        for value in self.ok_values:
+            element = PhoneField(value)
+            self.assertTrue(element.validate(),
+                            "Valid phone %r triggered error" % value)
+
+    def test_bad_values(self):
+        from schema import IsPhone, CommonString
+        PhoneField = CommonString.including_validators(IsPhone())
+
+        for value in self.bad_values:
+            element = PhoneField(value)
+            self.assertFalse(element.validate(),
+                             "Invalid phone %r did not trigger error" % value)
