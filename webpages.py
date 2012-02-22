@@ -26,7 +26,9 @@ def edit(person_id=None):
         person_row = database.Person.query.get_or_404(person_id)
 
     if flask.request.method == 'POST':
-        person = schema.Person.from_flat(flask.request.form.to_dict())
+        form_data = dict(schema.Person.from_defaults().flatten())
+        form_data.update(flask.request.form.to_dict())
+        person = schema.Person.from_flat(form_data)
 
         if person.validate():
             if person_row is None:
