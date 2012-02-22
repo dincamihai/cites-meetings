@@ -1,5 +1,5 @@
 import flatland as fl
-from flatland.validation import IsEmail, Converted, ValueIn
+from flatland.validation import IsEmail, Converted, Validator
 import os
 import json
 import re
@@ -11,11 +11,11 @@ def _load_json(name):
     with open(os.path.join(os.path.dirname(__file__), name), "rb") as f:
         return json.load(f)
 
-class EnumValue(ValueIn):
+class EnumValue(Validator):
+
+    fail = fl.validation.base.N_(u'%(u)s is not a valid value for %(label)s.')
 
     def validate(self, element, state):
-        if element.optional and element.value is None:
-            return True
         if element.valid_values:
             if element.value not in element.valid_values:
                 return self.note_error(element, state, 'fail')

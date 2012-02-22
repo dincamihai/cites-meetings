@@ -63,7 +63,7 @@ class PersonFormTest(unittest.TestCase):
         resp = self.client.post('/new', data={
             'personal_first_name': u"Joe",
             'personal_last_name': u"Smith",
-            'personal_country': 'it',
+            'personal_country': u"IT",
             'type_invitation': 'on',
         }, follow_redirects=True)
         self.assertIn("Person information saved", resp.data)
