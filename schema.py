@@ -21,11 +21,13 @@ class EnumValue(Validator):
     fail = fl.validation.base.N_(u'%(u)s is not a valid value for %(label)s.')
 
     def validate(self, element, state):
+        # pass NULL values if optiona is True
+        if element.optional and not element.value:
+            return True
         if element.valid_values:
             if element.value not in element.valid_values:
                 return self.note_error(element, state, 'fail')
         return True
-
 
 countries = _load_json("refdata/countries.json")
 countries = _switch_id_name_to_key_value(countries)
@@ -40,14 +42,13 @@ regions = _switch_id_name_to_key_value(regions)
 
 fee = []
 
-
 CommonString = fl.String.using(optional=True)
 CommonEnum = fl.Enum.using(optional=True) \
                     .including_validators(EnumValue()) \
                     .with_properties(widget="select")
 # CommonBoolean has optional=False because booleans are
 # required to be True or False (None is not allowed)
-CommonBoolean = fl.Boolean.with_properties(widget="checkbox")
+CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
 CommonDict = fl.Dict.with_properties(widget="group")
 
 

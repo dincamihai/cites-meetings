@@ -1,7 +1,12 @@
+from flask import json
 import schema
-import json
+import database
+import logging
 import csv
 import re
+
+log = logging.getLogger("data-import")
+log.setLevel(logging.INFO)
 
 KEYS = {
     "person":  ("id",
@@ -58,26 +63,38 @@ KEYS = {
 def to_json(file, what="person"):
     with open(file, "r") as f:
         reader = csv.reader(f)
-        keys = KEYS[what]
-        out = [dict(zip(keys, property)) for property in reader]
-        out.pop(0)
+        out = [dict(zip(KEYS[what], property)) for property in reader]
+        out.pop(0) # remove csv headers
         # out = out[:1]
 
         # emails from dragos.catarahia @ eaudeweb.ro =>  dragos.catarahia@eaudeweb.ro
         for i in out:
             if "personal_email" in i:
-                i["personal_email"] = re.sub(r"\s*@\s*", "@",  i["personal_email"])
+                i["personal_email"] = re.sub(r"\s*@\s*", "@",
+                                             i["personal_email"])
 
         print json.dumps(out)
 
 def data_import(file):
+    logging.basicConfig()
+
     with open(file, "r") as f:
         data = json.loads(f.read())
+        session = database.adb.session
+
         for item in data:
             person = schema.Person.from_flat(item)
-            import pdb; pdb.set_trace()
             if person.validate():
-                print "am validat coaie"
+                log.info("Person %r added." %
+                         person.find("personal/first_name")[0].value)
+
+                person_row = database.Person()
+                person_row.data = json.dumps(dict(person.flatten()))
+                session.add(person_row)
             else:
-                print "eroare frate"
+               # import pdb; pdb.set_trace()
+               log.error("Person is not valid.")
+               log.error("%s" % item)
+
+        session.commit()
 
