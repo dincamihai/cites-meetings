@@ -20,8 +20,15 @@ def _load_json(name):
     with open(os.path.join(os.path.dirname(__file__), name), "rb") as f:
         return json.load(f)
 
+# takes a list [{"id": 1, "name": "Test"}] => {1: "Test"}
+def _switch_id_name_to_key_value(lst):
+    lst = { item["id"]: item["name"]  for item in lst }
+    return lst
+
 def valid_enum(element, state):
+    if element.optional: return True
     if not element.valid_value(element, element.value) and element.valid_values:
+        print "am intrat aici", element
         element.add_error(u"Selected value is not valid.")
         return False
     return True
@@ -39,9 +46,16 @@ def valid_date(element, state):
     return True
 
 countries = _load_json("refdata/countries.json")
+countries = _switch_id_name_to_key_value(countries)
+
 languages = _load_json("refdata/languages.json")
-categories = ["Observer, Party"]
-regions = []
+
+categories = _load_json("refdata/categories.json")
+categories = _switch_id_name_to_key_value(categories)
+
+regions = _load_json("refdata/regions.json")
+regions = _switch_id_name_to_key_value(regions)
+
 fee = []
 
 CommonString = fl.String.using(optional=True)
@@ -81,24 +95,28 @@ Person = fl.Dict.of(
             .using(label=u"Country") \
             .with_properties(value_labels=countries),
 
-        CommonEnum.named("category").valued(*categories) \
-            .using(label=u"Category"),
+        CommonEnum.named("category").valued(*sorted(categories.keys())) \
+            .using(label=u"Category") \
+            .with_properties(value_labels=categories),
 
         CommonEnum.named("fee").using(optional=True, label=u"Fee").valued(*fee)
      ).using(label="Personal"),
 
     CommonDict.named("representing").of(
         CommonEnum.named("country").valued(*sorted(countries.keys())) \
-            .using(label=u"Country") \
+            .using(label=u"Country", optional=True) \
             .with_properties(value_labels=countries),
 
-        CommonEnum.named("region").valued(*regions) \
+        CommonEnum.named("region").valued(*sorted(regions.keys())) \
             .using(optional=True, label=u"Region") \
             .with_properties(value_labels=regions),
 
         CommonString.named("organization") \
             .using(optional=True, label=u"Organization") \
             .with_properties(widget="textarea"),
+
+        CommonBoolean.named("organization_show") \
+            .using(optional=True, label=u"Show in address")
     ).using(label=u"Representing"),
 
     CommonDict.named("type").of(
@@ -112,15 +130,13 @@ Person = fl.Dict.of(
 
     CommonDict.named("info").of(
         CommonString.named("more_info").using(optional=True, label=u"More Info"),
-        CommonBoolean.named("web_alert").using(label=u"Web alert"),
+        CommonBoolean.named("alert").using(label=u"Web alert"),
         CommonBoolean.named("verified").using(label=u"Verified"),
-        CommonString.named("date") \
+        CommonString.named("acknowledge") \
             .using(label=u"Date acknowledge", optional=True, validators=[valid_date]),
         CommonBoolean.named("attended").using(label=u"Attended"),
     ).using(label=u"More info")
-
 )
-
 
 from flatland.signals import validator_validated
 from flatland.schema.base import NotEmpty

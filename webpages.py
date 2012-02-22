@@ -3,9 +3,7 @@ import flatland.out.markup
 import schema
 import database
 
-
 webpages = flask.Blueprint('webpages', __name__)
-
 
 @webpages.route('/')
 def home():
@@ -13,7 +11,6 @@ def home():
         'people': [flask.json.loads(r.data)
                    for r in database.Person.query.all()],
     })
-
 
 @webpages.route('/new', methods=['GET', 'POST'])
 @webpages.route('/edit/<int:person_id>', methods=['GET', 'POST'])
@@ -52,7 +49,6 @@ def edit(person_id=None):
         'mk': MarkupGenerator(app.jinja_env.get_template('widgets.html')),
         'person': person,
     })
-
 
 class MarkupGenerator(flatland.out.markup.Generator):
 
