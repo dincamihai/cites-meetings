@@ -14,7 +14,7 @@ Quick installation
 
 3. Install dependencies::
 
-    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
 
 4. Set up the database::
 
@@ -22,6 +22,16 @@ Quick installation
     mysql -u root -e 'grant all privileges on cites.* to cites@localhost identified by "cites";'
     ./app.py syncdb
 
-5. Run a test server::
+5. Create a testing database and run the unit tests::
+
+    mysql -u root -e 'create database cites_test'
+    mysql -u root -e 'grant all privileges on cites_test.* to cites@localhost identified by "cites";'
+    nosetests
+
+6. Run a test server::
 
     ./app.py runserver
+
+7. Deploy (after customizing `local_fabfile.py`)::
+
+    fab deploy
