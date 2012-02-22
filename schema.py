@@ -27,6 +27,19 @@ class EnumValue(Validator):
         return True
 
 
+class IsPhone(Validator):
+
+    fail = fl.validation.base.N_(
+        u"%(label)s is not valid. "
+         "Please enter three groups of digits separated by spaces.")
+    phone_pattern = re.compile(r'^\d+ \d+ \d+$')
+
+    def validate(self, element, state):
+        if self.phone_pattern.match(element.value) is None:
+            return self.note_error(element, state, 'fail')
+        return True
+
+
 countries = _load_json("refdata/countries.json")
 countries = _switch_id_name_to_key_value(countries)
 
@@ -80,13 +93,16 @@ Person = fl.Dict.of(
                     .including_validators(IsEmail()),
 
         CommonString.named("phone") \
-                    .using(label=u"Phone"),
+                    .using(label=u"Phone") \
+                    .including_validators(IsPhone()),
 
         CommonString.named("cellular") \
-                    .using(label=u"Cellular"),
+                    .using(label=u"Cellular") \
+                    .including_validators(IsPhone()),
 
         CommonString.named("fax") \
-                    .using(label=u"Fax"),
+                    .using(label=u"Fax") \
+                    .including_validators(IsPhone()),
 
         CommonString.named("place") \
                     .using(label=u"Place"),
