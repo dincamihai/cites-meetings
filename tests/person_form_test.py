@@ -52,10 +52,10 @@ class PersonFormTest(unittest.TestCase):
         with self.app.test_request_context():
             person_row = database.Person.query.first_or_404()
             data = flask.json.loads(person_row.data)
-            self.assertEqual(data['personal']['first_name'], u"Joe")
-            self.assertEqual(data['personal']['last_name'], u"Smith")
-            self.assertEqual(data['personal']['country'], None)
-            self.assertEqual(data['type']['invitation'], False)
+            self.assertEqual(data['personal_first_name'], u"Joe")
+            self.assertEqual(data['personal_last_name'], u"Smith")
+            self.assertEqual(data['personal_country'], u"")
+            self.assertEqual(data['type_invitation'], u"")
 
     def test_submit_invitation_true(self):
         import database
@@ -71,7 +71,7 @@ class PersonFormTest(unittest.TestCase):
         with self.app.test_request_context():
             person_row = database.Person.query.first_or_404()
             data = flask.json.loads(person_row.data)
-            self.assertEqual(data['type']['invitation'], True)
+            self.assertEqual(data['type_invitation'], u"1")
 
     def test_missing_first_name_no_save(self):
         import database
