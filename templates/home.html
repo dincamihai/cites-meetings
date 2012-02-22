@@ -17,15 +17,15 @@
 
     <tr>
       <td>
-        {{ person['name_title'] }}
-        {{ person['first_name'] }}
-        {{ person['last_name'] }}
+        {{ person["personal_name_title"] }}
+        {{ person["personal_first_name"] }}
+        {{ person["personal_last_name"] }}
       </td>
       <td>
-        {{ person['country'] }}
+        {{ person["personal_country"] }}
       </td>
       <td>
-        {% if person['invitation'] %}
+        {% if person["type_invitation"] %}
           <i class="icon-ok"></i>
         {% endif %}
       </td>
