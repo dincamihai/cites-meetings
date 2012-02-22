@@ -128,5 +128,5 @@ from flatland.schema.base import NotEmpty
 def validated(sender, element, result, **kwargs):
     if sender is NotEmpty:
         if not result:
-            label = element.properties.get('label', element.name)
+            label = getattr(element, 'label', element.name)
             element.add_error(u"%s is required" % label)
