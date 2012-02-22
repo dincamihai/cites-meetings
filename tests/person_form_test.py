@@ -36,30 +36,30 @@ class PersonFormTest(unittest.TestCase):
         self.addCleanup(app_teardown)
         self.client = self.app.test_client()
 
+    def _get_person_data(self):
+        import database
+        with self.app.test_request_context():
+            return [flask.json.loads(person_row.data)
+                    for person_row in database.Person.query.all()]
+
     def test_homepage(self):
         resp = self.client.get('/')
         self.assertEqual(resp.status_code, 200)
 
     def test_submit_minimal(self):
-        import database
-
         resp = self.client.post('/new', data={
             'personal_first_name': u"Joe",
             'personal_last_name': u"Smith",
         }, follow_redirects=True)
         self.assertIn("Person information saved", resp.data)
 
-        with self.app.test_request_context():
-            person_row = database.Person.query.first_or_404()
-            data = flask.json.loads(person_row.data)
-            self.assertEqual(data['personal_first_name'], u"Joe")
-            self.assertEqual(data['personal_last_name'], u"Smith")
-            self.assertEqual(data['personal_country'], u"")
-            self.assertEqual(data['type_invitation'], u"")
+        [data] = self._get_person_data()
+        self.assertEqual(data['personal_first_name'], u"Joe")
+        self.assertEqual(data['personal_last_name'], u"Smith")
+        self.assertEqual(data['personal_country'], u"")
+        self.assertEqual(data['type_invitation'], u"")
 
     def test_submit_invitation_true(self):
-        import database
-
         resp = self.client.post('/new', data={
             'personal_first_name': u"Joe",
             'personal_last_name': u"Smith",
@@ -68,20 +68,15 @@ class PersonFormTest(unittest.TestCase):
         }, follow_redirects=True)
         self.assertIn("Person information saved", resp.data)
 
-        with self.app.test_request_context():
-            person_row = database.Person.query.first_or_404()
-            data = flask.json.loads(person_row.data)
-            self.assertEqual(data['type_invitation'], u"1")
+        [data] = self._get_person_data()
+        self.assertEqual(data['type_invitation'], u"1")
 
     def test_missing_first_name_no_save(self):
-        import database
-
         resp = self.client.post('/new', data={
             'personal_last_name': u"Smith",
         }, follow_redirects=True)
 
-        with self.app.test_request_context():
-            self.assertEqual(database.Person.query.count(), 0)
+        self.assertEqual(self._get_person_data(), [])
 
     def test_missing_first_name_error_text(self):
         resp = self.client.post('/new', data={
