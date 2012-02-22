@@ -36,63 +36,124 @@ class PersonFormTest(unittest.TestCase):
         self.addCleanup(app_teardown)
         self.client = self.app.test_client()
 
+    def _get_person_data(self):
+        import database
+        with self.app.test_request_context():
+            return [flask.json.loads(person_row.data)
+                    for person_row in database.Person.query.all()]
+
     def test_homepage(self):
         resp = self.client.get('/')
         self.assertEqual(resp.status_code, 200)
 
-    def test_submit_minimal(self):
-        import database
-
+    def test_minimal_ok(self):
         resp = self.client.post('/new', data={
-            'first_name': u"Joe",
-            'last_name': u"Smith",
-            'country': 'it',
-            'invitation': '',
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
         }, follow_redirects=True)
         self.assertIn("Person information saved", resp.data)
 
-        with self.app.test_request_context():
-            person_row = database.Person.query.first_or_404()
-            data = flask.json.loads(person_row.data)
-            self.assertEqual(data['first_name'], u"Joe")
-            self.assertEqual(data['last_name'], u"Smith")
-            self.assertEqual(data['country'], 'it')
-            self.assertEqual(data['invitation'], False)
+        [data] = self._get_person_data()
+        self.assertEqual(data['personal_first_name'], u"Joe")
+        self.assertEqual(data['personal_last_name'], u"Smith")
 
-    def test_submit_invitation_true(self):
-        import database
-
+    def test_error_no_save(self):
         resp = self.client.post('/new', data={
-            'first_name': u"Joe",
-            'last_name': u"Smith",
-            'country': 'it',
-            'invitation': 'on',
-        }, follow_redirects=True)
-        self.assertIn("Person information saved", resp.data)
-
-        with self.app.test_request_context():
-            person_row = database.Person.query.first_or_404()
-            data = flask.json.loads(person_row.data)
-            self.assertEqual(data['invitation'], True)
-
-    def test_missing_first_name_no_save(self):
-        import database
-
-        resp = self.client.post('/new', data={
-            'last_name': u"Smith",
-            'country': 'it',
-            'invitation': 'on',
-        }, follow_redirects=True)
-
-        with self.app.test_request_context():
-            self.assertEqual(database.Person.query.count(), 0)
-
-    def test_missing_first_name_error_text(self):
-        resp = self.client.post('/new', data={
-            'last_name': u"Smith",
-            'country': 'it',
-            'invitation': 'on',
         }, follow_redirects=True)
 
         self.assertIn("Errors in person information", resp.data)
+        self.assertEqual(self._get_person_data(), [])
+
+    def test_first_name_blank(self):
+        resp = self.client.post('/new', data={
+            'personal_last_name': u"Smith",
+        }, follow_redirects=True)
+
         self.assertIn("First name is required", resp.data)
+        self.assertEqual(self._get_person_data(), [])
+
+    def test_bool_false(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'type_invitation': '',
+        }, follow_redirects=True)
+        self.assertIn("Person information saved", resp.data)
+
+        [data] = self._get_person_data()
+        self.assertEqual(data['type_invitation'], u"")
+
+    def test_bool_true(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'type_invitation': 'on',
+        }, follow_redirects=True)
+        self.assertIn("Person information saved", resp.data)
+
+        [data] = self._get_person_data()
+        self.assertEqual(data['type_invitation'], u"1")
+
+    def test_enum_blank(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+        }, follow_redirects=True)
+        self.assertIn("Person information saved", resp.data)
+
+        [data] = self._get_person_data()
+        self.assertEqual(data['personal_country'], u"")
+
+    def test_enum_value(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'personal_country': u"IT",
+        }, follow_redirects=True)
+        self.assertIn("Person information saved", resp.data)
+
+        [data] = self._get_person_data()
+        self.assertEqual(data['personal_country'], u"IT")
+
+    def test_enum_invalid(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'personal_country': u"XKCD",
+        }, follow_redirects=True)
+        self.assertIn("XKCD is not a valid value for Country.", resp.data)
+
+        self.assertEqual(self._get_person_data(), [])
+
+    def test_date_empty(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'info_date': u"",
+        }, follow_redirects=True)
+        self.assertIn("Person information saved", resp.data)
+
+        [data] = self._get_person_data()
+        self.assertEqual(data['info_date'], u"")
+
+
+    def test_date_err(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'info_date': u"2010-15-01", # year-day-month, should be invalid
+        }, follow_redirects=True)
+
+        self.assertIn("Date acknowledge is not a valid date", resp.data)
+        self.assertEqual(self._get_person_data(), [])
+
+    def test_date_ok(self):
+        resp = self.client.post('/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'info_date': u"2010-01-15", # year-month-day, should be ok
+        }, follow_redirects=True)
+        self.assertIn("Person information saved", resp.data)
+
+        [data] = self._get_person_data()
+        self.assertEqual(data['info_date'], u"2010-01-15")
