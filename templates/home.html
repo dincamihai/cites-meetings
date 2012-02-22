@@ -10,9 +10,20 @@
     <th>Name</th>
     <th>Country</th>
     <th>Invitation</th>
+    <th class="hidden"></th>
   </thead>
 
   <tbody>
+  {% set more_searchable_fields = [
+    'personal_address',
+    'personal_email',
+    'personal_place',
+    'personal_country',
+    'representing_country',
+    'representing_region',
+    'representing_organisation',
+    'info_more_info',
+  ] %}
   {% for person in people %}
 
     <tr>
@@ -28,6 +39,11 @@
         {% if person["type_invitation"] %}
           <i class="icon-ok"></i>
         {% endif %}
+      </td>
+      <td class="hidden">
+        {% for flat_field_name in more_searchable_fields %}
+          {{ person[flat_field_name] }}
+        {% endfor %}
       </td>
     </tr>
 
@@ -47,6 +63,9 @@ $(document).ready(function() {
     // DataTables + Bootstrap 2: http://datatables.net/blog/Twitter_Bootstrap_2
     $('.people-listing').dataTable({
         "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+        "aoColumnDefs": [
+            {"bVisible": false, "aTargets": [3]}
+        ],
         "sPaginationType": "bootstrap",
         "oLanguage": {
             "sLengthMenu": "_MENU_ records per page"
