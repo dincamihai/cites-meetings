@@ -1,4 +1,4 @@
-{% from 'bits.html' import css_link, flash_messages -%}
+{% from 'bits.html' import css_link, script_src, flash_messages -%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -46,6 +46,10 @@
       {% endblock %}
     </div>
 
+    {{ script_src('lib/jQuery-1.7.1.min.js') }}
+
+    {% block scripts %}
+    {% endblock %}
+
   </body>
 </html>
-
