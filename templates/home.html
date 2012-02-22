@@ -4,7 +4,7 @@
 
 <h2>Participants</h2>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped people-listing">
 
   <thead>
     <th>Name</th>
@@ -36,4 +36,23 @@
 
 </table>
 
+{% endblock %}
+
+{% block scripts %}
+{% from 'bits.html' import css_link, script_src, flash_messages -%}
+{{ script_src('lib/datatables/jquery.dataTables.min.js') }}
+{{ script_src('lib/datatables/DT_bootstrap.js') }}
+<script>
+$(document).ready(function() {
+    // DataTables + Bootstrap 2: http://datatables.net/blog/Twitter_Bootstrap_2
+    $('.people-listing').dataTable({
+        "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+        "sPaginationType": "bootstrap",
+        "oLanguage": {
+            "sLengthMenu": "_MENU_ records per page"
+        }
+    });
+
+});
+</script>
 {% endblock %}
