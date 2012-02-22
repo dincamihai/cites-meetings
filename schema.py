@@ -28,85 +28,132 @@ categories = ["Observer, Party"]
 regions = []
 fee = []
 
+
 CommonString = fl.String.using(optional=True)
-CommonEnum = fl.Enum.using(optional=True,
-                           validators=[EnumValue()]) \
+CommonEnum = fl.Enum.using(optional=True) \
+                    .including_validators(EnumValue()) \
                     .with_properties(widget="select")
-CommonDict = fl.Dict.with_properties(widget="group")
 # CommonBoolean has optional=False because booleans are
 # required to be True or False (None is not allowed)
 CommonBoolean = fl.Boolean.with_properties(widget="checkbox")
+CommonDict = fl.Dict.with_properties(widget="group")
+
 
 Person = fl.Dict.of(
-    CommonDict.named("personal").of(
-        CommonString.named("name_title").using(label=u"Personal title"),
+
+    CommonDict.named("personal") \
+              .using(label="Personal") \
+              .of(
+
+        CommonString.named("name_title") \
+                    .using(label=u"Personal title"),
 
         CommonString.named("first_name") \
-            .using(optional=False, label=u"First name"),
+                    .using(optional=False, label=u"First name"),
 
         CommonString.named("last_name") \
-            .using(optional=False, label=u"Last name"),
+                    .using(optional=False, label=u"Last name"),
 
-        CommonEnum.named("language").valued(*sorted(languages.keys())) \
-            .using(label=u"Language") \
-            .with_properties(value_labels=languages),
+        CommonEnum.named("language") \
+                  .valued(*sorted(languages.keys())) \
+                  .using(label=u"Language") \
+                  .with_properties(value_labels=languages),
 
         CommonString.named("address") \
-            .using(label=u"Address") \
-            .with_properties(widget="textarea"),
+                    .using(label=u"Address") \
+                    .with_properties(widget="textarea"),
 
         CommonString.named("email") \
-            .using(label=u"Email", validators=[IsEmail()]),
+                    .using(label=u"Email") \
+                    .including_validators(IsEmail()),
 
-        CommonString.named("phone").using(label=u"Phone"),
-        CommonString.named("cellular").using(label=u"Cellular"),
-        CommonString.named("fax").using(label=u"Fax"),
+        CommonString.named("phone") \
+                    .using(label=u"Phone"),
 
-        CommonString.named("place").using(label=u"Place"),
+        CommonString.named("cellular") \
+                    .using(label=u"Cellular"),
 
-        CommonEnum.named("country").valued(*sorted(countries.keys())) \
-            .using(label=u"Country") \
-            .with_properties(value_labels=countries),
+        CommonString.named("fax") \
+                    .using(label=u"Fax"),
 
-        CommonEnum.named("category").valued(*categories) \
-            .using(label=u"Category"),
+        CommonString.named("place") \
+                    .using(label=u"Place"),
+
+        CommonEnum.named("country") \
+                  .valued(*sorted(countries.keys())) \
+                  .using(label=u"Country") \
+                  .with_properties(value_labels=countries),
+
+        CommonEnum.named("category") \
+                  .valued(*categories) \
+                  .using(label=u"Category"),
 
         CommonEnum.named("fee").using(label=u"Fee").valued(*fee)
-     ).using(label="Personal"),
 
-    CommonDict.named("representing").of(
+     ),
+
+    CommonDict.named("representing") \
+              .using(label=u"Representing") \
+              .of(
+
         CommonEnum.named("country").valued(*sorted(countries.keys())) \
-            .using(label=u"Country") \
-            .with_properties(value_labels=countries),
+                  .using(label=u"Country") \
+                  .with_properties(value_labels=countries),
 
         CommonEnum.named("region").valued(*regions) \
-            .using(label=u"Region") \
-            .with_properties(value_labels=regions),
+                  .using(label=u"Region") \
+                  .with_properties(value_labels=regions),
 
         CommonString.named("organization") \
-            .using(optional=True, label=u"Organization") \
-            .with_properties(widget="textarea"),
-    ).using(label=u"Representing"),
+                    .using(optional=True, label=u"Organization") \
+                    .with_properties(widget="textarea"),
 
-    CommonDict.named("type").of(
-        CommonBoolean.named("sponsored").using(label=u"Sponsored"),
+    ),
+
+    CommonDict.named("type") \
+              .using(label=u"Type") \
+              .of(
+
+        CommonBoolean.named("sponsored") \
+                     .using(label=u"Sponsored"),
+
         CommonBoolean.named("finance_subcommittee") \
-            .using(label=u"Finance Subcommittee"),
-        CommonBoolean.named("credentials").using(label=u"Credentials"),
-        CommonBoolean.named("approval").using(label=u"Approval"),
-        CommonBoolean.named("invitation").using(label=u"Invitation"),
-    ).using(label=u"Type"),
+                     .using(label=u"Finance Subcommittee"),
 
-    CommonDict.named("info").of(
-        CommonString.named("more_info").using(label=u"More Info"),
-        CommonBoolean.named("web_alert").using(label=u"Web alert"),
-        CommonBoolean.named("verified").using(label=u"Verified"),
+        CommonBoolean.named("credentials") \
+                     .using(label=u"Credentials"),
+
+        CommonBoolean.named("approval") \
+                     .using(label=u"Approval"),
+
+        CommonBoolean.named("invitation") \
+                     .using(label=u"Invitation"),
+
+    ),
+
+    CommonDict.named("info") \
+              .using(label=u"More info") \
+              .of(
+
+        CommonString.named("more_info") \
+                    .using(label=u"More Info"),
+
+        CommonBoolean.named("web_alert") \
+                     .using(label=u"Web alert"),
+
+        CommonBoolean.named("verified") \
+                     .using(label=u"Verified"),
+
         fl.Date.named("date") \
-            .using(label=u"Date acknowledge",
-                   optional=True,
-                   validators=[Converted(incorrect=u"%(label)s is not a valid date")]),
-        CommonBoolean.named("attended").using(label=u"Attended"),
-    ).using(label=u"More info")
+               .using(label=u"Date acknowledge",
+                      optional=True) \
+               .including_validators(Converted(incorrect=u"%(label)s is not "
+                                                          "a valid date")),
+
+        CommonBoolean.named("attended") \
+                     .using(label=u"Attended"),
+
+    )
 
 )
 
