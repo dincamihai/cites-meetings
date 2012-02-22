@@ -44,44 +44,40 @@ class PersonFormTest(unittest.TestCase):
         import database
 
         resp = self.client.post('/new', data={
-            'first_name': u"Joe",
-            'last_name': u"Smith",
-            'country': 'it',
-            'invitation': '',
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
         }, follow_redirects=True)
         self.assertIn("Person information saved", resp.data)
 
         with self.app.test_request_context():
             person_row = database.Person.query.first_or_404()
             data = flask.json.loads(person_row.data)
-            self.assertEqual(data['first_name'], u"Joe")
-            self.assertEqual(data['last_name'], u"Smith")
-            self.assertEqual(data['country'], 'it')
-            self.assertEqual(data['invitation'], False)
+            self.assertEqual(data['personal']['first_name'], u"Joe")
+            self.assertEqual(data['personal']['last_name'], u"Smith")
+            self.assertEqual(data['personal']['country'], None)
+            self.assertEqual(data['type']['invitation'], False)
 
     def test_submit_invitation_true(self):
         import database
 
         resp = self.client.post('/new', data={
-            'first_name': u"Joe",
-            'last_name': u"Smith",
-            'country': 'it',
-            'invitation': 'on',
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'personal_country': 'it',
+            'type_invitation': 'on',
         }, follow_redirects=True)
         self.assertIn("Person information saved", resp.data)
 
         with self.app.test_request_context():
             person_row = database.Person.query.first_or_404()
             data = flask.json.loads(person_row.data)
-            self.assertEqual(data['invitation'], True)
+            self.assertEqual(data['type']['invitation'], True)
 
     def test_missing_first_name_no_save(self):
         import database
 
         resp = self.client.post('/new', data={
-            'last_name': u"Smith",
-            'country': 'it',
-            'invitation': 'on',
+            'personal_last_name': u"Smith",
         }, follow_redirects=True)
 
         with self.app.test_request_context():
@@ -89,9 +85,7 @@ class PersonFormTest(unittest.TestCase):
 
     def test_missing_first_name_error_text(self):
         resp = self.client.post('/new', data={
-            'last_name': u"Smith",
-            'country': 'it',
-            'invitation': 'on',
+            'personal_last_name': u"Smith",
         }, follow_redirects=True)
 
         self.assertIn("Errors in person information", resp.data)

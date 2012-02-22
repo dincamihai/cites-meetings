@@ -29,10 +29,13 @@ regions = []
 fee = []
 
 CommonString = fl.String.using(optional=True)
-CommonEnum = fl.Enum.using(validators=[EnumValue()]) \
+CommonEnum = fl.Enum.using(optional=True,
+                           validators=[EnumValue()]) \
                     .with_properties(widget="select")
 CommonDict = fl.Dict.with_properties(widget="group")
-CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
+# CommonBoolean has optional=False because booleans are
+# required to be True or False (None is not allowed)
+CommonBoolean = fl.Boolean.with_properties(widget="checkbox")
 
 Person = fl.Dict.of(
     CommonDict.named("personal").of(
@@ -53,7 +56,7 @@ Person = fl.Dict.of(
             .with_properties(widget="textarea"),
 
         CommonString.named("email") \
-            .using(optional=False, label=u"Email", validators=[IsEmail()]),
+            .using(label=u"Email", validators=[IsEmail()]),
 
         CommonString.named("phone").using(label=u"Phone"),
         CommonString.named("cellular").using(label=u"Cellular"),
@@ -68,7 +71,7 @@ Person = fl.Dict.of(
         CommonEnum.named("category").valued(*categories) \
             .using(label=u"Category"),
 
-        CommonEnum.named("fee").using(optional=True, label=u"Fee").valued(*fee)
+        CommonEnum.named("fee").using(label=u"Fee").valued(*fee)
      ).using(label="Personal"),
 
     CommonDict.named("representing").of(
@@ -77,7 +80,7 @@ Person = fl.Dict.of(
             .with_properties(value_labels=countries),
 
         CommonEnum.named("region").valued(*regions) \
-            .using(optional=True, label=u"Region") \
+            .using(label=u"Region") \
             .with_properties(value_labels=regions),
 
         CommonString.named("organization") \
@@ -95,7 +98,7 @@ Person = fl.Dict.of(
     ).using(label=u"Type"),
 
     CommonDict.named("info").of(
-        CommonString.named("more_info").using(optional=True, label=u"More Info"),
+        CommonString.named("more_info").using(label=u"More Info"),
         CommonBoolean.named("web_alert").using(label=u"Web alert"),
         CommonBoolean.named("verified").using(label=u"Verified"),
         fl.Date.named("date") \
