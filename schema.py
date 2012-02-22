@@ -1,5 +1,7 @@
 import flatland as fl
 from flatland.validation import IsEmail, Converted, Validator
+
+from operator import itemgetter
 import os
 import json
 import re
@@ -40,6 +42,11 @@ class IsPhone(Validator):
 
 countries = _load_json("refdata/countries.json")
 countries = _switch_id_name_to_key_value(countries)
+# sort by country name for select option
+# [("iso code", "country_name"),]
+countries_value = sorted(countries.items(), key=itemgetter(1))
+# ["iso_code", "iso_code"]
+countries_value = [c[0] for c in countries_value]
 
 languages = _load_json("refdata/languages.json")
 
@@ -48,6 +55,9 @@ categories = _switch_id_name_to_key_value(categories)
 
 regions = _load_json("refdata/regions.json")
 regions = _switch_id_name_to_key_value(regions)
+# sort by region name for select option
+regions_value = sorted(regions.items(), key=itemgetter(1))
+regions_value = [r[0] for r in regions_value]
 
 fee = []
 
@@ -102,7 +112,7 @@ Person = fl.Dict.of(
                     .using(label=u"Place"),
 
         CommonEnum.named("country") \
-                  .valued(*sorted(countries.keys())) \
+                  .valued(*countries_value) \
                   .using(label=u"Country") \
                   .with_properties(value_labels=countries),
 
@@ -121,12 +131,12 @@ Person = fl.Dict.of(
               .of(
 
         CommonEnum.named("country") \
-                  .valued(*sorted(countries.keys())) \
+                  .valued(*countries_value) \
                   .using(label=u"Country") \
                   .with_properties(value_labels=countries),
 
         CommonEnum.named("region") \
-                  .valued(*sorted(regions.keys())) \
+                  .valued(*regions_value) \
                   .using(label=u"Region") \
                   .with_properties(value_labels=regions),
 
