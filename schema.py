@@ -1,5 +1,5 @@
 import flatland as fl
-from flatland.validation import IsEmail, Converted
+from flatland.validation import IsEmail, Converted, ValueIn
 import os
 import json
 import re
@@ -11,11 +11,15 @@ def _load_json(name):
     with open(os.path.join(os.path.dirname(__file__), name), "rb") as f:
         return json.load(f)
 
-def valid_enum(element, state):
-    if not element.valid_value(element, element.value) and element.valid_values:
-        element.add_error(u"Selected value is not valid.")
-        return False
-    return True
+class EnumValue(ValueIn):
+
+    def validate(self, element, state):
+        if element.optional and element.value is None:
+            return True
+        if element.valid_values:
+            if element.value not in element.valid_values:
+                return self.note_error(element, state, 'fail')
+        return True
 
 
 countries = _load_json("refdata/countries.json")
@@ -25,7 +29,7 @@ regions = []
 fee = []
 
 CommonString = fl.String.using(optional=True)
-CommonEnum = fl.Enum.using(validators=[valid_enum]) \
+CommonEnum = fl.Enum.using(validators=[EnumValue()]) \
                     .with_properties(widget="select")
 CommonDict = fl.Dict.with_properties(widget="group")
 CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
