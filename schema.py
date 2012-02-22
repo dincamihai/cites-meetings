@@ -6,9 +6,6 @@ import os
 import json
 import re
 
-date_re = re.compile(
-    r"^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$"
-)
 def _load_json(name):
     with open(os.path.join(os.path.dirname(__file__), name), "rb") as f:
         return json.load(f)
@@ -82,10 +79,12 @@ Person = fl.Dict.with_properties(widget="schema").of(
                     .using(label=u"Personal title"),
 
         CommonString.named("first_name") \
-                    .using(optional=False, label=u"First name"),
+                    .using(optional=False,
+                           label=u"First name"),
 
         CommonString.named("last_name") \
-                    .using(optional=False, label=u"Last name"),
+                    .using(optional=False,
+                           label=u"Last name"),
 
         CommonEnum.named("language") \
                   .valued(*sorted(languages.keys())) \
@@ -118,14 +117,15 @@ Person = fl.Dict.with_properties(widget="schema").of(
                   .with_properties(value_labels=countries),
 
         CommonEnum.named("category") \
-            .valued(*sorted(categories.keys())) \
-            .using(label=u"Category") \
-            .with_properties(value_labels=categories),
+                  .valued(*sorted(categories.keys())) \
+                  .using(label=u"Category") \
+                  .with_properties(value_labels=categories),
 
+        CommonEnum.named("fee") \
+                  .using(label=u"Fee") \
+                  .valued(*sorted(fees.keys())) \
+                  .with_properties(value_labels=fees)
 
-        CommonEnum.named("fee").using(label=u"Fee")
-            .valued(*sorted(fees.keys()))
-            .with_properties(value_labels=fees)
      ),
 
     CommonDict.named("representing") \
