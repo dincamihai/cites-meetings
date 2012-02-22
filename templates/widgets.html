@@ -12,7 +12,7 @@
 {% macro select(mk, field) %}
   {{ mk.select.open(field, id="field-%s" % field.name,
                     class=field.properties.css_class) }}
-  {{ mk.option(field, contents="Please select an option") }}
+  {{ mk.option(field, value="", contents="--") }}
 
   {% for value in field.valid_values %}
     {% set value_label = (field.properties.value_labels[value]
