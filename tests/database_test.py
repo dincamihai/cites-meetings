@@ -51,9 +51,13 @@ class PersonModelTest(unittest.TestCase):
     def test_autoincrement_id(self):
         import database
         with self.app.test_request_context():
-            database.save_person(database.Person())
-            database.save_person(database.Person())
+            p1 = database.Person()
+            p2 = database.Person()
+            database.save_person(p1)
+            database.save_person(p2)
             database.commit()
+            self.assertEqual(p1.id, 1)
+            self.assertEqual(p2.id, 2)
 
         with self.app.test_request_context():
             cursor = database.get_cursor()

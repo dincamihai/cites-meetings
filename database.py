@@ -10,6 +10,8 @@ class Person(dict):
 def save_person(person):
     cursor = get_cursor()
     cursor.execute("INSERT INTO person (data) VALUES (%s)", (person,))
+    cursor.execute("SELECT CURRVAL('person_id_seq')")
+    [(person.id,)] = list(cursor)
 
 
 def transform_connection_uri(connection_uri):
