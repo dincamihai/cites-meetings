@@ -2,27 +2,7 @@
 
 {% block content %}
 <form class="form-horizontal" method="post">
-  <fieldset>
-    <legend>{{ person.personal.label }}</legend>
-    {{ mk.widget(person.personal) }}
-  </fieldset>
-
-  <fieldset>
-    <legend>{{ person.representing.label }}</legend>
-    {{ mk.widget(person.representing) }}
-  </fieldset>
-
-  <fieldset>
-    <legend>{{ person.type.label }}</legend>
-    {{ mk.widget(person.type) }}
-  </fieldset>
-
-
-  <fieldset>
-    <legend>{{ person.info.label }}</legend>
-    {{ mk.widget(person.info) }}
-  </fieldset>
-
+  {{ mk.widget(person) }}
   <div class="form-actions">
     <button type="submit" class="btn btn-primary">Save</button>
   </div>

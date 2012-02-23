@@ -71,7 +71,7 @@ CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox
 CommonDict = fl.Dict.with_properties(widget="group")
 
 
-Person = fl.Dict.of(
+Person = fl.Dict.with_properties(widget="schema").of(
 
     CommonDict.named("personal") \
               .using(label="Personal") \
