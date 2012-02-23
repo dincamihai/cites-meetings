@@ -16,16 +16,14 @@ Quick installation
 
     pip install -r requirements-dev.txt
 
-4. Set up the database::
+4. Set up the PostgreSQL database::
 
-    mysql -u root -e 'create database cites'
-    mysql -u root -e 'grant all privileges on cites.* to cites@localhost identified by "cites";'
+    createdb cites
     ./app.py syncdb
 
 5. Create a testing database and run the unit tests::
 
-    mysql -u root -e 'create database cites_test'
-    mysql -u root -e 'grant all privileges on cites_test.* to cites@localhost identified by "cites";'
+    createdb cites_test
     nosetests
 
 6. Run a test server::

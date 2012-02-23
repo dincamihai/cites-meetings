@@ -9,8 +9,8 @@ import webpages
 from data_import import to_json, data_import
 
 default_config = {
-    'SQLALCHEMY_DATABASE_URI': 'mysql://cites:cites@localhost/cites',
-    'TESTING_SQLALCHEMY_DATABASE_URI': 'mysql://cites:cites@localhost/cites_test',
+    'SQLALCHEMY_DATABASE_URI': 'postgresql://localhost/cites',
+    'TESTING_SQLALCHEMY_DATABASE_URI': 'postgresql://localhost/cites_test',
 }
 
 def create_app():
