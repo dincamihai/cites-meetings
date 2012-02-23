@@ -75,3 +75,22 @@ class PersonModelTest(unittest.TestCase):
         with self.app.test_request_context():
             person = database.get_person(1)
             self.assertEqual(person, {"hello": "world"})
+
+    def test_update(self):
+        import database
+        with self.app.test_request_context():
+            database.save_person(database.Person(k1="v1", k2="v2", k3="v3"))
+            database.commit()
+
+        with self.app.test_request_context():
+            person = database.get_person(1)
+            del person["k1"] # remove value
+            person["k2"] = "vX" # change value
+            # person["k3"] unchanged
+            person["k4"] = "v4" # add value
+            database.save_person(person)
+            database.commit()
+
+        with self.app.test_request_context():
+            person = database.get_person(1)
+            self.assertEqual(person, {"k2": "vX", "k3": "v3", "k4": "v4"})

@@ -9,9 +9,13 @@ class Person(dict):
 
 def save_person(person):
     cursor = get_cursor()
-    cursor.execute("INSERT INTO person (data) VALUES (%s)", (person,))
-    cursor.execute("SELECT CURRVAL('person_id_seq')")
-    [(person.id,)] = list(cursor)
+    if person.id is None:
+        cursor.execute("INSERT INTO person (data) VALUES (%s)", (person,))
+        cursor.execute("SELECT CURRVAL('person_id_seq')")
+        [(person.id,)] = list(cursor)
+    else:
+        cursor.execute("UPDATE person SET data = %s WHERE id = %s",
+                       (person, person.id))
 
 
 def get_person(person_id):
