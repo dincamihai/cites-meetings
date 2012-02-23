@@ -65,3 +65,13 @@ class PersonModelTest(unittest.TestCase):
             [row1, row2] = list(cursor)
             self.assertEqual(row1[0], 1)
             self.assertEqual(row2[0], 2)
+
+    def test_load(self):
+        import database
+        with self.app.test_request_context():
+            database.save_person(database.Person(hello="world"))
+            database.commit()
+
+        with self.app.test_request_context():
+            person = database.get_person(1)
+            self.assertEqual(person, {"hello": "world"})

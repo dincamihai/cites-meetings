@@ -14,6 +14,15 @@ def save_person(person):
     [(person.id,)] = list(cursor)
 
 
+def get_person(person_id):
+    cursor = get_cursor()
+    cursor.execute("SELECT data FROM person WHERE id = %s", (person_id,))
+    [(data,)] = list(cursor)
+    person = Person(data)
+    person.id = person_id
+    return person
+
+
 def transform_connection_uri(connection_uri):
     m = re.match(r"^postgresql://(?P<host>[^/]+)/(?P<db>[^/]+)$", connection_uri)
     if m is None:
