@@ -59,7 +59,8 @@ regions = _switch_id_name_to_key_value(regions)
 regions_value = sorted(regions.items(), key=itemgetter(1))
 regions_value = [r[0] for r in regions_value]
 
-fee = []
+fees = _load_json("refdata/fee.json")
+fees = _switch_id_name_to_key_value(fees)
 
 CommonString = fl.String.using(optional=True)
 CommonEnum = fl.Enum.using(optional=True) \
@@ -122,8 +123,9 @@ Person = fl.Dict.with_properties(widget="schema").of(
             .with_properties(value_labels=categories),
 
 
-        CommonEnum.named("fee").using(label=u"Fee").valued(*fee)
-
+        CommonEnum.named("fee").using(label=u"Fee")
+            .valued(*sorted(fees.keys()))
+            .with_properties(value_labels=fees)
      ),
 
     CommonDict.named("representing") \

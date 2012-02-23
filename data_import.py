@@ -56,6 +56,9 @@ KEYS = {
     "regions": ("id",
                 "name"),
 
+    "fee": ("id",
+            "name"),
+
     "country": ("id", "name"),
 }
 
