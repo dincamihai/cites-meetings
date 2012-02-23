@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>{{ person.name }}</h2>
+<div class="nav">
+  <a class="btn"
+      href="{{ url_for('webpages.edit', person_id=person.id) }}">Edit</a>
+</div>
+
+<div class="group">
+  <h3>{{ person_schema.personal.label }}</h3>
+  {{ mk.widget(person_schema.personal) }}
+</div>
+
+<div class="group">
+  <h3>{{ person_schema.representing.label }}</h3>
+  {{ mk.widget(person_schema.representing) }}
+</div>
+
+<div class="group">
+  <h3>{{ person_schema.type.label }}</h3>
+  {{ mk.widget(person_schema.type) }}
+</div>
+
+<div class="group">
+  <h3>{{ person_schema.info.label }}</h3>
+  {{ mk.widget(person_schema.info) }}
+</div>
+{% endblock %}

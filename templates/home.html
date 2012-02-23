@@ -29,9 +29,7 @@
     <tr>
       <td>
         <a href="{{ url_for('webpages.view', person_id=person.id) }}">
-          {{ person.data_json["personal_name_title"] }}
-          {{ person.data_json["personal_first_name"] }}
-          {{ person.data_json["personal_last_name"] }}
+          {{ person.name }}
         </a>
       </td>
       <td>

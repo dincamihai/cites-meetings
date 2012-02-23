@@ -14,3 +14,11 @@ class Person(adb.Model):
         if self._data is None:
             self._data = json.loads(self.data)
         return self._data
+
+    @property
+    def name(self):
+        return "%s %s %s" % (
+            self.data_json["personal_name_title"],
+            self.data_json["personal_first_name"],
+            self.data_json["personal_last_name"]
+        )

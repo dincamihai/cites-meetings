@@ -13,15 +13,20 @@ def home():
 
 @webpages.route("/view/<int:person_id>", methods=["GET"])
 def view(person_id):
-    person = database.Person.query.get_or_404(person_id)
-    return flask.render_template("view.html", **{
-        "person": person
-    })
+    app = flask.current_app
 
-@webpages.route("/delete/<int:person_id>", methods=["DELETE"])
-def delete(person_id):
+    # get the person
     person = database.Person.query.get_or_404(person_id)
-    person.delete()
+    # create data for flatland schema
+    schema_data = dict(schema.Person.from_defaults().flatten())
+    schema_data.update(person.data_json)
+    person_schema = schema.Person.from_flat(schema_data)
+
+    return flask.render_template("view.html", **{
+        "mk": MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
+        "person": person,
+        "person_schema": person_schema
+    })
 
 @webpages.route("/new", methods=["GET", "POST"])
 @webpages.route("/edit/<int:person_id>", methods=["GET", "POST"])
@@ -59,7 +64,7 @@ def edit(person_id=None):
             person = schema.Person.from_flat(flask.json.loads(person_row.data))
 
     return flask.render_template("edit.html", **{
-        "mk": MarkupGenerator(app.jinja_env.get_template("widgets.html")),
+        "mk": MarkupGenerator(app.jinja_env.get_template("widgets_edit.html")),
         "person": person,
     })
 
