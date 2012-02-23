@@ -8,9 +8,20 @@ webpages = flask.Blueprint("webpages", __name__)
 @webpages.route("/")
 def home():
     return flask.render_template("home.html", **{
-        "people": [flask.json.loads(r.data)
-                   for r in database.Person.query.all()],
+        "people": database.Person.query.all(),
     })
+
+@webpages.route("/view/<int:person_id>", methods=["GET"])
+def view(person_id):
+    person = database.Person.query.get_or_404(person_id)
+    return flask.render_template("view.html", **{
+        "person": person
+    })
+
+@webpages.route("/delete/<int:person_id>", methods=["DELETE"])
+def delete(person_id):
+    person = database.Person.query.get_or_404(person_id)
+    person.delete()
 
 @webpages.route("/new", methods=["GET", "POST"])
 @webpages.route("/edit/<int:person_id>", methods=["GET", "POST"])

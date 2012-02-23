@@ -28,15 +28,17 @@
 
     <tr>
       <td>
-        {{ person["personal_name_title"] }}
-        {{ person["personal_first_name"] }}
-        {{ person["personal_last_name"] }}
+        <a href="{{ url_for('webpages.view', person_id=person.id) }}">
+          {{ person.data_json["personal_name_title"] }}
+          {{ person.data_json["personal_first_name"] }}
+          {{ person.data_json["personal_last_name"] }}
+        </a>
       </td>
       <td>
-        {{ person["personal_country"] }}
+        {{ person.data_json["personal_country"] }}
       </td>
       <td>
-        {% if person["type_invitation"] %}
+        {% if person.data_json["type_invitation"] %}
           <i class="icon-ok"></i>
         {% endif %}
       </td>
