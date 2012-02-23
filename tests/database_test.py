@@ -39,9 +39,7 @@ class PersonModelTest(unittest.TestCase):
     def test_save(self):
         import database
         with self.app.test_request_context():
-            p = database.Person()
-            p["hello"] = "world"
-            database.save_person(p)
+            database.save_person(database.Person(hello="world"))
             database.commit()
 
         with self.app.test_request_context():
@@ -49,3 +47,17 @@ class PersonModelTest(unittest.TestCase):
             cursor.execute("SELECT * FROM person")
             [row] = list(cursor)
             self.assertEqual(row[1], {u"hello": u"world"})
+
+    def test_autoincrement_id(self):
+        import database
+        with self.app.test_request_context():
+            database.save_person(database.Person())
+            database.save_person(database.Person())
+            database.commit()
+
+        with self.app.test_request_context():
+            cursor = database.get_cursor()
+            cursor.execute("SELECT * FROM person")
+            [row1, row2] = list(cursor)
+            self.assertEqual(row1[0], 1)
+            self.assertEqual(row2[0], 2)

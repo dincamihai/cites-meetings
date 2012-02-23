@@ -9,8 +9,7 @@ class Person(dict):
 
 def save_person(person):
     cursor = get_cursor()
-    cursor.execute("INSERT INTO person (id, data) VALUES (%s, %s)",
-                   (person.id, person))
+    cursor.execute("INSERT INTO person (data) VALUES (%s)", (person,))
 
 
 def transform_connection_uri(connection_uri):
@@ -35,7 +34,9 @@ def get_cursor():
 
 def create_all():
     cursor = get_cursor()
-    cursor.execute("CREATE TABLE person(id integer, data hstore)")
+    cursor.execute("CREATE TABLE person("
+                        "id SERIAL PRIMARY KEY, "
+                        "data HSTORE)")
     cursor.connection.commit()
 
 def drop_all():
