@@ -1,9 +1,14 @@
-from flaskext.sqlalchemy import SQLAlchemy
+class Person(dict):
+    id = None
 
 
-adb = SQLAlchemy()
+def create_all():
+    pass
 
 
-class Person(adb.Model):
-    id = adb.Column(adb.Integer, primary_key=True)
-    data = adb.Column(adb.Text)
+def drop_all():
+    pass
+
+
+def initialize_app(app):
+    pass
