@@ -45,6 +45,14 @@ def login():
     })
 
 
+@webpages.route("/logout")
+def logout():
+    next_url = flask.request.values.get("next", flask.url_for("webpages.home"))
+    if "logged_in_email" in flask.session:
+        del flask.session["logged_in_email"]
+    return flask.redirect(next_url)
+
+
 @webpages.route("/")
 @auth_required
 def home():
