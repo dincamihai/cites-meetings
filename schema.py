@@ -75,7 +75,7 @@ CommonDict = fl.Dict.with_properties(widget="group")
 Person = fl.Dict.with_properties(widget="schema").of(
 
     CommonDict.named("personal") \
-              .using(label="Personal") \
+              .using(label="") \
               .of(
 
         CommonString.named("name_title") \
@@ -148,8 +148,8 @@ Person = fl.Dict.with_properties(widget="schema").of(
 
     ),
 
-    CommonDict.named("type") \
-              .using(label=u"Type") \
+    CommonDict.named("meeting_flags") \
+              .using(label=u"Meeting flags") \
               .of(
 
         CommonBoolean.named("sponsored") \
@@ -167,23 +167,14 @@ Person = fl.Dict.with_properties(widget="schema").of(
         CommonBoolean.named("invitation") \
                      .using(label=u"Invitation"),
 
-    ),
-
-    CommonDict.named("info") \
-              .using(label=u"More info") \
-              .of(
-
-        CommonString.named("more_info") \
-                    .using(label=u"More Info"),
-
-        CommonBoolean.named("alert") \
+        CommonBoolean.named("web_alert") \
                      .using(label=u"Web alert"),
 
         CommonBoolean.named("verified") \
                      .using(label=u"Verified"),
 
-        fl.Date.named("acknowledge") \
-               .using(label=u"Date acknowledge",
+        fl.Date.named("acknowledged") \
+               .using(label=u"Date acknowledged",
                       optional=True) \
                .including_validators(Converted(incorrect=u"%(label)s is not "
                                                           "a valid date")),
@@ -191,7 +182,17 @@ Person = fl.Dict.with_properties(widget="schema").of(
         CommonBoolean.named("attended") \
                      .using(label=u"Attended"),
 
-    )
+    ),
+
+    CommonDict.named("more_info") \
+              .using(label=u"Additional information") \
+              .of(
+
+        CommonString.named("text") \
+                    .using(label=u"") \
+                    .with_properties(widget="textarea"),
+
+    ),
 )
 
 from flatland.signals import validator_validated
