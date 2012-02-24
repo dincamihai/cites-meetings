@@ -68,6 +68,37 @@ def edit(person_id=None):
         "person": person,
     })
 
+
+@webpages.route("/meeting/1")
+def meeting():
+    return flask.redirect(flask.url_for('webpages.meeting_registration'))
+
+
+@webpages.route("/meeting/1/registration")
+def meeting_registration():
+    return flask.render_template("meeting_registration.html")
+
+
+@webpages.route("/meeting/1/printouts")
+def meeting_printouts():
+    return flask.render_template("meeting_printouts.html")
+
+
+@webpages.route("/meeting/1/settings/phrases")
+def meeting_settings_phrases():
+    return flask.render_template("meeting_settings_phrases.html")
+
+
+@webpages.route("/meeting/1/settings/fees")
+def meeting_settings_fees():
+    return flask.render_template("meeting_settings_fees.html")
+
+
+@webpages.route("/meeting/1/settings/categories")
+def meeting_settings_categories():
+    return flask.render_template("meeting_settings_categories.html")
+
+
 class MarkupGenerator(flatland.out.markup.Generator):
 
     def __init__(self, template):
