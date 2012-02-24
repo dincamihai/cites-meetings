@@ -80,7 +80,7 @@
           type: "DELETE",
           url: "/delete/" + $(this).data("id"),
         }).done(function () {
-          document.location = "/";
+          document.location = "{{ url_for('webpages.meeting_registration') }}";
         })
       });
     });
