@@ -81,6 +81,20 @@ def view(person_id):
         "person_schema": person_schema
     })
 
+@webpages.route("/delete/<int:person_id>", methods=["DELETE"])
+@auth_required
+def delete(person_id):
+    app = flask.current_app
+    response = {"status": "success"}
+    session = database.adb.session
+
+    # get the person
+    person = database.Person.query.get_or_404(person_id)
+    session.delete(person)
+    session.commit()
+
+    return flask.jsonify(**response)
+
 @webpages.route("/view/credentials/<int:person_id>")
 def credentials(person_id):
     app = flask.current_app
