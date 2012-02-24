@@ -1,4 +1,4 @@
-import functools import wraps
+from functools import wraps
 import flask
 import flatland.out.markup
 import schema
@@ -11,7 +11,7 @@ def auth_required(view):
     @wraps(view)
     def wrapper(*args, **kwargs):
         if flask.session.get("logged_in_email", None) is None:
-            login_url = flask.url_for("webpages.login")
+            login_url = flask.url_for("webpages.login", next=flask.request.url)
             return flask.redirect(login_url)
         return view(*args, **kwargs)
 
@@ -20,12 +20,29 @@ def auth_required(view):
 
 def initialize_app(app):
     app.register_blueprint(webpages)
+    app.config.setdefault("ACCOUNTS", [])
 
 
-
-@webpages.route("/login")
+@webpages.route("/login", methods=["GET", "POST"])
 def login():
-    return flask.render_template("login.html")
+    login_email = flask.request.form.get("email", "")
+    login_password = flask.request.form.get("password", "")
+    next_url = flask.request.values.get("next", flask.url_for("webpages.home"))
+
+    if flask.request.method == "POST":
+        app = flask.current_app
+        for email, password in app.config["ACCOUNTS"]:
+            if login_email == email and login_password == password:
+                # TODO log the authentication
+                flask.session["logged_in_email"] = login_email
+                return flask.redirect(next_url)
+        else:
+            flask.flash(u"Login failed", "error")
+
+    return flask.render_template("login.html", **{
+        "email": login_email,
+        "next": next_url,
+    })
 
 
 @webpages.route("/")
