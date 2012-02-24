@@ -17,14 +17,43 @@
 </ul>
 
 
-<h1>
-  {{ person.name }}
-  <a class="btn btn-mini btn-info"
-      href="{{ url_for('webpages.edit', person_id=person.id) }}">Edit</a>
+<h1>{{ person.name }}</h1>
 
-  <a class="btn btn-mini btn-danger" href="#">Delete</a>
-</h1>
+<div class="btn-toolbar">
+
+  <div class="btn-group">
+    <a class="btn btn-mini btn-info"
+        href="{{ url_for('webpages.edit', person_id=person.id) }}">Edit</a>
+  </div>
+
+  <div class="btn-group">
+    <a class="btn btn-mini btn-danger" href="#">Delete</a>
+  </div>
+
+  <div class="btn-group">
+    <a class="btn btn-mini dropdown-toggle"
+       data-toggle="dropdown">Actions <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><a href="#">Acknowledge details</a></li>
+      <li><a href="#">Acknowledge email</a></li>
+      <li class="divider"></li>
+      <li><a href="#">Print badge (normal)</a></li>
+      <li><a href="#">Print badge (no stripe)</a></li>
+      <li><a href="#">Print badge (visitor)</a></li>
+      <li class="divider"></li>
+      <li><a href="#">Print separator</a></li>
+      <li><a href="#">Print label</a></li>
+      <li><a href="#">Print envelope</a></li>
+    </ul>
+  </div>
+
+</div>
 
 {{ mk.widget(person_schema) }}
 
+{% endblock %}
+
+{% block scripts %}
+  {% from 'bits.html' import script_src -%}
+  {{ script_src('lib/bootstrap/js/bootstrap-dropdown.js') }}
 {% endblock %}
