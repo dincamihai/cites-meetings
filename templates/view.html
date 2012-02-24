@@ -1,6 +1,22 @@
 {% extends "layout.html" %}
 
 {% block content %}
+
+<ul class="breadcrumb">
+  <li>
+    <a href="{{ url_for('webpages.meeting') }}">Meeting</a>
+    <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="{{ url_for('webpages.meeting_registration') }}">Registration</a>
+    <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="#">{{ person.name }}</a>
+  </li>
+</ul>
+
+
 <h2>
   {{ person.name }}
   <a class="btn btn-mini btn-info"
