@@ -18,7 +18,7 @@ def create_app():
     app.config.update(default_config)
     app.config.from_pyfile('settings.py', silent=True)
     database.adb.init_app(app)
-    app.register_blueprint(webpages.webpages)
+    webpages.initialize_app(app)
     return app
 
 manager = flaskext.script.Manager(create_app)
