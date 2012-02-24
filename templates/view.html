@@ -5,6 +5,9 @@
 <div class="nav">
   <a class="btn"
       href="{{ url_for('webpages.edit', person_id=person.id) }}">Edit</a>
+  <a class="btn"
+      href="{{ url_for('webpages.credentials', person_id=person.id) }}">
+      Credentials page</a>
 </div>
 
 {{ mk.widget(person_schema) }}

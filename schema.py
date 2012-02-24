@@ -66,11 +66,13 @@ CommonString = fl.String.using(optional=True)
 CommonEnum = fl.Enum.using(optional=True) \
                     .including_validators(EnumValue()) \
                     .with_properties(widget="select")
+CommonInt = fl.Integer.using(optional=True,
+    validators=[fl.validation.Converted(incorrect="Not a valid number")]
+)
 # CommonBoolean has optional=False because booleans are
 # required to be True or False (None is not allowed)
 CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
 CommonDict = fl.Dict.with_properties(widget="group")
-
 
 Person = fl.Dict.with_properties(widget="schema").of(
 
@@ -146,6 +148,8 @@ Person = fl.Dict.with_properties(widget="schema").of(
                     .using(label=u"Organization") \
                     .with_properties(widget="textarea"),
 
+        CommonBoolean.named("organization_show") \
+                     .using(label=u"Show in address"),
     ),
 
     CommonDict.named("type") \
@@ -190,7 +194,6 @@ Person = fl.Dict.with_properties(widget="schema").of(
 
         CommonBoolean.named("attended") \
                      .using(label=u"Attended"),
-
     )
 )
 
