@@ -27,6 +27,12 @@ def get_person(person_id):
     return person
 
 
+def del_person(person_id):
+    assert isinstance(person_id, int)
+    cursor = get_cursor()
+    cursor.execute("DELETE FROM person WHERE id = %s", (person_id,))
+
+
 def transform_connection_uri(connection_uri):
     m = re.match(r"^postgresql://(?P<host>[^/]+)/(?P<db>[^/]+)$", connection_uri)
     if m is None:

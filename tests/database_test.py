@@ -94,3 +94,18 @@ class PersonModelTest(unittest.TestCase):
         with self.app.test_request_context():
             person = database.get_person(1)
             self.assertEqual(person, {"k2": "vX", "k3": "v3", "k4": "v4"})
+
+    def test_delete(self):
+        import database
+        with self.app.test_request_context():
+            database.save_person(database.Person(hello="world"))
+            database.commit()
+
+        with self.app.test_request_context():
+            database.del_person(1)
+            database.commit()
+
+        with self.app.test_request_context():
+            cursor = database.get_cursor()
+            cursor.execute("SELECT * FROM person")
+            self.assertEqual(list(cursor), [])
