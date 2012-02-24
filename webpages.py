@@ -51,8 +51,8 @@ def edit(person_id=None):
             session.add(person_row)
             session.commit()
             flask.flash("Person information saved", "success")
-            edit_url = flask.url_for("webpages.edit", person_id=person_row.id)
-            return flask.redirect(edit_url)
+            view_url = flask.url_for("webpages.view", person_id=person_row.id)
+            return flask.redirect(view_url)
 
         else:
             flask.flash(u"Errors in person information", "error")

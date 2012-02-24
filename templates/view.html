@@ -17,13 +17,14 @@
 </ul>
 
 
-<h2>
+<h1>
   {{ person.name }}
   <a class="btn btn-mini btn-info"
       href="{{ url_for('webpages.edit', person_id=person.id) }}">Edit</a>
 
   <a class="btn btn-mini btn-danger" href="#">Delete</a>
-</h2>
+</h1>
 
 {{ mk.widget(person_schema) }}
+
 {% endblock %}
