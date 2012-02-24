@@ -1,8 +1,12 @@
 from functools import wraps
+import logging
 import flask
 import flatland.out.markup
 import schema
 import database
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 webpages = flask.Blueprint("webpages", __name__)
 
@@ -33,7 +37,7 @@ def login():
         app = flask.current_app
         for email, password in app.config["ACCOUNTS"]:
             if login_email == email and login_password == password:
-                # TODO log the authentication
+                log.info("Authentication by %r", login_email)
                 flask.session["logged_in_email"] = login_email
                 return flask.redirect(next_url)
         else:
@@ -43,6 +47,14 @@ def login():
         "email": login_email,
         "next": next_url,
     })
+
+
+@webpages.route("/logout")
+def logout():
+    next_url = flask.request.values.get("next", flask.url_for("webpages.home"))
+    if "logged_in_email" in flask.session:
+        del flask.session["logged_in_email"]
+    return flask.redirect(next_url)
 
 
 @webpages.route("/")
