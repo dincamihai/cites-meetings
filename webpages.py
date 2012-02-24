@@ -76,7 +76,9 @@ def meeting():
 
 @webpages.route("/meeting/1/registration")
 def meeting_registration():
-    return flask.render_template("meeting_registration.html")
+    return flask.render_template("meeting_registration.html", **{
+        "people": database.Person.query.all(),
+    })
 
 
 @webpages.route("/meeting/1/printouts")

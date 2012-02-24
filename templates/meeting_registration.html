@@ -1,6 +1,75 @@
 {% extends 'meeting.html' %}
 {% block tab_content %}
 
-<h3>Registration</h3>
+<table class="table table-bordered table-striped people-listing">
+
+  <thead>
+    <th>Name</th>
+    <th>Country</th>
+    <th>Invitation</th>
+    <th class="hidden"></th>
+  </thead>
+
+  <tbody>
+  {% set more_searchable_fields = [
+    'personal_address',
+    'personal_email',
+    'personal_place',
+    'personal_country',
+    'representing_country',
+    'representing_region',
+    'representing_organisation',
+    'info_more_info',
+  ] %}
+  {% for person in people %}
+
+    <tr>
+      <td>
+        <a href="{{ url_for('webpages.view', person_id=person.id) }}">
+          {{ person.name }}
+        </a>
+      </td>
+      <td>
+        {{ person.data_json["personal_country"] }}
+      </td>
+      <td>
+        {% if person.data_json["type_invitation"] %}
+          <i class="icon-ok"></i>
+        {% endif %}
+      </td>
+      <td class="hidden">
+        {% for flat_field_name in more_searchable_fields %}
+          {{ person[flat_field_name] }}
+        {% endfor %}
+      </td>
+    </tr>
+
+  {% endfor %}
+  </tbody>
+
+</table>
 
 {% endblock tab_content %}
+
+{% block scripts %}
+{{ super() }}
+{% from 'bits.html' import script_src -%}
+{{ script_src('lib/datatables/jquery.dataTables.min.js') }}
+{{ script_src('lib/datatables/DT_bootstrap.js') }}
+<script>
+$(document).ready(function() {
+    // DataTables + Bootstrap 2: http://datatables.net/blog/Twitter_Bootstrap_2
+    $('.people-listing').dataTable({
+        "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+        "aoColumnDefs": [
+            {"bVisible": false, "aTargets": [3]}
+        ],
+        "sPaginationType": "bootstrap",
+        "oLanguage": {
+            "sLengthMenu": "_MENU_ records per page"
+        }
+    });
+
+});
+</script>
+{% endblock %}
