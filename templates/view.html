@@ -23,9 +23,6 @@
   <div class="btn-group">
     <a class="btn btn-mini btn-info"
         href="{{ url_for('webpages.edit', person_id=person.id) }}">Edit</a>
-     <a class="btn"
-      href="{{ url_for('webpages.credentials', person_id=person.id) }}">
-      Credentials page</a>
   </div>
 
   <div class="btn-group">
@@ -36,7 +33,7 @@
     <a class="btn btn-mini dropdown-toggle"
        data-toggle="dropdown">Actions <span class="caret"></span></a>
     <ul class="dropdown-menu">
-      <li><a href="#">Acknowledge details</a></li>
+      <li><a href="{{ url_for('webpages.credentials', person_id=person.id) }}">Acknowledge details</a></li>
       <li><a href="#">Acknowledge email</a></li>
       <li class="divider"></li>
       <li><a href="#">Print badge (normal)</a></li>
