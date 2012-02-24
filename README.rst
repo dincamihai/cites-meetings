@@ -20,6 +20,7 @@ Quick installation
 
     mkdir -p instance
     echo 'SECRET_KEY = "something random"' >> instance/settings.py
+    echo 'ACCOUNTS = [ ("tester@example.com", "secretpw") ]' >> instance/settings.py
 
 5. Set up the database::
 
