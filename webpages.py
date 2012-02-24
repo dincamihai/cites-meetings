@@ -29,9 +29,9 @@ def view(person_id):
 @webpages.route("/view/credentials/<int:person_id>")
 def credentials(person_id):
     app = flask.current_app
+
     # get the person
     person = database.Person.query.get_or_404(person_id)
-
     categories = schema._load_json("refdata/categories.json")
     category = [c for c in categories
         if c["id"] == person.data_json["personal_category"]][0]
@@ -41,18 +41,14 @@ def credentials(person_id):
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
     })
     # create data for flatland schema
-    person_schema = _get_schema(schema.Person, person.data_json)
+    person_schema = schema.unflatten_with_defaults(schema.Person,
+        person.data_json)
 
     return flask.render_template("credentials.html", **{
         "person": person,
         "person_schema": person_schema,
         "category": category
     })
-
-def _get_schema(schema, data, defaults={}):
-    schema_data = dict(schema.from_defaults(**defaults).flatten())
-    schema_data.update(data)
-    return schema.from_flat(schema_data)
 
 @webpages.route("/new", methods=["GET", "POST"])
 @webpages.route("/edit/<int:person_id>", methods=["GET", "POST"])

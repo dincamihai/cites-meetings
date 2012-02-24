@@ -66,9 +66,7 @@ CommonString = fl.String.using(optional=True)
 CommonEnum = fl.Enum.using(optional=True) \
                     .including_validators(EnumValue()) \
                     .with_properties(widget="select")
-CommonInt = fl.Integer.using(optional=True,
-    validators=[fl.validation.Converted(incorrect="Not a valid number")]
-)
+
 # CommonBoolean has optional=False because booleans are
 # required to be True or False (None is not allowed)
 CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
@@ -196,6 +194,11 @@ Person = fl.Dict.with_properties(widget="schema").of(
                      .using(label=u"Attended"),
     )
 )
+
+def unflatten_with_defaults(schema, data):
+    schema_data = dict(schema.from_defaults().flatten())
+    schema_data.update(data)
+    return schema.from_flat(schema_data)
 
 from flatland.signals import validator_validated
 from flatland.schema.base import NotEmpty
