@@ -1,55 +1,113 @@
 {% extends 'meeting.html' %}
 {% block tab_content %}
 
-<div class="form-horizontal">
-
-  <div class="control-group">
-    <div class="control-label">Short list (by category)</div>
-    <div class="controls">
-      <a class="btn btn-primary" href="#">Verified</a>
-      <a class="btn btn-success" href="#">Attending</a>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <div class="control-label">For meeting room</div>
-    <div class="controls">
-      <a class="btn btn-primary" href="#">Verified</a>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <div class="control-label">For distribution of documents</div>
-    <div class="controls">
-      <a class="btn btn-primary" href="#">Verified</a>
-      <a class="btn btn-success" href="#">Attending</a>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <div class="control-label">Labels</div>
-    <div class="controls">
-      <a class="btn btn-primary" href="#">Verified</a>
-      <a class="btn btn-success" href="#">Attending</a>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <div class="control-label">Credentials</div>
-    <div class="controls">
-      <a class="btn btn-primary" href="#">Verified</a>
-      <a class="btn btn-success" href="#">Attending</a>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <div class="control-label">Admission of observers</div>
-    <div class="controls">
-      <a class="btn btn-primary" href="#">Verified</a>
-      <a class="btn btn-success" href="#">Attending</a>
-    </div>
-  </div>
-
+<h2>Meeting room</h2>
+<div class="row">
+  <table class="table table-bordered span6">
+    <tbody>
+      <tr>
+        <th>Short list (by category)</th>
+        <td class="span2"><a class="btn" href="#">verified</a></td>
+        <td class="span2"><a class="btn" href="#">attending</a></td>
+      </tr>
+      <tr>
+        <th>For meeting room</th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>For distribution of documents</th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn" href="#">attending</a></td>
+      </tr>
+      <tr>
+        <th>Labels</th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn" href="#">attending</a></td>
+      </tr>
+      <tr>
+        <th>Credentials</th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn" href="#">attending</a></td>
+      </tr>
+      <tr>
+        <th>Admission of observers</th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn" href="#">attending</a></td>
+      </tr>
+      <tr>
+        <th>Labels for pigeon holes</th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn" href="#">attending</a></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+<h2>Lists of participants</h2>
+<div class="row">
+  <table class="table table-bordered span6">
+    <tbody>
+      <tr>
+        <th>for verification (by delegation)</th>
+        <td class="span2"></td>
+        <td class="span2"><a class="btn" href="#">attending</a></td>
+      </tr>
+      <tr>
+        <th>final (All participants)</th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn" href="#">attending</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Printing badges by category</h2>
+<div class="row">
+  <table class="table table-bordered span6">
+    <tbody>
+      <tr>
+        <th>using coloured badges</th>
+        <td class="span2"><a class="btn" href="#">verified</a></td>
+        <td class="span2"></td>
+      </tr>
+      <tr>
+        <th>
+          using blank badges
+          <span class="label label-info">blue stripe</span>
+        </th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>
+          using blank badges
+          <span class="label label-success">green stripe</span>
+        </th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>
+          using blank badges
+          <span class="label">grey stripe</span>
+        </th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>
+          using blank badges
+          <span class="label label-warning">yellow stripe</span>
+        </th>
+        <td><a class="btn" href="#">verified</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
 
 {% endblock tab_content %}
