@@ -21,12 +21,12 @@
 {% endmacro -%}
 
 {%- macro group(mk, group) %}
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <tbody>
     {%- for name in mk.children_order(group) %}
       <tr>
         {% set field = group[name] %}
-        <th>{{ field.label }}</th>
+        <th class="span2">{{ field.label }}</th>
         <td>{{ mk.widget(field) }}</td>
       </tr>
     {% endfor %}
