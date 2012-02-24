@@ -5,6 +5,12 @@ import database
 
 webpages = flask.Blueprint("webpages", __name__)
 
+
+@webpages.route("/login")
+def login():
+    return flask.render_template("login.html")
+
+
 @webpages.route("/")
 def home():
     return flask.render_template("home.html", **{
