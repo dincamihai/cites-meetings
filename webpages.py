@@ -6,6 +6,20 @@ import database
 webpages = flask.Blueprint("webpages", __name__)
 
 
+def initialize_app(app):
+    app.register_blueprint(webpages)
+
+    @app.before_request
+    def authenticate():
+        print flask.request.path
+        if flask.request.path.startswith('/static/'):
+            return
+        if flask.request.path == '/login':
+            return
+        if not flask.session.get('logged_in', False):
+            return flask.redirect(flask.url_for('webpages.login'))
+
+
 @webpages.route("/login")
 def login():
     return flask.render_template("login.html")
