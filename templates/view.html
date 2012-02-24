@@ -1,11 +1,13 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h2>{{ person.name }}</h2>
-<div class="nav">
-  <a class="btn"
+<h2>
+  {{ person.name }}
+  <a class="btn btn-mini btn-info"
       href="{{ url_for('webpages.edit', person_id=person.id) }}">Edit</a>
-</div>
+
+  <a class="btn btn-mini btn-danger" href="#">Delete</a>
+</h2>
 
 {{ mk.widget(person_schema) }}
 {% endblock %}
