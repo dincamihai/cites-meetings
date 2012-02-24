@@ -35,6 +35,8 @@ class PersonFormTest(unittest.TestCase):
         self.app, app_teardown = _create_testing_app()
         self.addCleanup(app_teardown)
         self.client = self.app.test_client()
+        with self.client.session_transaction() as session:
+            session["logged_in_email"] = "tester@example.com"
 
     def _get_person_data(self):
         import database
