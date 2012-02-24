@@ -16,7 +16,6 @@
   </li>
 </ul>
 
-
 <h1>{{ person.name }}</h1>
 
 <div class="btn-toolbar">
@@ -27,14 +26,14 @@
   </div>
 
   <div class="btn-group">
-    <a class="btn btn-mini btn-danger" href="#">Delete</a>
+    <a class="btn btn-mini btn-danger" data-toggle="modal" href="#delete-modal" id="person-delete">Delete</a>
   </div>
 
   <div class="btn-group">
     <a class="btn btn-mini dropdown-toggle"
        data-toggle="dropdown">Actions <span class="caret"></span></a>
     <ul class="dropdown-menu">
-      <li><a href="#">Acknowledge details</a></li>
+      <li><a href="{{ url_for('webpages.credentials', person_id=person.id) }}">Acknowledge details</a></li>
       <li><a href="#">Acknowledge email</a></li>
       <li class="divider"></li>
       <li><a href="#">Print badge (normal)</a></li>
@@ -46,14 +45,45 @@
       <li><a href="#">Print envelope</a></li>
     </ul>
   </div>
-
 </div>
 
 {{ mk.widget(person_schema) }}
 
+<div class="modal fade" id="delete-modal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Confirmation</h3>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete this person?</p>
+  </div>
+  <div class="modal-footer">
+    <a class="btn btn-primary btn-danger" data-id="{{ person.id }}">Delete</a>
+    <a class="btn btn-cancel">Cancel</a>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
   {% from 'bits.html' import script_src -%}
   {{ script_src('lib/bootstrap/js/bootstrap-dropdown.js') }}
+  {{ script_src('lib/bootstrap/js/bootstrap-modal.js') }}
+
+  <script>
+    $(document).ready(function () {
+      $(".modal").on("click", ".btn-cancel", function () {
+        $(".modal").modal("hide");
+      });
+
+      $("#delete-modal").on("click", ".btn-primary", function () {
+        $.ajax({
+          type: "DELETE",
+          url: "/delete/" + $(this).data("id"),
+        }).done(function () {
+          document.location = "/";
+        })
+      });
+    });
+  </script>
+
 {% endblock %}

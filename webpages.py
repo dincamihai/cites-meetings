@@ -48,7 +48,6 @@ def login():
         "next": next_url,
     })
 
-
 @webpages.route("/logout")
 def logout():
     next_url = flask.request.values.get("next", flask.url_for("webpages.home"))
@@ -64,6 +63,7 @@ def home():
         "people": database.Person.query.all(),
     })
 
+
 @webpages.route("/view/<int:person_id>", methods=["GET"])
 @auth_required
 def view(person_id):
@@ -72,14 +72,51 @@ def view(person_id):
     # get the person
     person = database.Person.query.get_or_404(person_id)
     # create data for flatland schema
-    schema_data = dict(schema.Person.from_defaults().flatten())
-    schema_data.update(person.data_json)
-    person_schema = schema.Person.from_flat(schema_data)
+    person_schema = schema.unflatten_with_defaults(schema.Person,
+        person.data_json)
 
     return flask.render_template("view.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
         "person": person,
         "person_schema": person_schema
+    })
+
+@webpages.route("/delete/<int:person_id>", methods=["DELETE"])
+@auth_required
+def delete(person_id):
+    app = flask.current_app
+    response = {"status": "success"}
+    session = database.adb.session
+
+    # get the person
+    person = database.Person.query.get_or_404(person_id)
+    session.delete(person)
+    session.commit()
+
+    return flask.jsonify(**response)
+
+@webpages.route("/view/credentials/<int:person_id>")
+def credentials(person_id):
+    app = flask.current_app
+
+    # get the person
+    person = database.Person.query.get_or_404(person_id)
+    categories = schema._load_json("refdata/categories.json")
+    category = [c for c in categories
+        if c["id"] == person.data_json["personal_category"]][0]
+
+    person._data.update({
+        "meeting_description": "Sixty-first meeting of the Standing Committee",
+        "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
+    })
+    # create data for flatland schema
+    person_schema = schema.unflatten_with_defaults(schema.Person,
+        person.data_json)
+
+    return flask.render_template("credentials.html", **{
+        "person": person,
+        "person_schema": person_schema,
+        "category": category
     })
 
 @webpages.route("/new", methods=["GET", "POST"])
