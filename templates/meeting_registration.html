@@ -5,8 +5,9 @@
 
   <thead>
     <th>Name</th>
-    <th>Country</th>
-    <th>Invitation</th>
+    <th>Category</th>
+    <th>Attended</th>
+    <th>Verified</th>
     <th class="hidden"></th>
   </thead>
 
@@ -30,10 +31,15 @@
         </a>
       </td>
       <td>
-        {{ person.data_json["personal_country"] }}
+        {{ person.data_json["personal_category"] }}
       </td>
       <td>
-        {% if person.data_json["type_invitation"] %}
+        {% if person.data_json["meeting_flags_attended"] %}
+          <i class="icon-ok"></i>
+        {% endif %}
+      </td>
+      <td>
+        {% if person.data_json["meeting_flags_verified"] %}
           <i class="icon-ok"></i>
         {% endif %}
       </td>
@@ -62,7 +68,7 @@ $(document).ready(function() {
     $('.people-listing').dataTable({
         "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
         "aoColumnDefs": [
-            {"bVisible": false, "aTargets": [3]}
+            {"bVisible": false, "aTargets": [4]}
         ],
         "sPaginationType": "bootstrap",
         "oLanguage": {
