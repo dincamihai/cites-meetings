@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<h1>Login</h1>
+
+<form class="well form-inline" method="post">
+  <input type="email" class="span2"
+         name="email" value="{{ email }}" placeholder="Email">
+  <input type="password" class="span2"
+         name="password" placeholder="Password">
+  <input type="hidden" name="next" value="{{ next_url }}">
+  <button type="submit" class="btn">Sign in</button>
+</form>
+
+{% endblock content %}

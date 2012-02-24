@@ -18,7 +18,7 @@ def create_app():
     app.config.update(default_config)
     app.config.from_pyfile('settings.py', silent=True)
     database.adb.init_app(app)
-    app.register_blueprint(webpages.webpages)
+    webpages.initialize_app(app)
     return app
 
 manager = flaskext.script.Manager(create_app)
@@ -34,19 +34,27 @@ def syncdb():
 to_json = manager.command(to_json)
 data_import = manager.command(data_import)
 
-def _error_log(error_log_path):
+def _production_logging(app):
     import logging
-    error_handler = logging.FileHandler(error_log_path)
     log_fmt = logging.Formatter("[%(asctime)s] %(module)s "
                                 "%(levelname)s %(message)s")
+
+    error_log_path = os.path.join(app.instance_path, 'error.log')
+    error_handler = logging.FileHandler(error_log_path)
     error_handler.setFormatter(log_fmt)
     error_handler.setLevel(logging.ERROR)
     logging.getLogger().addHandler(error_handler)
 
+    info_log_path = os.path.join(app.instance_path, 'info.log')
+    info_handler = logging.FileHandler(info_log_path)
+    info_handler.setFormatter(log_fmt)
+    info_handler.setLevel(logging.INFO)
+    logging.getLogger().addHandler(info_handler)
+
 class FcgiCommand(flaskext.script.Command):
 
     def handle(self, app):
-        _error_log(os.path.join(app.instance_path, 'error.log'))
+        _production_logging(app)
         from flup.server.fcgi import WSGIServer
         sock_path = os.path.join(app.instance_path, 'fcgi.sock')
         server = WSGIServer(app, bindAddress=sock_path, umask=0)
