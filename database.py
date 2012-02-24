@@ -21,7 +21,10 @@ def save_person(person):
 def get_person(person_id):
     cursor = get_cursor()
     cursor.execute("SELECT data FROM person WHERE id = %s", (person_id,))
-    [(data,)] = list(cursor)
+    rows = list(cursor)
+    if len(rows) == 0:
+        raise KeyError("No person with id=%d" % person_id)
+    [(data,)] = rows
     person = Person(data)
     person.id = person_id
     return person

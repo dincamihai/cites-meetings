@@ -76,6 +76,12 @@ class PersonModelTest(unittest.TestCase):
             person = database.get_person(1)
             self.assertEqual(person, {"hello": "world"})
 
+    def test_load_not_found(self):
+        import database
+        with self.app.test_request_context():
+            with self.assertRaises(KeyError) as e:
+                database.get_person(13)
+
     def test_update(self):
         import database
         with self.app.test_request_context():
