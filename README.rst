@@ -25,11 +25,13 @@ Quick installation
 5. Set up the PostgreSQL database::
 
     createdb cites
+    psql cites -c 'create extension hstore'
     ./app.py syncdb
 
 6. Create a testing database and run the unit tests::
 
     createdb cites_test
+    psql cites_test -c 'create extension hstore'
     nosetests
 
 7. Run a test server::
