@@ -49,10 +49,9 @@ def transform_connection_uri(connection_uri):
 def get_cursor():
     if not hasattr(flask.g, 'psycopg2_conn'):
         app = flask.current_app
-        flask.g.psycopg2_conn = app._connection_pool.getconn()
+        flask.g.psycopg2_conn = app.extensions['psycopg2_pool'].getconn()
         psycopg2.extras.register_hstore(flask.g.psycopg2_conn,
                                         globally=False, unicode=True)
-    flask.g.psycopg2_conn
     return flask.g.psycopg2_conn.cursor()
 
 
@@ -75,10 +74,12 @@ def commit():
 
 def initialize_app(app):
     params = transform_connection_uri(app.config['DATABASE_URI'])
-    app._connection_pool = psycopg2.pool.ThreadedConnectionPool(0, 5, **params)
+    pool = psycopg2.pool.ThreadedConnectionPool(0, 5, **params)
+    app.extensions['psycopg2_pool'] = pool
 
     @app.teardown_request
     def finalize_connection(response):
-        if hasattr(flask.g, 'psycopg2_conn'):
-            app._connection_pool.putconn(flask.g.psycopg2_conn)
+        conn = getattr(flask.g, 'psycopg2_conn', None)
+        if conn is not None:
+            app.extensions['psycopg2_pool'].putconn(conn)
             del flask.g.psycopg2_conn
