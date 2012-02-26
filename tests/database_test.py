@@ -82,6 +82,21 @@ class PersonModelTest(unittest.TestCase):
             with self.assertRaises(KeyError) as e:
                 database.get_person(13)
 
+    def test_load_all(self):
+        import database
+        with self.app.test_request_context():
+            database.save_person(database.Person(hello="world"))
+            database.save_person(database.Person(x="y"))
+            database.commit()
+
+        with self.app.test_request_context():
+            all_persons = list(database.get_all_persons())
+            self.assertEqual(len(all_persons), 2)
+            self.assertEqual(all_persons[0], {'hello': "world"})
+            self.assertEqual(all_persons[0].id, 1)
+            self.assertEqual(all_persons[1], {'x': "y"})
+            self.assertEqual(all_persons[1].id, 2)
+
     def test_update(self):
         import database
         with self.app.test_request_context():
