@@ -1,4 +1,5 @@
 import unittest
+from StringIO import StringIO
 import flask
 
 
@@ -157,3 +158,19 @@ class PersonModelTest(unittest.TestCase):
             cursor = database.get_session().conn.cursor()
             cursor.execute("SELECT * FROM person")
             self.assertEqual(list(cursor), [])
+
+    def test_large_file(self):
+        import database
+        with self.app.test_request_context():
+            session = database.get_session()
+            db_file = session.get_db_file()
+            db_file.save_from(StringIO("hello large data"))
+            session.commit()
+            db_file_id = db_file.id
+
+        with self.app.test_request_context():
+            session = database.get_session()
+            db_file = session.get_db_file(db_file_id)
+            data = StringIO()
+            db_file.load_to(data)
+            self.assertEqual(data.getvalue(), "hello large data")

@@ -15,6 +15,32 @@ class Person(dict):
         )
 
 
+COPY_BUFFER_SIZE = 2**14
+def _copy_bytes(src_file, dst_file):
+    while True:
+        data = src_file.read()
+        if not data:
+            break
+        dst_file.write(data)
+
+
+class DbFile(object):
+
+    def __init__(self, session, id):
+        self.id = id
+        self._session = session
+
+    def save_from(self, in_file):
+        lobject = self._session.conn.lobject(self.id, 'wb')
+        _copy_bytes(in_file, lobject)
+        lobject.close()
+
+    def load_to(self, out_file):
+        lobject = self._session.conn.lobject(self.id, 'rb')
+        _copy_bytes(lobject, out_file)
+        lobject.close()
+
+
 class Session(object):
 
     def __init__(self, conn):
@@ -60,6 +86,11 @@ class Session(object):
             person.id = person_id
             yield person
 
+    def get_db_file(self, id=None):
+        if id is None:
+            id = self.conn.lobject(mode='n').oid
+        return DbFile(self, id)
+
     def create_all(self):
         cursor = self.conn.cursor()
         cursor.execute("CREATE TABLE person("
@@ -70,6 +101,9 @@ class Session(object):
     def drop_all(self):
         cursor = self.conn.cursor()
         cursor.execute("DROP TABLE person")
+        cursor.execute("SELECT DISTINCT loid FROM pg_largeobject")
+        for [oid] in cursor:
+            self.conn.lobject(oid, 'n').unlink()
         cursor.connection.commit()
 
     def commit(self):
