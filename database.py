@@ -6,6 +6,14 @@ import flask
 class Person(dict):
     id = None
 
+    @property
+    def name(self):
+        return "%s %s %s" % (
+            self["personal_name_title"],
+            self["personal_first_name"],
+            self["personal_last_name"],
+        )
+
 
 class Session(object):
 

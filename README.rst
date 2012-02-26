@@ -16,20 +16,26 @@ Quick installation
 
     pip install -r requirements-dev.txt
 
-4. Set up the PostgreSQL database::
+4. Create a configuration file::
+
+    mkdir -p instance
+    echo 'SECRET_KEY = "something random"' >> instance/settings.py
+    echo 'ACCOUNTS = [ ("tester@example.com", "secretpw") ]' >> instance/settings.py
+
+5. Set up the PostgreSQL database::
 
     createdb cites
     ./app.py syncdb
 
-5. Create a testing database and run the unit tests::
+6. Create a testing database and run the unit tests::
 
     createdb cites_test
     nosetests
 
-6. Run a test server::
+7. Run a test server::
 
     ./app.py runserver
 
-7. Deploy (after customizing `local_fabfile.py`)::
+8. Deploy (after customizing `local_fabfile.py`)::
 
     fab deploy

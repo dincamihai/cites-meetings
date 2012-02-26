@@ -59,22 +59,23 @@ regions = _switch_id_name_to_key_value(regions)
 regions_value = sorted(regions.items(), key=itemgetter(1))
 regions_value = [r[0] for r in regions_value]
 
-fee = []
+fees = _load_json("refdata/fee.json")
+fees = _switch_id_name_to_key_value(fees)
 
 CommonString = fl.String.using(optional=True)
 CommonEnum = fl.Enum.using(optional=True) \
                     .including_validators(EnumValue()) \
                     .with_properties(widget="select")
+
 # CommonBoolean has optional=False because booleans are
 # required to be True or False (None is not allowed)
 CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
 CommonDict = fl.Dict.with_properties(widget="group")
 
-
-Person = fl.Dict.of(
+Person = fl.Dict.with_properties(widget="schema").of(
 
     CommonDict.named("personal") \
-              .using(label="Personal") \
+              .using(label="") \
               .of(
 
         CommonString.named("name_title") \
@@ -122,8 +123,9 @@ Person = fl.Dict.of(
             .with_properties(value_labels=categories),
 
 
-        CommonEnum.named("fee").using(label=u"Fee").valued(*fee)
-
+        CommonEnum.named("fee").using(label=u"Fee")
+            .valued(*sorted(fees.keys()))
+            .with_properties(value_labels=fees)
      ),
 
     CommonDict.named("representing") \
@@ -144,10 +146,12 @@ Person = fl.Dict.of(
                     .using(label=u"Organization") \
                     .with_properties(widget="textarea"),
 
+        CommonBoolean.named("organization_show") \
+                     .using(label=u"Show in address"),
     ),
 
-    CommonDict.named("type") \
-              .using(label=u"Type") \
+    CommonDict.named("meeting_flags") \
+              .using(label=u"Meeting flags") \
               .of(
 
         CommonBoolean.named("sponsored") \
@@ -165,23 +169,14 @@ Person = fl.Dict.of(
         CommonBoolean.named("invitation") \
                      .using(label=u"Invitation"),
 
-    ),
-
-    CommonDict.named("info") \
-              .using(label=u"More info") \
-              .of(
-
-        CommonString.named("more_info") \
-                    .using(label=u"More Info"),
-
-        CommonBoolean.named("alert") \
+        CommonBoolean.named("web_alert") \
                      .using(label=u"Web alert"),
 
         CommonBoolean.named("verified") \
                      .using(label=u"Verified"),
 
-        fl.Date.named("acknowledge") \
-               .using(label=u"Date acknowledge",
+        fl.Date.named("acknowledged") \
+               .using(label=u"Date acknowledged",
                       optional=True) \
                .including_validators(Converted(incorrect=u"%(label)s is not "
                                                           "a valid date")),
@@ -189,8 +184,23 @@ Person = fl.Dict.of(
         CommonBoolean.named("attended") \
                      .using(label=u"Attended"),
 
-    )
+    ),
+
+    CommonDict.named("more_info") \
+              .using(label=u"Additional information") \
+              .of(
+
+        CommonString.named("text") \
+                    .using(label=u"") \
+                    .with_properties(widget="textarea"),
+
+    ),
 )
+
+def unflatten_with_defaults(schema, data):
+    schema_data = dict(schema.from_defaults().flatten())
+    schema_data.update(data)
+    return schema.from_flat(schema_data)
 
 from flatland.signals import validator_validated
 from flatland.schema.base import NotEmpty
