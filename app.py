@@ -25,11 +25,11 @@ manager = flaskext.script.Manager(create_app)
 
 @manager.command
 def resetdb():
-    database.drop_all()
+    database.get_session().drop_all()
 
 @manager.command
 def syncdb():
-    database.create_all()
+    database.get_session().create_all()
 
 to_json = manager.command(to_json)
 data_import = manager.command(data_import)
