@@ -91,6 +91,9 @@ class Session(object):
             id = self.conn.lobject(mode='n').oid
         return DbFile(self, id)
 
+    def del_db_file(self, id):
+        self.conn.lobject(id, mode='n').unlink()
+
     def create_all(self):
         cursor = self.conn.cursor()
         cursor.execute("CREATE TABLE person("

@@ -174,3 +174,35 @@ class PersonModelTest(unittest.TestCase):
             data = StringIO()
             db_file.load_to(data)
             self.assertEqual(data.getvalue(), "hello large data")
+
+    def test_large_file_error(self):
+        import database
+        import psycopg2
+        with self.app.test_request_context():
+            db_file = database.get_session().get_db_file(13)
+            with self.assertRaises(psycopg2.OperationalError):
+                db_file.load_to(StringIO())
+
+        with self.app.test_request_context():
+            db_file = database.get_session().get_db_file(13)
+            with self.assertRaises(psycopg2.OperationalError):
+                db_file.save_from(StringIO("bla bla"))
+
+    def test_remove_large_file(self):
+        import database
+        with self.app.test_request_context():
+            session = database.get_session()
+            db_file = session.get_db_file()
+            db_file.save_from(StringIO("hello large data"))
+            session.commit()
+            db_file_id = db_file.id
+
+        with self.app.test_request_context():
+            session = database.get_session()
+            session.del_db_file(db_file_id)
+            session.commit()
+
+        with self.app.test_request_context():
+            cursor = database.get_session().conn.cursor()
+            cursor.execute("SELECT DISTINCT loid FROM pg_largeobject")
+            self.assertEqual(list(cursor), [])
