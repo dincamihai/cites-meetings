@@ -7,42 +7,69 @@ class Person(dict):
     id = None
 
 
-def save_person(person):
-    cursor = get_cursor()
-    if person.id is None:
-        cursor.execute("INSERT INTO person (data) VALUES (%s)", (person,))
-        cursor.execute("SELECT CURRVAL('person_id_seq')")
-        [(person.id,)] = list(cursor)
-    else:
-        cursor.execute("UPDATE person SET data = %s WHERE id = %s",
-                       (person, person.id))
+class Session(object):
 
+    def __init__(self, conn):
+        self.conn = conn
 
-def get_person(person_id):
-    cursor = get_cursor()
-    cursor.execute("SELECT data FROM person WHERE id = %s", (person_id,))
-    rows = list(cursor)
-    if len(rows) == 0:
-        raise KeyError("No person with id=%d" % person_id)
-    [(data,)] = rows
-    person = Person(data)
-    person.id = person_id
-    return person
+    def save_person(self, person):
+        cursor = self.conn.cursor()
+        if person.id is None:
+            cursor.execute("INSERT INTO person (data) VALUES (%s)", (person,))
+            cursor.execute("SELECT CURRVAL('person_id_seq')")
+            [(person.id,)] = list(cursor)
+        else:
+            cursor.execute("UPDATE person SET data = %s WHERE id = %s",
+                           (person, person.id))
 
-
-def del_person(person_id):
-    assert isinstance(person_id, int)
-    cursor = get_cursor()
-    cursor.execute("DELETE FROM person WHERE id = %s", (person_id,))
-
-
-def get_all_persons():
-    cursor = get_cursor()
-    cursor.execute("SELECT id, data FROM person")
-    for person_id, person_data in cursor:
-        person = Person(person_data)
+    def get_person(self, person_id):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT data FROM person WHERE id = %s", (person_id,))
+        rows = list(cursor)
+        if len(rows) == 0:
+            raise KeyError("No person with id=%d" % person_id)
+        [(data,)] = rows
+        person = Person(data)
         person.id = person_id
-        yield person
+        return person
+
+    def del_person(self, person_id):
+        assert isinstance(person_id, int)
+        cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM person WHERE id = %s", (person_id,))
+
+    def get_all_persons(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id, data FROM person")
+        for person_id, person_data in cursor:
+            person = Person(person_data)
+            person.id = person_id
+            yield person
+
+    def create_all(self):
+        cursor = self.conn.cursor()
+        cursor.execute("CREATE TABLE person("
+                            "id SERIAL PRIMARY KEY, "
+                            "data HSTORE)")
+        cursor.connection.commit()
+
+    def drop_all(self):
+        cursor = self.conn.cursor()
+        cursor.execute("DROP TABLE person")
+        cursor.connection.commit()
+
+    def commit(self):
+        self.conn.commit()
+
+
+def get_session():
+    if not hasattr(flask.g, 'psycopg2_session'):
+        pool = flask.current_app.extensions['psycopg2_pool']
+        conn = pool.getconn()
+        psycopg2.extras.register_hstore(conn, globally=False, unicode=True)
+        session = Session(conn)
+        flask.g.psycopg2_session = session
+    return flask.g.psycopg2_session
 
 
 def transform_connection_uri(connection_uri):
@@ -55,32 +82,6 @@ def transform_connection_uri(connection_uri):
     }
 
 
-def get_cursor():
-    if not hasattr(flask.g, 'psycopg2_conn'):
-        app = flask.current_app
-        flask.g.psycopg2_conn = app.extensions['psycopg2_pool'].getconn()
-        psycopg2.extras.register_hstore(flask.g.psycopg2_conn,
-                                        globally=False, unicode=True)
-    return flask.g.psycopg2_conn.cursor()
-
-
-def create_all():
-    cursor = get_cursor()
-    cursor.execute("CREATE TABLE person("
-                        "id SERIAL PRIMARY KEY, "
-                        "data HSTORE)")
-    cursor.connection.commit()
-
-def drop_all():
-    cursor = get_cursor()
-    cursor.execute("DROP TABLE person")
-    cursor.connection.commit()
-
-
-def commit():
-    get_cursor().connection.commit()
-
-
 def initialize_app(app):
     params = transform_connection_uri(app.config['DATABASE_URI'])
     pool = psycopg2.pool.ThreadedConnectionPool(0, 5, **params)
@@ -88,7 +89,8 @@ def initialize_app(app):
 
     @app.teardown_request
     def finalize_connection(response):
-        conn = getattr(flask.g, 'psycopg2_conn', None)
-        if conn is not None:
-            app.extensions['psycopg2_pool'].putconn(conn)
-            del flask.g.psycopg2_conn
+        session = getattr(flask.g, 'psycopg2_session', None)
+        if session is not None:
+            app.extensions['psycopg2_pool'].putconn(session.conn)
+            session.conn = None
+            del flask.g.psycopg2_session

@@ -8,19 +8,20 @@ webpages = flask.Blueprint('webpages', __name__)
 @webpages.route('/')
 def home():
     return flask.render_template('home.html', **{
-        'people': list(database.get_all_persons()),
+        'people': list(database.get_session().get_all_persons()),
     })
 
 @webpages.route('/new', methods=['GET', 'POST'])
 @webpages.route('/edit/<int:person_id>', methods=['GET', 'POST'])
 def edit(person_id=None):
     app = flask.current_app
+    session = database.get_session()
 
     if person_id is None:
         person_row = None
     else:
         try:
-            person_row = database.get_person(person_id)
+            person_row = session.get_person(person_id)
         except KeyError:
             flask.abort(404)
 
@@ -34,8 +35,8 @@ def edit(person_id=None):
                 person_row = database.Person()
             person_row.clear()
             person_row.update(person.flatten())
-            database.save_person(person_row)
-            database.commit()
+            session.save_person(person_row)
+            session.commit()
             flask.flash("Person information saved", 'success')
             edit_url = flask.url_for('webpages.edit', person_id=person_row.id)
             return flask.redirect(edit_url)
