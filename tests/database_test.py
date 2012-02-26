@@ -85,6 +85,25 @@ class PersonModelTest(unittest.TestCase):
             with self.assertRaises(KeyError) as e:
                 database.get_session().get_person(13)
 
+    def test_load404_ok(self):
+        import database
+        with self.app.test_request_context():
+            session = database.get_session()
+            session.save_person(database.Person(hello="world"))
+            session.commit()
+
+        with self.app.test_request_context():
+            person = database.get_session().get_person_or_404(1)
+            self.assertEqual(person.id, 1)
+            self.assertEqual(person, {"hello": "world"})
+
+    def test_load404_error(self):
+        import database
+        import werkzeug.exceptions
+        with self.app.test_request_context():
+            with self.assertRaises(werkzeug.exceptions.NotFound) as e:
+                database.get_session().get_person_or_404(13)
+
     def test_load_all(self):
         import database
         with self.app.test_request_context():

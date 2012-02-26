@@ -41,6 +41,12 @@ class Session(object):
         person.id = person_id
         return person
 
+    def get_person_or_404(self, person_id):
+        try:
+            return self.get_person(person_id)
+        except KeyError:
+            flask.abort(404)
+
     def del_person(self, person_id):
         assert isinstance(person_id, int)
         cursor = self.conn.cursor()
