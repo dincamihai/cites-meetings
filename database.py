@@ -44,7 +44,18 @@ class DbFile(object):
 class Session(object):
 
     def __init__(self, conn):
-        self.conn = conn
+        self._conn = conn
+
+    @property
+    def conn(self):
+        if self._conn is None:
+            raise ValueError("Error: trying to use expired database session")
+        return self._conn
+
+    def _release_conn(self):
+        conn = self._conn
+        self._conn = None
+        return conn
 
     def save_person(self, person):
         cursor = self.conn.cursor()
@@ -142,6 +153,5 @@ def initialize_app(app):
     def finalize_connection(response):
         session = getattr(flask.g, 'psycopg2_session', None)
         if session is not None:
-            app.extensions['psycopg2_pool'].putconn(session.conn)
-            session.conn = None
+            app.extensions['psycopg2_pool'].putconn(session._release_conn())
             del flask.g.psycopg2_session
