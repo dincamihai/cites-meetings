@@ -8,8 +8,7 @@ webpages = flask.Blueprint('webpages', __name__)
 @webpages.route('/')
 def home():
     return flask.render_template('home.html', **{
-        'people': [flask.json.loads(r.data)
-                   for r in database.Person.query.all()],
+        'people': list(database.get_all_persons()),
     })
 
 @webpages.route('/new', methods=['GET', 'POST'])
@@ -20,7 +19,10 @@ def edit(person_id=None):
     if person_id is None:
         person_row = None
     else:
-        person_row = database.Person.query.get_or_404(person_id)
+        try:
+            person_row = database.get_person(person_id)
+        except KeyError:
+            flask.abort(404)
 
     if flask.request.method == 'POST':
         form_data = dict(schema.Person.from_defaults().flatten())
@@ -30,10 +32,10 @@ def edit(person_id=None):
         if person.validate():
             if person_row is None:
                 person_row = database.Person()
-            session = database.adb.session
-            person_row.data = flask.json.dumps(dict(person.flatten()))
-            session.add(person_row)
-            session.commit()
+            person_row.clear()
+            person_row.update(person.flatten())
+            database.save_person(person_row)
+            database.commit()
             flask.flash("Person information saved", 'success')
             edit_url = flask.url_for('webpages.edit', person_id=person_row.id)
             return flask.redirect(edit_url)
@@ -45,7 +47,7 @@ def edit(person_id=None):
         if person_row is None:
             person = schema.Person()
         else:
-            person = schema.Person.from_flat(flask.json.loads(person_row.data))
+            person = schema.Person.from_flat(person_row)
 
     return flask.render_template('edit.html', **{
         'mk': MarkupGenerator(app.jinja_env.get_template('widgets.html')),
