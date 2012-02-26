@@ -70,10 +70,7 @@ def view(person_id):
     app = flask.current_app
 
     # get the person
-    try:
-        person = database.get_session().get_person(person_id)
-    except KeyError:
-        flask.abort(404)
+    person = database.get_session().get_person_or_404(person_id)
     # create data for flatland schema
     person_schema = schema.unflatten_with_defaults(schema.Person, person)
 
@@ -99,10 +96,7 @@ def credentials(person_id):
     app = flask.current_app
 
     # get the person
-    try:
-        person = database.get_session().get_person(person_id)
-    except KeyError:
-        flask.abort(404)
+    person = database.get_session().get_person_or_404(person_id)
     categories = schema._load_json("refdata/categories.json")
     category = [c for c in categories
         if c["id"] == person["personal_category"]][0]
@@ -130,10 +124,7 @@ def edit(person_id=None):
     if person_id is None:
         person_row = None
     else:
-        try:
-            person_row = session.get_person(person_id)
-        except KeyError:
-            flask.abort(404)
+        person_row = session.get_person_or_404(person_id)
 
     if flask.request.method == "POST":
         form_data = dict(schema.Person.from_defaults().flatten())
