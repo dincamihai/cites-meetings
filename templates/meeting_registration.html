@@ -1,5 +1,8 @@
 {% extends 'meeting.html' %}
-{% block tab_content %}
+{% block meeting_content %}
+
+{% from 'meeting.html' import nav_tabs %}
+{{ nav_tabs('registration') }}
 
 <table class="table table-bordered table-striped people-listing">
 
@@ -58,7 +61,7 @@
 <a class="btn btn-primary" href="{{ url_for('webpages.edit') }}">Add new participant</a>
 
 
-{% endblock tab_content %}
+{% endblock %}
 
 {% block scripts %}
 {{ super() }}

@@ -1,26 +1,38 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<hgroup>
-  <h1>Sixty-first meeting of the Standing Committee</h1>
-  <h2>Geneva (Switzerland), 15-19 August 2011</h2>
-</hgroup>
+  <hgroup>
+    <h1>Sixty-first meeting of the Standing Committee</h1>
+    <h2>Geneva (Switzerland), 15-19 August 2011</h2>
+  </hgroup>
 
-{% macro url(view_name) -%}
+  {% block meeting_content %}{% endblock %}
+
+{% endblock %}
+
+{% block scripts %}
+  {% from 'bits.html' import script_src -%}
+  {{ script_src('lib/bootstrap/js/bootstrap-dropdown.js') }}
+{% endblock %}
+
+
+{% macro _url(view_name) -%}
   {{ url_for('webpages.' + view_name) }}
 {%- endmacro %}
 
+
+{% macro nav_tabs(active) -%}
 <ul class="nav nav-tabs">
 
-  <li>
-    <a href="{{ url('meeting_registration') }}">Registration</a>
+  <li class="{{ 'active' if active == 'registration' else '' }}">
+    <a href="{{ _url('meeting_registration') }}">Registration</a>
   </li>
 
-  <li>
-    <a href="{{ url('meeting_printouts') }}">Printouts</a>
+  <li class="{{ 'active' if active == 'printouts' else '' }}">
+    <a href="{{ _url('meeting_printouts') }}">Printouts</a>
   </li>
 
-  <li class="dropdown">
+  <li class="dropdown {{ 'active' if active == 'settings' else '' }}">
 
     <a class="dropdown-toggle" data-toggle="dropdown">
       Settings
@@ -30,15 +42,15 @@
     <ul class="dropdown-menu">
 
       <li>
-        <a href="{{ url('meeting_settings_phrases') }}">Phrases</a>
+        <a href="{{ _url('meeting_settings_phrases') }}">Phrases</a>
       </li>
 
       <li>
-        <a href="{{ url('meeting_settings_fees') }}">Fees</a>
+        <a href="{{ _url('meeting_settings_fees') }}">Fees</a>
       </li>
 
       <li>
-        <a href="{{ url('meeting_settings_categories') }}">Categories</a>
+        <a href="{{ _url('meeting_settings_categories') }}">Categories</a>
       </li>
 
     </ul>
@@ -46,13 +58,4 @@
   </li>
 
 </ul>
-
-{% block tab_content %}
-{% endblock %}
-
-{% endblock %}
-
-{% block scripts %}
-  {% from 'bits.html' import script_src -%}
-  {{ script_src('lib/bootstrap/js/bootstrap-dropdown.js') }}
-{% endblock %}
+{%- endmacro %}

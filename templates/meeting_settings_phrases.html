@@ -1,23 +1,7 @@
-{% extends 'meeting.html' %}
+{% extends 'meeting_settings.html' %}
+{% block meeting_settings_content %}
 
-{% block scripts %}
-  <script>
-  $(function () {
-    $("ul.phrases").on("click", ".phrase", function () {
-      $(".phrase").parent().removeClass("active");
-      $(this).parent().addClass("active");
-      $("dl.phrases").hide()
-      $($(this).data("id")).show();
-    });
-
-    $("ul.phrases").find("li:first a").click();
-  });
-  </script>
-{% endblock scripts %}
-
-{% block tab_content %}
 <h3>Phrases</h3>
-
 
 <div class="row">
   <div class="span3">
@@ -51,5 +35,20 @@
   </div>
 </div>
 
-{% endblock tab_content %}
+{% endblock %}
 
+
+{% block scripts %}
+  <script>
+  $(function () {
+    $("ul.phrases").on("click", ".phrase", function () {
+      $(".phrase").parent().removeClass("active");
+      $(this).parent().addClass("active");
+      $("dl.phrases").hide()
+      $($(this).data("id")).show();
+    });
+
+    $("ul.phrases").find("li:first a").click();
+  });
+  </script>
+{% endblock scripts %}

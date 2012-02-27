@@ -13,7 +13,9 @@ webpages = flask.Blueprint("webpages", __name__)
 def auth_required(view):
     @wraps(view)
     def wrapper(*args, **kwargs):
-        if flask.session.get("logged_in_email", None) is None:
+        if 'ACCOUNTS' not in flask.current_app.config:
+            pass
+        elif flask.session.get("logged_in_email", None) is None:
             login_url = flask.url_for("webpages.login", next=flask.request.url)
             return flask.redirect(login_url)
         return view(*args, **kwargs)
@@ -22,8 +24,10 @@ def auth_required(view):
 
 
 def initialize_app(app):
+    _my_extensions = app.jinja_options['extensions'] + ['jinja2.ext.do']
+    app.jinja_options = dict(app.jinja_options, extensions=_my_extensions)
+
     app.register_blueprint(webpages)
-    app.config.setdefault("ACCOUNTS", [])
 
 
 @webpages.route("/login", methods=["GET", "POST"])
@@ -34,7 +38,7 @@ def login():
 
     if flask.request.method == "POST":
         app = flask.current_app
-        for email, password in app.config["ACCOUNTS"]:
+        for email, password in app.config.get("ACCOUNTS", []):
             if login_email == email and login_password == password:
                 log.info("Authentication by %r", login_email)
                 flask.session["logged_in_email"] = login_email
@@ -76,7 +80,8 @@ def view(person_id):
     return flask.render_template("view.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
         "person": person,
-        "person_schema": person_schema
+        "person_schema": person_schema,
+        "has_photo": bool(person.get("photo_id", "")),
     })
 
 @webpages.route("/delete/<int:person_id>", methods=["DELETE"])
@@ -206,12 +211,11 @@ def edit_photo(person_id):
         session.save_person(person_row)
         session.commit()
         flask.flash("New photo saved", "success")
-        url = flask.url_for("webpages.edit_photo", person_id=person_id)
+        url = flask.url_for("webpages.view", person_id=person_id)
         return flask.redirect(url)
 
     return flask.render_template("photo.html", **{
         "person": person_row,
-        "has_photo": bool(person_row.get("photo_id", "")),
     })
 
 
