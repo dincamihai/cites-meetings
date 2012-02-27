@@ -5,6 +5,8 @@ import flatland.out.markup
 import schema
 import database
 
+from flask.views import MethodView
+
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
@@ -269,6 +271,28 @@ def meeting_settings_categories():
         "categories": schema.categories,
     })
 
+class SendMail(flask.views.MethodView):
+
+    def get(self, person_id):
+        app = flask.current_app
+        session = database.get_session()
+        person = session.get_person_or_404(person_id)
+        mail = schema.Mail.from_flat({
+            "to": '"%s" <%s>' % (person.name, person["personal_email"])
+        })
+        return flask.render_template("send_mail.html", **{
+            "mk": MarkupGenerator(app.jinja_env.get_template("widgets_mail.html")),
+            "person": person,
+            "mail": mail
+        })
+
+    def post(self):
+        pass
+
+mail_view = SendMail.as_view("send_mail")
+webpages.add_url_rule("/email/<int:person_id>", view_func=mail_view,
+    methods=["GET"])
+webpages.add_url_rule("/email", view_func=mail_view, methods=["POST"])
 
 class MarkupGenerator(flatland.out.markup.Generator):
 

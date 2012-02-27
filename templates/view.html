@@ -37,7 +37,8 @@
             -}}">Upload photo</a></li>
       <li class="divider"></li>
       <li><a href="{{ url_for('webpages.credentials', person_id=person.id) }}">Acknowledge details</a></li>
-      <li><a href="#"><del>Acknowledge email</del></a></li>
+      <li><a href="{{ url_for('webpages.send_mail', person_id=person.id) }}">
+        Acknowledge email</a></li>
       <li class="divider"></li>
       <li><a href="{{ url_for('webpages.normal_badge', person_id=person.id) }}">Print badge (normal)</a></li>
       <li><a href="#"><del>Print badge (no stripe)</del></a></li>
