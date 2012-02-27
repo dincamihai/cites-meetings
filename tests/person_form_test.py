@@ -1,12 +1,12 @@
 import unittest
 import flask
-from database_test import _create_testing_app
+from common import create_mock_app
 
 
 class PersonFormTest(unittest.TestCase):
 
     def setUp(self):
-        self.app, app_teardown = _create_testing_app()
+        self.app, app_teardown = create_mock_app()
         self.addCleanup(app_teardown)
         self.client = self.app.test_client()
         with self.client.session_transaction() as session:
