@@ -135,12 +135,17 @@ def get_session():
 
 
 def transform_connection_uri(connection_uri):
-    m = re.match(r"^postgresql://(?P<host>[^/]+)/(?P<db>[^/]+)$", connection_uri)
+    m = re.match(r"^postgresql://"
+                 r"((?P<user>[^:]*)(:(?P<password>[^@]*))@?)?"
+                 r"(?P<host>[^/]+)/(?P<db>[^/]+)$",
+                 connection_uri)
     if m is None:
         raise ValueError("Can't parse connection URI %r" % connection_uri)
     return {
         'database': m.group('db'),
         'host': m.group('host'),
+        'user': m.group('user'),
+        'password': m.group('password'),
     }
 
 
