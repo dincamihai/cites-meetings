@@ -10,7 +10,6 @@ log.setLevel(logging.INFO)
 
 webpages = flask.Blueprint("webpages", __name__)
 
-
 def auth_required(view):
     @wraps(view)
     def wrapper(*args, **kwargs):
