@@ -1,17 +1,68 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{% block extra_head %}
+  {% from 'bits.html' import css_link -%}
+  {{ css_link('badge.css') }}
+{% endblock %}
 
-<div class="row blue-badge">
-  <div class="span4 header">
+
+{% macro badge(person) -%}
+{% set badge_color = {
+    'NULL':          "",
+    'all pink':      "badge-pink",
+    'blue stripe':   "badge-blue-stripe",
+    'all white':     "badge-white",
+    'green stripe':  "badge-green-stripe",
+    'yellow stripe': "badge-yellow-stripe",
+    'grey stripe':   "badge-grey-stripe",
+    'golden stripe': "badge-golden-stripe",
+  }.get(category['badge_color']) %}
+
+<section class="badge {{ badge_color }}">
+
+  <header class="badge-stripe">
     <h1>{{ person.meeting_description }}</h1>
     <h2>{{ person.meeting_address }}</h2>
     <img class="cites-logo" src="{{ url_for('static', filename='CITES.jpg') }}" />
     <img class="unep-logo" src="{{ url_for('static', filename='UNEP.jpg') }}" />
+  </header>
+
+  <div class="badge-content">
+    {% if person.get("photo_id", "") %}
+      <img class="photo"
+           src="{{ url_for('webpages.photo', person_id=person.id) }}">
+    {% endif %}
+    <p class="badge-text">
+      <span class="person-name">
+        {%- if person['representing_country'] == 'CN' -%}
+          {{ person['personal_last_name']|upper }}
+          {{ person['personal_first_name'] }}
+        {%- else -%}
+          {{ person['personal_first_name'] }}
+          {{ person['personal_last_name']|upper }}
+        {%- endif -%}
+      </span>
+      <br>
+      <span class="person-representing">
+        {%- if category['stat'] == "Staff" or category['name'] == "Visitor"  -%}
+          {{ category['name'] }}
+        {%- elif category['representative'] == "Region" -%}
+          {{ person['representing_region'] }}
+        {%- elif category['representative'] == "Country" -%}
+          {{ ref['country'][person['representing_country']] }}
+        {%- elif category['reg'] == "Observers, Other" -%}
+          OTHER OBSERVER
+        {%- endif -%}
+      </span>
+    </p>
   </div>
-  <div class="span4 content">
-  </div>
-</div>
+
+</section>
+{%- endmacro %}
+
+
+{% block content %}
+
+{{ badge(person) }}
 
 {% endblock %}
-
