@@ -31,15 +31,15 @@
         </a>
       </td>
       <td>
-        {{ person.data_json["personal_category"] }}
+        {{ person["personal_category"] }}
       </td>
       <td>
-        {% if person.data_json["meeting_flags_attended"] %}
+        {% if person["meeting_flags_attended"] %}
           <i class="icon-ok"></i>
         {% endif %}
       </td>
       <td>
-        {% if person.data_json["meeting_flags_verified"] %}
+        {% if person["meeting_flags_verified"] %}
           <i class="icon-ok"></i>
         {% endif %}
       </td>

@@ -22,16 +22,16 @@ Quick installation
     echo 'SECRET_KEY = "something random"' >> instance/settings.py
     echo 'ACCOUNTS = [ ("tester@example.com", "secretpw") ]' >> instance/settings.py
 
-5. Set up the database::
+5. Set up the PostgreSQL database::
 
-    mysql -u root -e 'create database cites'
-    mysql -u root -e 'grant all privileges on cites.* to cites@localhost identified by "cites";'
+    createdb cites
+    psql cites -c 'create extension hstore'
     ./app.py syncdb
 
 6. Create a testing database and run the unit tests::
 
-    mysql -u root -e 'create database cites_test'
-    mysql -u root -e 'grant all privileges on cites_test.* to cites@localhost identified by "cites";'
+    createdb cites_test
+    psql cites_test -c 'create extension hstore'
     nosetests
 
 7. Run a test server::

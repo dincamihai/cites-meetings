@@ -88,7 +88,7 @@ def data_import(file):
 
     with open(file, "r") as f:
         data = json.loads(f.read())
-        session = database.adb.session
+        session = database.get_session()
 
         for item in data:
             # NULL objects for country => ""
@@ -102,9 +102,7 @@ def data_import(file):
                 log.info("Person %r added." %
                          person.find("personal/first_name")[0].value)
 
-                person_row = database.Person()
-                person_row.data = json.dumps(dict(person.flatten()))
-                session.add(person_row)
+                session.save_person(database.Person(person.flatten()))
             else:
                # import pdb; pdb.set_trace()
                log.error("Person is not valid.")
