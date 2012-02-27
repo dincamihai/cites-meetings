@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<ul class="breadcrumb">
+  <li>
+    <a href="{{ url_for('webpages.meeting') }}">Meeting</a>
+    <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="{{ url_for('webpages.meeting_registration') }}">Registration</a>
+    <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="{{ url_for('webpages.view', person_id=person.id)
+        -}}">{{ person.name }}</a>
+    <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="{{ url_for('webpages.edit_photo', person_id=person.id)
+        -}}">photo</a>
+  </li>
+</ul>
+
+
+<div class="row">
+
+  {% if has_photo %}
+    <div class="span6">
+      <img src="{{ url_for('webpages.photo', person_id=person.id) }}">
+    </div>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data"
+        class="form-horizontal span6">
+
+    <fieldset>
+      <legend>Upload new photo</legend>
+
+      <div class="control-group">
+        <label class="control-label">Photo</label>
+        <div class="controls">
+          <input type="file" name="photo">
+        </div>
+      </div>
+
+     </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+      <a class="btn" href="{{ url_for('webpages.home') }}">Cancel</a>
+    </div>
+
+  </form>
+
+</div>
+
+{% endblock %}

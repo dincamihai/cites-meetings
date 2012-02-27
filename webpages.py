@@ -63,7 +63,7 @@ def home():
     })
 
 
-@webpages.route("/view/<int:person_id>", methods=["GET"])
+@webpages.route("/meeting/1/participant/<int:person_id>", methods=["GET"])
 @auth_required
 def view(person_id):
     app = flask.current_app
@@ -90,7 +90,7 @@ def delete(person_id):
 
     return flask.jsonify(**response)
 
-@webpages.route("/view/credentials/<int:person_id>")
+@webpages.route("/meeting/1/participant/<int:person_id>/credentials")
 @auth_required
 def credentials(person_id):
     app = flask.current_app
@@ -114,8 +114,35 @@ def credentials(person_id):
         "category": category
     })
 
-@webpages.route("/new", methods=["GET", "POST"])
-@webpages.route("/edit/<int:person_id>", methods=["GET", "POST"])
+@webpages.route("/meeting/1/participant/<int:person_id>/badge/normal")
+@auth_required
+def normal_badge(person_id):
+    app = flask.current_app
+
+    # get the person
+    person = database.get_session().get_person_or_404(person_id)
+    categories = schema._load_json("refdata/categories.json")
+    category = [c for c in categories
+        if c["id"] == person["personal_category"]][0]
+
+    import jinja2
+    person.update({
+        "meeting_description": jinja2.Markup("61<sup>st</sup> meeting of the Standing Committee"),
+        "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
+    })
+    # create data for flatland schema
+    person_schema = schema.unflatten_with_defaults(schema.Person, person)
+
+    return flask.render_template("normal_badge.html", **{
+        "person": person,
+        "person_schema": person_schema,
+        "category": category
+    })
+
+@webpages.route("/meeting/1/participant/new",
+                methods=["GET", "POST"])
+@webpages.route("/meeting/1/participant/<int:person_id>/edit",
+                methods=["GET", "POST"])
 @auth_required
 def edit(person_id=None):
     app = flask.current_app
@@ -134,7 +161,6 @@ def edit(person_id=None):
         if person.validate():
             if person_row is None:
                 person_row = database.Person()
-            person_row.clear()
             person_row.update(person.flatten())
             session.save_person(person_row)
             session.commit()
@@ -157,13 +183,50 @@ def edit(person_id=None):
     })
 
 
-@webpages.route("/edit/us-states")
+@webpages.route("/refdata/us-states")
 @auth_required
 def get_us_states():
     us_states = schema._load_json("refdata/us.states.json")
     print len(us_states)
     response = flask.json.dumps(us_states)
     return flask.Response(response=response, mimetype="application/json")
+
+
+@webpages.route("/meeting/1/participant/<int:person_id>/edit_photo",
+                methods=["GET", "POST"])
+@auth_required
+def edit_photo(person_id):
+    session = database.get_session()
+    person_row = session.get_person_or_404(person_id)
+
+    if flask.request.method == "POST":
+        photo_file = flask.request.files["photo"]
+        db_file = session.get_db_file()
+        db_file.save_from(photo_file)
+        person_row["photo_id"] = str(db_file.id)
+        session.save_person(person_row)
+        session.commit()
+        flask.flash("New photo saved", "success")
+        url = flask.url_for("webpages.edit_photo", person_id=person_id)
+        return flask.redirect(url)
+
+    return flask.render_template("photo.html", **{
+        "person": person_row,
+        "has_photo": bool(person_row.get("photo_id", "")),
+    })
+
+
+@webpages.route("/meeting/1/participant/<int:person_id>/photo")
+def photo(person_id):
+    session = database.get_session()
+    person_row = session.get_person_or_404(person_id)
+    try:
+        db_file = session.get_db_file(int(person_row["photo_id"]))
+    except KeyError:
+        flask.abort(404)
+    return flask.Response(''.join(db_file.iter_data()), # TODO stream response
+                          mimetype="application/octet-stream")
+
 
 @webpages.route("/meeting/1")
 @auth_required

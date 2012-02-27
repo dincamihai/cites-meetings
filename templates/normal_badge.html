@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="row blue-badge">
+  <div class="span4 header">
+    <h1>{{ person.meeting_description }}</h1>
+    <h2>{{ person.meeting_address }}</h2>
+    <img class="cites-logo" src="{{ url_for('static', filename='CITES.jpg') }}" />
+    <img class="unep-logo" src="{{ url_for('static', filename='UNEP.jpg') }}" />
+  </div>
+  <div class="span4 content">
+  </div>
+</div>
+
+{% endblock %}
+
