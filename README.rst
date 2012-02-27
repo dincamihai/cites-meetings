@@ -41,3 +41,27 @@ Quick installation
 8. Deploy (after customizing `local_fabfile.py`)::
 
     fab deploy
+
+
+Debian deployment
+-----------------
+
+To set up the PostgreSQL database in Debian, you need to install the
+packages `postgresql-9.1`, `postgresql-contrib-9.1` and
+`postgresql-server-dev-9.1`. Then create a database, enable the `hstore`
+extension, and grant access to a user::
+
+    root # su - postgres
+    postgres $ psql template1
+    psql (9.1.2)
+    Type "help" for help.
+
+    template1=# CREATE USER edw WITH PASSWORD 'edw';
+    CREATE ROLE
+    template1=# CREATE DATABASE cites;
+    CREATE DATABASE
+    template1=# GRANT ALL PRIVILEGES ON DATABASE cites TO edw;
+    GRANT
+    template1=# \q
+    postgres $ psql cites
+    cites=# create extension hstore;
