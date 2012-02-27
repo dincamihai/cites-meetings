@@ -16,12 +16,16 @@ class Person(dict):
 
 
 COPY_BUFFER_SIZE = 2**14
-def _copy_bytes(src_file, dst_file):
-    while True:
-        data = src_file.read()
-        if not data:
-            break
-        dst_file.write(data)
+def _iter_file(src_file, close=False):
+    try:
+        while True:
+            block = src_file.read()
+            if not block:
+                break
+            yield block
+    finally:
+        if close:
+            src_file.close()
 
 
 class DbFile(object):
@@ -32,19 +36,22 @@ class DbFile(object):
 
     def save_from(self, in_file):
         lobject = self._session.conn.lobject(self.id, 'wb')
-        _copy_bytes(in_file, lobject)
-        lobject.close()
+        try:
+            for block in _iter_file(in_file):
+                lobject.write(block)
+        finally:
+            lobject.close()
 
-    def load_to(self, out_file):
+    def iter_data(self):
         lobject = self._session.conn.lobject(self.id, 'rb')
-        _copy_bytes(lobject, out_file)
-        lobject.close()
+        return _iter_file(lobject, close=True)
 
 
 class Session(object):
 
-    def __init__(self, conn):
+    def __init__(self, conn, debug=False):
         self._conn = conn
+        self._debug = debug
 
     @property
     def conn(self):
@@ -59,6 +66,12 @@ class Session(object):
 
     def save_person(self, person):
         cursor = self.conn.cursor()
+        if self._debug:
+            for key, value in person.iteritems():
+                assert isinstance(key, basestring), \
+                    "Key %r is not a string" % key
+                assert isinstance(value, basestring), \
+                    "Value %r for key %r is not a string" % (value, key)
         if person.id is None:
             cursor.execute("INSERT INTO person (data) VALUES (%s)", (person,))
             cursor.execute("SELECT CURRVAL('person_id_seq')")
@@ -115,7 +128,7 @@ class Session(object):
     def drop_all(self):
         cursor = self.conn.cursor()
         cursor.execute("DROP TABLE person")
-        cursor.execute("SELECT DISTINCT loid FROM pg_largeobject")
+        cursor.execute("SELECT oid FROM pg_largeobject_metadata")
         for [oid] in cursor:
             self.conn.lobject(oid, 'n').unlink()
         cursor.connection.commit()
@@ -129,7 +142,7 @@ def get_session():
         pool = flask.current_app.extensions['psycopg2_pool']
         conn = pool.getconn()
         psycopg2.extras.register_hstore(conn, globally=False, unicode=True)
-        session = Session(conn)
+        session = Session(conn, debug=flask.current_app.debug)
         flask.g.psycopg2_session = session
     return flask.g.psycopg2_session
 

@@ -96,7 +96,24 @@ table.table thead .sorting_desc_disabled { background: url('lib/datatables/image
     font-family: Arial Narrow;
 }
 
-
 .blue-badge .content {
     background-color: #FFF;
+}
+
+.us_states_container {
+    list-style-type: none;
+    font-size: 10px;
+    margin: 0;
+    width: 36em;  /* room for 3 columns */
+}
+.us_states_container li {
+    float: left;
+    width: 12em;  /* accommodate the widest item */
+}
+
+.us_states_container .title {
+    font-weight: bold;
+    cursor: pointer;
+    float: left;
+    width: 26px;
 }
