@@ -1,17 +1,14 @@
 {% macro input(mk, field) %}
-  {{ mk.input(field, id="field-%s" % field.name,
-              class=field.properties.css_class) }}
+  {{ mk.input(field, class=field.properties.css_class) }}
 {% endmacro %}
 
 {% macro textarea(mk, field) %}
-  {{ mk.textarea(field, id="field-%s" % field.name,
-                 class=field.properties.css_class)
+  {{ mk.textarea(field, class=field.properties.css_class)
   }}
 {% endmacro %}
 
 {% macro select(mk, field) %}
-  {{ mk.select.open(field, id="field-%s" % field.name,
-                    class=field.properties.css_class) }}
+  {{ mk.select.open(field, class=field.properties.css_class) }}
   {{ mk.option(field, value="", contents="--") }}
 
   {% for value in field.valid_values %}
@@ -44,6 +41,7 @@
 {% endmacro %}
 
 {% macro schema(mk, schema) %}
+  {%- do mk.begin(auto_domid=true, auto_for=true) %}
   {%- for name in mk.children_order(schema) %}
     {% set field = schema[name] %}
     <fieldset>
@@ -51,4 +49,5 @@
       {{ mk.widget(field) }}
      </fieldset>
   {% endfor -%}
+  {% do mk.end() -%}
 {% endmacro %}
