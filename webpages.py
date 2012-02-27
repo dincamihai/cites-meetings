@@ -158,11 +158,18 @@ def edit(person_id=None):
     })
 
 
+@webpages.route("/edit/us-states")
+@auth_required
+def get_us_states():
+    us_states = schema._load_json("refdata/us.states.json")
+    print len(us_states)
+    response = flask.json.dumps(us_states)
+    return flask.Response(response=response, mimetype="application/json")
+
 @webpages.route("/meeting/1")
 @auth_required
 def meeting():
     return flask.redirect(flask.url_for('webpages.meeting_registration'))
-
 
 @webpages.route("/meeting/1/registration")
 @auth_required

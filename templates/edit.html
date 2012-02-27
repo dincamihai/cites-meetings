@@ -1,5 +1,77 @@
 {% extends "layout.html" %}
 
+{% block scripts %}
+
+  {{ script_src("lib/bootstrap/js/bootstrap-tooltip.js") }}
+  {{ script_src("lib/bootstrap/js/bootstrap-popover.js") }}
+  {{ script_src("lib/bootstrap/js/mustache.js") }}
+
+  <script type="text/template" id="us_states_tpl">
+    {% raw %}
+    <ul class="us_states_container">
+      {{#data}}
+        <li>
+          <div class="title"><a>{{id}}</a></div>
+          <div class="content">{{name}}</div>
+        </li>
+      {{/data}}
+    </ul>
+    {% endraw %}
+  </script>
+
+  <script>
+    $(function () {
+      var handleUsStates = function (e) {
+        e.stopPropagation();
+        var self = $(this);
+
+        var popover = function () {
+          // show popover
+          self.popover({trigger: "manual"});
+          self.popover("toggle");
+
+          // $(".popover").css("top", "361px");
+          $(".popover").find(".popover-inner").css("width", "auto");
+          $(".popover").find(".popover-content").css("height", "334");
+
+
+          $(".us_states_container")
+              .off("click")
+              .off("click", "a")
+              .on("click", "a",
+                function () {
+                  $("#field-place").val(
+                    $("#field-place").val() + $(this).text()
+                  );
+                 })
+              .on("click", function(e) { e.stopPropagation(); });
+         };
+
+        if(self.data("content")) {
+          popover();
+        } else {
+          $.get("{{ url_for('webpages.get_us_states') }}", function (data) {
+            // cache data
+            var template = $("#us_states_tpl").html();
+            var html = Mustache.to_html(template, {"data": data});
+            self.data("content", html);
+            popover();
+          }, "json");
+        }
+      };
+      // add us code button near place input
+      var us_states = $("<a />").attr({"class": "btn", "id": "us-states"})
+                                .data("title", "US Codes")
+                                .text("US Codes")
+                                .click(handleUsStates);
+      $(document).on("click", function () {
+        us_states.popover("hide");
+      });
+      $("#field-place").after(us_states);
+    });
+  </script>
+{% endblock %}
+
 {% block content %}
 <form class="form-horizontal" method="post">
   {{ mk.widget(person) }}
