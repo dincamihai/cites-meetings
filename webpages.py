@@ -159,6 +159,42 @@ def edit(person_id=None):
     })
 
 
+@webpages.route("/meeting/1/participant/<int:person_id>/edit_photo",
+                methods=["GET", "POST"])
+@auth_required
+def edit_photo(person_id):
+    session = database.get_session()
+    person_row = session.get_person_or_404(person_id)
+
+    if flask.request.method == "POST":
+        photo_file = flask.request.files["photo"]
+        db_file = session.get_db_file()
+        db_file.save_from(photo_file)
+        person_row["photo_id"] = str(db_file.id)
+        session.save_person(person_row)
+        session.commit()
+        flask.flash("New photo saved", "success")
+        url = flask.url_for("webpages.edit_photo", person_id=person_id)
+        return flask.redirect(url)
+
+    return flask.render_template("photo.html", **{
+        "person": person_row,
+        "has_photo": bool(person_row.get("photo_id", "")),
+    })
+
+
+@webpages.route("/meeting/1/participant/<int:person_id>/photo")
+def photo(person_id):
+    session = database.get_session()
+    person_row = session.get_person_or_404(person_id)
+    try:
+        db_file = session.get_db_file(int(person_row["photo_id"]))
+    except KeyError:
+        flask.abort(404)
+    return flask.Response(''.join(db_file.iter_data()), # TODO stream response
+                          mimetype="application/octet-stream")
+
+
 @webpages.route("/meeting/1")
 @auth_required
 def meeting():

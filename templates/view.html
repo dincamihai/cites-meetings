@@ -33,6 +33,9 @@
     <a class="btn btn-mini dropdown-toggle"
        data-toggle="dropdown">Actions <span class="caret"></span></a>
     <ul class="dropdown-menu">
+      <li><a href="{{ url_for('webpages.edit_photo', person_id=person.id)
+            -}}">Upload photo</a></li>
+      <li class="divider"></li>
       <li><a href="{{ url_for('webpages.credentials', person_id=person.id) }}">Acknowledge details</a></li>
       <li><a href="#">Acknowledge email</a></li>
       <li class="divider"></li>
