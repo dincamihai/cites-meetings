@@ -1,39 +1,13 @@
 import unittest
 from StringIO import StringIO
 import flask
-
-
-_testing_db_uri = None
-def _get_testing_db_uri():
-    global _testing_db_uri
-    from app import create_app
-    if _testing_db_uri is None:
-        tmp_app = create_app()
-        _testing_db_uri = tmp_app.config['TESTING_DATABASE_URI']
-    return _testing_db_uri
-
-
-def _create_testing_app():
-    from app import create_app
-    import database
-
-    app = create_app()
-    app.config['DATABASE_URI'] = _get_testing_db_uri()
-    database.initialize_app(app)
-    with app.test_request_context():
-        database.get_session().create_all()
-
-    def app_teardown():
-        with app.test_request_context():
-            database.get_session().drop_all()
-
-    return app, app_teardown
+from common import create_mock_app
 
 
 class PersonModelTest(unittest.TestCase):
 
     def setUp(self):
-        self.app, app_teardown = _create_testing_app()
+        self.app, app_teardown = create_mock_app()
         self.addCleanup(app_teardown)
         self.client = self.app.test_client()
 
@@ -171,9 +145,8 @@ class PersonModelTest(unittest.TestCase):
         with self.app.test_request_context():
             session = database.get_session()
             db_file = session.get_db_file(db_file_id)
-            data = StringIO()
-            db_file.load_to(data)
-            self.assertEqual(data.getvalue(), "hello large data")
+            data = ''.join(db_file.iter_data())
+            self.assertEqual(data, "hello large data")
 
     def test_large_file_error(self):
         import database
@@ -181,7 +154,7 @@ class PersonModelTest(unittest.TestCase):
         with self.app.test_request_context():
             db_file = database.get_session().get_db_file(13)
             with self.assertRaises(psycopg2.OperationalError):
-                db_file.load_to(StringIO())
+                data = ''.join(db_file.iter_data())
 
         with self.app.test_request_context():
             db_file = database.get_session().get_db_file(13)
