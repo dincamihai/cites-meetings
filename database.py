@@ -49,8 +49,9 @@ class DbFile(object):
 
 class Session(object):
 
-    def __init__(self, conn):
+    def __init__(self, conn, debug=False):
         self._conn = conn
+        self._debug = debug
 
     @property
     def conn(self):
@@ -65,6 +66,12 @@ class Session(object):
 
     def save_person(self, person):
         cursor = self.conn.cursor()
+        if self._debug:
+            for key, value in person.iteritems():
+                assert isinstance(key, basestring), \
+                    "Key %r is not a string" % key
+                assert isinstance(value, basestring), \
+                    "Value %r for key %r is not a string" % (value, key)
         if person.id is None:
             cursor.execute("INSERT INTO person (data) VALUES (%s)", (person,))
             cursor.execute("SELECT CURRVAL('person_id_seq')")
@@ -135,7 +142,7 @@ def get_session():
         pool = flask.current_app.extensions['psycopg2_pool']
         conn = pool.getconn()
         psycopg2.extras.register_hstore(conn, globally=False, unicode=True)
-        session = Session(conn)
+        session = Session(conn, debug=flask.current_app.debug)
         flask.g.psycopg2_session = session
     return flask.g.psycopg2_session
 
