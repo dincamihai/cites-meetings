@@ -4,20 +4,29 @@
 <h3>Manage fees</h3>
 
 <div class="row">
-  <table class="table table-bordered span3">
-    <thead>
-      <tr>
-        <th>Fees</th>
-      </tr>
-    </thead>
-    <tbody>
-      {%- for fee in fees.values() %}
-      <tr>
-        <td>{{ fee }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="span4">
+    <form class=​"form-horizontal">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Fees</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for fee in fees.values() %}
+          <tr>
+            <td>{{ fee }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success disabled">Add</button>
+        <button type="submit" class="btn btn-primary disabled">Edit</button>
+        <button class="btn disabled">Cancel</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 {% endblock tab_content %}
