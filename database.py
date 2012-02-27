@@ -128,7 +128,7 @@ class Session(object):
     def drop_all(self):
         cursor = self.conn.cursor()
         cursor.execute("DROP TABLE person")
-        cursor.execute("SELECT DISTINCT loid FROM pg_largeobject")
+        cursor.execute("SELECT oid FROM pg_largeobject_metadata")
         for [oid] in cursor:
             self.conn.lobject(oid, 'n').unlink()
         cursor.connection.commit()
