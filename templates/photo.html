@@ -23,31 +23,36 @@
 </ul>
 
 
-{% if has_photo %}
-  <p>
-    <img src="{{ url_for('webpages.photo', person_id=person.id) }}">
-  </p>
-{% endif %}
+<div class="row">
 
+  {% if has_photo %}
+    <div class="span6">
+      <img src="{{ url_for('webpages.photo', person_id=person.id) }}">
+    </div>
+  {% endif %}
 
-<form class="form-horizontal" method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data"
+        class="form-horizontal span6">
 
-  <fieldset>
-    <legend>Upload new photo</legend>
+    <fieldset>
+      <legend>Upload new photo</legend>
 
-    <div class="control-group">
-      <label class="control-label">Photo</label>
-      <div class="controls">
-        <input type="file" name="photo">
+      <div class="control-group">
+        <label class="control-label">Photo</label>
+        <div class="controls">
+          <input type="file" name="photo">
+        </div>
       </div>
+
+     </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+      <a class="btn" href="{{ url_for('webpages.home') }}">Cancel</a>
     </div>
 
-   </fieldset>
+  </form>
 
-  <div class="form-actions">
-    <button type="submit" class="btn btn-primary">Save changes</button>
-    <a class="btn" href="{{ url_for('webpages.home') }}">Cancel</a>
-  </div>
+</div>
 
-</form>
 {% endblock %}
