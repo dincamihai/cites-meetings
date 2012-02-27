@@ -38,7 +38,11 @@
       <dd>
         <form>
         <textarea row="5" cols="5" class="disabled" disabled="">{{ phrase.name|trim }}</textarea>
-        <a class="btn btn-primary">Save changes</a>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary disabled" disabled="">
+            Save changes</button>
+          <button class="btn disabled" disabled="">Cancel</button>
+        </div>
         </form>
       </dd>
     </dl>
