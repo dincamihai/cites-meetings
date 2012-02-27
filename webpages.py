@@ -60,7 +60,7 @@ def logout():
 @auth_required
 def home():
     return flask.render_template("home.html", **{
-        "people": database.Person.query.all(),
+        "people": list(database.get_session().get_all_persons()),
     })
 
 
@@ -70,10 +70,9 @@ def view(person_id):
     app = flask.current_app
 
     # get the person
-    person = database.Person.query.get_or_404(person_id)
+    person = database.get_session().get_person_or_404(person_id)
     # create data for flatland schema
-    person_schema = schema.unflatten_with_defaults(schema.Person,
-        person.data_json)
+    person_schema = schema.unflatten_with_defaults(schema.Person, person)
 
     return flask.render_template("view.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
@@ -86,11 +85,8 @@ def view(person_id):
 def delete(person_id):
     app = flask.current_app
     response = {"status": "success"}
-    session = database.adb.session
-
-    # get the person
-    person = database.Person.query.get_or_404(person_id)
-    session.delete(person)
+    session = database.get_session()
+    session.del_person(person_id)
     session.commit()
 
     return flask.jsonify(**response)
@@ -100,18 +96,17 @@ def credentials(person_id):
     app = flask.current_app
 
     # get the person
-    person = database.Person.query.get_or_404(person_id)
+    person = database.get_session().get_person_or_404(person_id)
     categories = schema._load_json("refdata/categories.json")
     category = [c for c in categories
-        if c["id"] == person.data_json["personal_category"]][0]
+        if c["id"] == person["personal_category"]][0]
 
     person._data.update({
         "meeting_description": "Sixty-first meeting of the Standing Committee",
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
     })
     # create data for flatland schema
-    person_schema = schema.unflatten_with_defaults(schema.Person,
-        person.data_json)
+    person_schema = schema.unflatten_with_defaults(schema.Person, person)
 
     return flask.render_template("credentials.html", **{
         "person": person,
@@ -124,11 +119,12 @@ def credentials(person_id):
 @auth_required
 def edit(person_id=None):
     app = flask.current_app
+    session = database.get_session()
 
     if person_id is None:
         person_row = None
     else:
-        person_row = database.Person.query.get_or_404(person_id)
+        person_row = session.get_person_or_404(person_id)
 
     if flask.request.method == "POST":
         form_data = dict(schema.Person.from_defaults().flatten())
@@ -138,9 +134,9 @@ def edit(person_id=None):
         if person.validate():
             if person_row is None:
                 person_row = database.Person()
-            session = database.adb.session
-            person_row.data = flask.json.dumps(dict(person.flatten()))
-            session.add(person_row)
+            person_row.clear()
+            person_row.update(person.flatten())
+            session.save_person(person_row)
             session.commit()
             flask.flash("Person information saved", "success")
             view_url = flask.url_for("webpages.view", person_id=person_row.id)
@@ -153,7 +149,7 @@ def edit(person_id=None):
         if person_row is None:
             person = schema.Person()
         else:
-            person = schema.Person.from_flat(flask.json.loads(person_row.data))
+            person = schema.Person.from_flat(person_row)
 
     return flask.render_template("edit.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_edit.html")),
@@ -171,7 +167,7 @@ def meeting():
 @auth_required
 def meeting_registration():
     return flask.render_template("meeting_registration.html", **{
-        "people": database.Person.query.all(),
+        "people": database.get_session().get_all_persons(),
     })
 
 
