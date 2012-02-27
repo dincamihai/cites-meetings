@@ -1,7 +1,7 @@
 .badge {
     position: relative;
     width: 9cm;
-    height: 6cm;
+    height: 5.23cm;
 }
 
 .badge.badge-debug {
@@ -12,8 +12,20 @@
     height: 1.7cm;
 }
 
-.badge-blue .badge-stripe {
+.badge-blue-stripe .badge-stripe {
     background-color: #0080FF;
+}
+
+.badge-green-stripe .badge-stripe {
+    background-color: #00BB22;
+}
+
+.badge-yellow-stripe .badge-stripe {
+    background-color: #FEF200;
+}
+
+.badge-grey-stripe .badge-stripe {
+    background-color: #808080;
 }
 
 .badge-content {
@@ -24,11 +36,6 @@
     right: 0;
     background-color: #FFF;
 }
-
-.badge-debug .badge-content {
-    background-color: #eee;
-}
-
 
 .badge-stripe .cites-logo {
     position: absolute;
@@ -66,4 +73,32 @@
     font-size: 0.3cm;
     top: 0.9cm;
     font-weight: normal;
+}
+
+
+.badge-content .photo {
+    position: absolute;
+    left: 0.25cm;
+    top: 0.25cm;
+    max-width: 3cm;
+    max-height: 3cm;
+}
+
+.badge-debug .badge-content .photo {
+    outline: 1px solid #555;
+}
+
+.badge-text {
+    position: absolute;
+    top: 1cm;
+    left: 3.5cm;
+    right: 0.5cm;
+}
+
+.badge-text .person-name {
+    font-size: 0.5cm;
+}
+
+.badge-text .person-representing {
+    font-size: 0.4cm;
 }
