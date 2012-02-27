@@ -16,12 +16,16 @@ class Person(dict):
 
 
 COPY_BUFFER_SIZE = 2**14
-def _copy_bytes(src_file, dst_file):
-    while True:
-        data = src_file.read()
-        if not data:
-            break
-        dst_file.write(data)
+def _iter_file(src_file, close=False):
+    try:
+        while True:
+            block = src_file.read()
+            if not block:
+                break
+            yield block
+    finally:
+        if close:
+            src_file.close()
 
 
 class DbFile(object):
@@ -32,13 +36,15 @@ class DbFile(object):
 
     def save_from(self, in_file):
         lobject = self._session.conn.lobject(self.id, 'wb')
-        _copy_bytes(in_file, lobject)
-        lobject.close()
+        try:
+            for block in _iter_file(in_file):
+                lobject.write(block)
+        finally:
+            lobject.close()
 
-    def load_to(self, out_file):
+    def iter_data(self):
         lobject = self._session.conn.lobject(self.id, 'rb')
-        _copy_bytes(lobject, out_file)
-        lobject.close()
+        return _iter_file(lobject, close=True)
 
 
 class Session(object):

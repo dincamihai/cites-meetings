@@ -145,9 +145,8 @@ class PersonModelTest(unittest.TestCase):
         with self.app.test_request_context():
             session = database.get_session()
             db_file = session.get_db_file(db_file_id)
-            data = StringIO()
-            db_file.load_to(data)
-            self.assertEqual(data.getvalue(), "hello large data")
+            data = ''.join(db_file.iter_data())
+            self.assertEqual(data, "hello large data")
 
     def test_large_file_error(self):
         import database
@@ -155,7 +154,7 @@ class PersonModelTest(unittest.TestCase):
         with self.app.test_request_context():
             db_file = database.get_session().get_db_file(13)
             with self.assertRaises(psycopg2.OperationalError):
-                db_file.load_to(StringIO())
+                data = ''.join(db_file.iter_data())
 
         with self.app.test_request_context():
             db_file = database.get_session().get_db_file(13)
