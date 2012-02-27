@@ -1,5 +1,8 @@
 {% extends 'meeting.html' %}
-{% block tab_content %}
+{% block meeting_content %}
+
+{% from 'meeting.html' import nav_tabs %}
+{{ nav_tabs('printouts') }}
 
 <h2>Meeting room</h2>
 <div class="row">
@@ -110,4 +113,4 @@
 
 
 
-{% endblock tab_content %}
+{% endblock %}

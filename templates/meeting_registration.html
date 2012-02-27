@@ -1,5 +1,8 @@
 {% extends 'meeting.html' %}
-{% block tab_content %}
+{% block meeting_content %}
+
+{% from 'meeting.html' import nav_tabs %}
+{{ nav_tabs('registration') }}
 
 <table class="table table-bordered table-striped people-listing">
 
@@ -55,7 +58,7 @@
 
 </table>
 
-{% endblock tab_content %}
+{% endblock %}
 
 {% block scripts %}
 {{ super() }}
