@@ -1,6 +1,23 @@
 {% extends 'meeting.html' %}
 {% block tab_content %}
 
-<h3>Fees</h3>
+<h3>Manage fees</h3>
+
+<div class="row">
+  <table class="table table-bordered span3">
+    <thead>
+      <tr>
+        <th>Fees</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for fee in fees.values() %}
+      <tr>
+        <td>{{ fee }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 {% endblock tab_content %}
