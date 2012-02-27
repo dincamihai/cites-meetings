@@ -38,7 +38,7 @@
           <i class="icon-ok"></i>
         {% endif %}
       </td>
-      <td class="attended">
+      <td>
         {% if person["meeting_flags_verified"] %}
           <i class="icon-ok"></i>
         {% endif %}

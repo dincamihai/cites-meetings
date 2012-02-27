@@ -13,7 +13,7 @@
 <div class="tabbable">
 <ul class="nav nav-tabs">
 
-  <li class="active">
+  <li>
     <a href="{{ url('meeting_registration') }}" data-toggle="tab">Registration</a>
   </li>
 
