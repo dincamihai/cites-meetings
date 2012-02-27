@@ -64,7 +64,7 @@ def home():
     })
 
 
-@webpages.route("/view/<int:person_id>", methods=["GET"])
+@webpages.route("/meeting/1/participant/<int:person_id>", methods=["GET"])
 @auth_required
 def view(person_id):
     app = flask.current_app
@@ -91,7 +91,7 @@ def delete(person_id):
 
     return flask.jsonify(**response)
 
-@webpages.route("/view/credentials/<int:person_id>")
+@webpages.route("/meeting/1/participant/<int:person_id>/credentials")
 @auth_required
 def credentials(person_id):
     app = flask.current_app
@@ -115,8 +115,10 @@ def credentials(person_id):
         "category": category
     })
 
-@webpages.route("/new", methods=["GET", "POST"])
-@webpages.route("/edit/<int:person_id>", methods=["GET", "POST"])
+@webpages.route("/meeting/1/participant/new",
+                methods=["GET", "POST"])
+@webpages.route("/meeting/1/participant/<int:person_id>/edit",
+                methods=["GET", "POST"])
 @auth_required
 def edit(person_id=None):
     app = flask.current_app
