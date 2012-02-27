@@ -187,13 +187,16 @@ def meeting_settings_phrases():
 @webpages.route("/meeting/1/settings/fees")
 @auth_required
 def meeting_settings_fees():
-    return flask.render_template("meeting_settings_fees.html")
-
+    return flask.render_template("meeting_settings_fees.html", **{
+        "fees": schema.fees,
+    })
 
 @webpages.route("/meeting/1/settings/categories")
 @auth_required
 def meeting_settings_categories():
-    return flask.render_template("meeting_settings_categories.html")
+    return flask.render_template("meeting_settings_categories.html", **{
+        "categories": schema.categories,
+    })
 
 
 class MarkupGenerator(flatland.out.markup.Generator):
