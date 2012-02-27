@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 
+{% block extra_head %}
+  {% from 'bits.html' import css_link -%}
+  {{ css_link('badge.css') }}
+{% endblock %}
+
 {% block content %}
 
 <div class="row blue-badge">

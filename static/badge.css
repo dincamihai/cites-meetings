@@ -1,0 +1,37 @@
+.blue-badge .header {
+    position: relative;
+    background-color: #0080FF;
+    height: 1.7cm;
+}
+
+.blue-badge .header .cites-logo {
+    position: absolute;
+    width: 1.5cm;
+    height: 0.9cm;
+    top: 0.3cm;
+    left: 0.2cm;
+}
+
+.blue-badge .header .unep-logo {
+    position: absolute;
+    width: 0.82cm;
+    height: 0.9cm;
+    top: 0.3cm;
+    right: 0.2cm;
+}
+
+.blue-badge .header h1 {
+    position: absolute;
+    font-size: 0.4cm;
+    top: 0.3cm;
+    left: 2cm;
+    right: 1.5cm;
+    text-align: center;
+    line-height: 1;
+    color: white;
+    font-family: Arial Narrow;
+}
+
+.blue-badge .content {
+    background-color: #FFF;
+}
