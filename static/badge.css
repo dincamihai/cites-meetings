@@ -1,10 +1,36 @@
-.blue-badge .header {
+.badge {
     position: relative;
-    background-color: #0080FF;
+    width: 9cm;
+    height: 6cm;
+}
+
+.badge.badge-debug {
+    outline: 1px solid #555;
+}
+
+.badge-stripe {
     height: 1.7cm;
 }
 
-.blue-badge .header .cites-logo {
+.badge-blue .badge-stripe {
+    background-color: #0080FF;
+}
+
+.badge-content {
+    position: absolute;
+    top: 1.7cm;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #FFF;
+}
+
+.badge-debug .badge-content {
+    background-color: #eee;
+}
+
+
+.badge-stripe .cites-logo {
     position: absolute;
     width: 1.5cm;
     height: 0.9cm;
@@ -12,7 +38,7 @@
     left: 0.2cm;
 }
 
-.blue-badge .header .unep-logo {
+.badge-stripe .unep-logo {
     position: absolute;
     width: 0.82cm;
     height: 0.9cm;
@@ -20,10 +46,9 @@
     right: 0.2cm;
 }
 
-.blue-badge .header h1 {
+.badge-stripe h1,
+.badge-stripe h2 {
     position: absolute;
-    font-size: 0.4cm;
-    top: 0.3cm;
     left: 2cm;
     right: 1.5cm;
     text-align: center;
@@ -32,6 +57,13 @@
     font-family: Arial Narrow;
 }
 
-.blue-badge .content {
-    background-color: #FFF;
+.badge-stripe h1 {
+    font-size: 0.30cm;
+    top: 0.5cm;
+}
+
+.badge-stripe h2 {
+    font-size: 0.3cm;
+    top: 0.9cm;
+    font-weight: normal;
 }
