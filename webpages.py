@@ -115,6 +115,31 @@ def credentials(person_id):
         "category": category
     })
 
+@webpages.route("/view/badge/normal/<int:person_id>")
+@auth_required
+def normal_badge(person_id):
+    app = flask.current_app
+
+    # get the person
+    person = database.get_session().get_person_or_404(person_id)
+    categories = schema._load_json("refdata/categories.json")
+    category = [c for c in categories
+        if c["id"] == person["personal_category"]][0]
+
+    import jinja2
+    person.update({
+        "meeting_description": jinja2.Markup("61<sup>st</sup> meeting of the Standing Committee"),
+        "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
+    })
+    # create data for flatland schema
+    person_schema = schema.unflatten_with_defaults(schema.Person, person)
+
+    return flask.render_template("normal_badge.html", **{
+        "person": person,
+        "person_schema": person_schema,
+        "category": category
+    })
+
 @webpages.route("/new", methods=["GET", "POST"])
 @webpages.route("/edit/<int:person_id>", methods=["GET", "POST"])
 @auth_required

@@ -36,7 +36,7 @@
       <li><a href="{{ url_for('webpages.credentials', person_id=person.id) }}">Acknowledge details</a></li>
       <li><a href="#">Acknowledge email</a></li>
       <li class="divider"></li>
-      <li><a href="#">Print badge (normal)</a></li>
+      <li><a href="{{ url_for('webpages.normal_badge', person_id=person.id) }}">Print badge (normal)</a></li>
       <li><a href="#">Print badge (no stripe)</a></li>
       <li><a href="#">Print badge (visitor)</a></li>
       <li class="divider"></li>
