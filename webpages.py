@@ -14,7 +14,9 @@ webpages = flask.Blueprint("webpages", __name__)
 def auth_required(view):
     @wraps(view)
     def wrapper(*args, **kwargs):
-        if flask.session.get("logged_in_email", None) is None:
+        if 'ACCOUNTS' not in flask.current_app.config:
+            pass
+        elif flask.session.get("logged_in_email", None) is None:
             login_url = flask.url_for("webpages.login", next=flask.request.url)
             return flask.redirect(login_url)
         return view(*args, **kwargs)
@@ -24,7 +26,6 @@ def auth_required(view):
 
 def initialize_app(app):
     app.register_blueprint(webpages)
-    app.config.setdefault("ACCOUNTS", [])
 
 
 @webpages.route("/login", methods=["GET", "POST"])
@@ -35,7 +36,7 @@ def login():
 
     if flask.request.method == "POST":
         app = flask.current_app
-        for email, password in app.config["ACCOUNTS"]:
+        for email, password in app.config.get("ACCOUNTS", []):
             if login_email == email and login_password == password:
                 log.info("Authentication by %r", login_email)
                 flask.session["logged_in_email"] = login_email
