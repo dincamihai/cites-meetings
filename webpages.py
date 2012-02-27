@@ -92,6 +92,7 @@ def delete(person_id):
     return flask.jsonify(**response)
 
 @webpages.route("/view/credentials/<int:person_id>")
+@auth_required
 def credentials(person_id):
     app = flask.current_app
 
