@@ -3,8 +3,7 @@
 {% endmacro %}
 
 {% macro textarea(mk, field) %}
-  {{ mk.textarea(field, class=field.properties.css_class)
-  }}
+  {{ mk.textarea(field, class=field.properties.css_class) }}
 {% endmacro %}
 
 {% macro select(mk, field) %}
@@ -13,7 +12,7 @@
 
   {% for value in field.valid_values %}
     {% set value_label = (field.properties.value_labels[value]
-            if field.properties.value_labels else value) %}
+                          if field.properties.value_labels else value) %}
     {{ mk.option(field, value=value, contents=value_label) }}
   {% endfor %}
 
@@ -22,6 +21,10 @@
 
 {% macro checkbox(mk, field) %}
   {{ mk.input(field, type="checkbox") }}
+{% endmacro %}
+
+{% macro date(mk, field) %}
+  {{ mk.input(field, type="date") }}
 {% endmacro %}
 
 {% macro group(mk, group) %}
