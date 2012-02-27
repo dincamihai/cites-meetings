@@ -1,17 +1,17 @@
-No,Description_E,Stat,Stat_sort,Reg,Reg_sort,Room,Room_sort,Badge_Colour,Credent,Fee,Details of registration,Representative,Registration Fee,Invitation received
-0,Special guest of the Secretary General,NULL,0,NULL,0,NULL,0,NULL,0,0,Observer,,,Not required
-1,Visitor,NULL,0,NULL,0,NULL,0,all pink,0,0,Observer,Description,,Not required
-10,Member,Members,1,Members,1,Members,1,blue stripe,0,0,Member,Region,,Not required
-20,Alternate member,Members,1,Alternate members,3,"Alternate members & Observers, Party",3,blue stripe,0,0,Alternate member,Country,,Not required
-30,"Observer, Party",Observers,2,"Observers, Party & Non-Party",3,"Alternate members & Observers, Party",3,blue stripe,0,0,"Observer, Party",Country,,Not required
-40,"Observer, Non-Party",Observers,2,"Observers, Party & Non-Party",3,"Observers, Non-Party",4,all white,0,0,Observer,Country,,Not required
-42,"Observer, Animals Committee",Observers,2,"Observers, Other",4,"Observers, Committee & Programme",5,blue stripe,0,0,Observer,Organisation,,Not required
-43,"Observer, Plants Committee",Observers,2,"Observers, Other",4,"Observers, Committee & Programme",5,blue stripe,0,0,Observer,Organisation,,Not required
-45,"Observer, Programmes",Observers,2,"Observers, Other",4,"Observers, Committee & Programme",5,blue stripe,0,0,Observer,Organisation,,Not required
-50,"Observer, UNEP",Observers,2,"Observers, Other",4,"Observers, UNEP & UN",6,green stripe,0,0,Observer,Organisation,,Not required
-60,"Observer, UN",Observers,2,"Observers, Other",4,"Observers, UNEP & UN",6,green stripe,0,0,Observer,Organisation,,Not required
-70,"Observer, Intergovernmental Organization",Observers,2,"Observers, Other",4,"Observers, Intergovernmental Organization",7,yellow stripe,0,0,Observer,Organisation,,Required
-80,"Observer, International NGO",Observers,2,"Observers, Other",4,"Observers, NGO",8,grey stripe,0,1,Observer,Organisation,Show,Required
-90,"Observer, National NGO",Observers,2,"Observers, Other",4,"Observers, NGO",8,grey stripe,0,1,Observer,Organisation,Show,Required
-98,Conference staff,Staff,3,NULL,0,NULL,0,golden stripe,0,0,Observer,Organisation,,Required
-99,CITES Secretariat,Staff,3,NULL,0,NULL,0,golden stripe,0,0,Observer,,,Required
+No,Description_E,Stat,Stat_sort,Reg,Reg_sort,Room,Room_sort,Badge_Colour,Credent,Fee,Details of registration,Representative,Registration Fee,Invitation received,Registered
+0,Special guest of the Secretary General,NULL,0,NULL,0,NULL,0,NULL,0,0,Observer,,,Not required,0
+1,Visitor,NULL,0,NULL,0,NULL,0,all pink,0,0,Observer,Description,,Not required,0
+10,Member,Members,1,Members,1,Members,1,blue stripe,0,0,Member,Region,,Not required,1
+20,Alternate member,Members,1,Alternate members,3,"Alternate members & Observers, Party",3,blue stripe,0,0,Alternate member,Country,,Not required,1
+30,"Observer, Party",Observers,2,"Observers, Party & Non-Party",3,"Alternate members & Observers, Party",3,blue stripe,0,0,"Observer, Party",Country,,Not required,1
+40,"Observer, Non-Party",Observers,2,"Observers, Party & Non-Party",3,"Observers, Non-Party",4,all white,0,0,Observer,Country,,Not required,1
+42,"Observer, Animals Committee",Observers,2,"Observers, Other",4,"Observers, Committee & Programme",5,blue stripe,0,0,Observer,Organisation,,Not required,1
+43,"Observer, Plants Committee",Observers,2,"Observers, Other",4,"Observers, Committee & Programme",5,blue stripe,0,0,Observer,Organisation,,Not required,1
+45,"Observer, Programmes",Observers,2,"Observers, Other",4,"Observers, Committee & Programme",5,blue stripe,0,0,Observer,Organisation,,Not required,1
+50,"Observer, UNEP",Observers,2,"Observers, Other",4,"Observers, UNEP & UN",6,green stripe,0,0,Observer,Organisation,,Not required,1
+60,"Observer, UN",Observers,2,"Observers, Other",4,"Observers, UNEP & UN",6,green stripe,0,0,Observer,Organisation,,Not required,1
+70,"Observer, Intergovernmental Organization",Observers,2,"Observers, Other",4,"Observers, Intergovernmental Organization",7,yellow stripe,0,0,Observer,Organisation,,Required,1
+80,"Observer, International NGO",Observers,2,"Observers, Other",4,"Observers, NGO",8,grey stripe,0,1,Observer,Organisation,Show,Required,1
+90,"Observer, National NGO",Observers,2,"Observers, Other",4,"Observers, NGO",8,grey stripe,0,1,Observer,Organisation,Show,Required,1
+98,Conference staff,Staff,3,NULL,0,NULL,0,golden stripe,0,0,Observer,Organisation,,Required,0
+99,CITES Secretariat,Staff,3,NULL,0,NULL,0,golden stripe,0,0,Observer,,,Required,0

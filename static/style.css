@@ -148,3 +148,31 @@ dl.phrases h3 {
 dl.phrases dd {
     margin: 0;
 }
+
+/* meeting_verified_short_list */
+.container {
+    position: relative;
+}
+
+.container .header h1,
+.container .header h4,
+.container .subheader {
+    text-align: center;
+}
+
+.container .subheader {
+    margin: 15px 250px;
+    background: #ccc;
+    padding: 0.5em;
+    border: 1px solid black;
+    box-shadow:4px 4px #000;
+}
+
+.container .subheader ul {
+    list-style-type: none;
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.container .content {
+}

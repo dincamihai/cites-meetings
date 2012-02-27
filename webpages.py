@@ -250,6 +250,32 @@ def meeting_printouts():
     return flask.render_template("meeting_printouts.html")
 
 
+@webpages.route("/meeting/1/printouts/verified/short_list")
+@auth_required
+def meeting_verified_short_list():
+    app = flask.current_app
+
+    registered = []
+    for person in database.get_session().get_all_persons():
+        if person["meeting_flags_verified"]:
+            category = schema.categories_map[person["personal_category"]]
+            if category['registered'] == '1':
+                registered.append(person)
+
+    meeting = {
+        "description": "Sixty-first meeting of the Standing Committee",
+        "address": "Geneva (Switzerland), 15-19 August 2011"
+        }
+
+    # create data for flatland schema
+    person_schema = schema.unflatten_with_defaults(schema.Person, person)
+
+    return flask.render_template("print_short_list_verified.html", **{
+        "registered": registered,
+        "meeting": meeting
+    })
+
+
 @webpages.route("/meeting/1/settings/phrases")
 @auth_required
 def meeting_settings_phrases():

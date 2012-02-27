@@ -49,6 +49,7 @@ languages = _load_json("refdata/languages.json")
 
 categories = _load_json("refdata/categories.json")
 categories = _switch_id_name_to_key_value(categories)
+categories_map = {c["id"] : c for c in _load_json("refdata/categories.json")}
 
 regions = _load_json("refdata/regions.json")
 regions = _switch_id_name_to_key_value(regions)
@@ -179,8 +180,7 @@ Person = fl.Dict.with_properties(widget="schema").of(
                .using(label=u"Date acknowledged",
                       optional=True) \
                .including_validators(Converted(incorrect=u"%(label)s is not "
-                                                          "a valid date")) \
-               .with_properties(widget="date"),
+                                                          "a valid date")),
 
         CommonBoolean.named("attended") \
                      .using(label=u"Attended"),
