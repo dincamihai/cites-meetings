@@ -187,7 +187,6 @@ def edit(person_id=None):
 @auth_required
 def get_us_states():
     us_states = schema._load_json("refdata/us.states.json")
-    print len(us_states)
     response = flask.json.dumps(us_states)
     return flask.Response(response=response, mimetype="application/json")
 
@@ -250,7 +249,10 @@ def meeting_printouts():
 @webpages.route("/meeting/1/settings/phrases")
 @auth_required
 def meeting_settings_phrases():
-    return flask.render_template("meeting_settings_phrases.html")
+    phrases = schema._load_json("refdata/phrases.json")
+    return flask.render_template("meeting_settings_phrases.html", **{
+        "phrases": phrases
+    })
 
 
 @webpages.route("/meeting/1/settings/fees")

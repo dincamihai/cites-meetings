@@ -2,6 +2,9 @@ body {
     padding-top: 60px;
 }
 
+a {
+    cursor: pointer;
+}
 
 /* DataTables with Twitter Boostrap v2
    http://datatables.net/blog/Twitter_Bootstrap_2
@@ -113,7 +116,23 @@ table.table thead .sorting_desc_disabled { background: url('lib/datatables/image
 
 .us_states_container .title {
     font-weight: bold;
-    cursor: pointer;
     float: left;
     width: 26px;
+}
+
+dl.phrases {
+    margin-top: -4px;
+    display: none;
+    magin: 0;
+}
+dl.phrases textarea {
+    width: 100%;
+    height: 250px;
+}
+dl.phrases h3 {
+    margin-bottom: 15px;
+}
+
+dl.phrases dd {
+    margin: 0;
 }
