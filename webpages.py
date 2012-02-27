@@ -101,7 +101,7 @@ def credentials(person_id):
     category = [c for c in categories
         if c["id"] == person["personal_category"]][0]
 
-    person._data.update({
+    person.update({
         "meeting_description": "Sixty-first meeting of the Standing Committee",
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
     })
