@@ -21,21 +21,18 @@
 <div class="btn-toolbar">
 
   <div class="btn-group">
-    <a class="btn btn-mini btn-info"
+    <a class="btn btn-primary"
         href="{{ url_for('webpages.edit', person_id=person.id) }}">Edit</a>
   </div>
 
   <div class="btn-group">
-    <a class="btn btn-mini btn-danger" data-toggle="modal" href="#delete-modal" id="person-delete">Delete</a>
+    <a class="btn btn-danger" data-toggle="modal" href="#delete-modal" id="person-delete">Delete</a>
   </div>
 
   <div class="btn-group">
-    <a class="btn btn-mini dropdown-toggle"
+    <a class="btn dropdown-toggle"
        data-toggle="dropdown">Actions <span class="caret"></span></a>
     <ul class="dropdown-menu">
-      <li><a href="{{ url_for('webpages.edit_photo', person_id=person.id)
-            -}}">Upload photo</a></li>
-      <li class="divider"></li>
       <li><a href="{{ url_for('webpages.credentials', person_id=person.id) }}">Acknowledge details</a></li>
       <li><a href="#"><del>Acknowledge email</del></a></li>
       <li class="divider"></li>
@@ -50,7 +47,35 @@
   </div>
 </div>
 
-{{ mk.widget(person_schema) }}
+<div class="row">
+
+  <div class="span6">
+
+    {{ mk.widget(person_schema) }}
+
+  </div>
+
+  <div class="span3">
+
+    <div class="thumbnail">
+
+      {% if has_photo %}
+        <img src="{{ url_for('webpages.photo', person_id=person.id) }}"><br>
+      {% endif %}
+
+      <div class="caption">
+        <p>
+          <a class="btn btn-primary"
+             href="{{ url_for('webpages.edit_photo', person_id=person.id)
+             -}}">Change photo</a>
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
 <div class="modal fade" id="delete-modal">
   <div class="modal-header">
