@@ -32,6 +32,22 @@ class PersonFormTest(unittest.TestCase):
         self.assertEqual(data['personal_first_name'], u"Joe")
         self.assertEqual(data['personal_last_name'], u"Smith")
 
+    def test_no_clobber(self):
+        import database
+        with self.app.test_request_context():
+            session = database.get_session()
+            session.save_person(database.Person(random_key="random value"))
+            session.commit()
+
+        resp = self.client.post('/edit/1', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+        }, follow_redirects=True)
+        self.assertIn("Person information saved", resp.data)
+
+        [data] = self._get_person_data()
+        self.assertEqual(data['random_key'], "random value")
+
     def test_error_no_save(self):
         resp = self.client.post('/new', data={
         }, follow_redirects=True)

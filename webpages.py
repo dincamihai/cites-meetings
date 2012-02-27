@@ -135,7 +135,6 @@ def edit(person_id=None):
         if person.validate():
             if person_row is None:
                 person_row = database.Person()
-            person_row.clear()
             person_row.update(person.flatten())
             session.save_person(person_row)
             session.commit()
