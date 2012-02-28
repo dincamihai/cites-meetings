@@ -32,8 +32,8 @@ class IsPhone(Validator):
             return self.note_error(element, state, 'fail')
         return True
 
-country = { item["id"]: item["name"]  for item in
-    _load_json("refdata/countries.json") }
+country = {item["id"]: item["name"]  for item in
+           _load_json("refdata/countries.json")}
 # sort by country name for select option
 # [("iso code", "country_name"),]
 sorted_country_codes = sorted(country.items(), key=itemgetter(1))
@@ -65,7 +65,8 @@ CommonEnum = fl.Enum.using(optional=True) \
 CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
 CommonDict = fl.Dict.with_properties(widget="group")
 
-Person = fl.Dict.with_properties(widget="schema").of(
+Person = fl.Dict.with_properties(widget="schema") \
+                .of(
 
     CommonDict.named("personal") \
               .using(label="") \
@@ -192,7 +193,8 @@ Person = fl.Dict.with_properties(widget="schema").of(
     ),
 )
 
-Mail = fl.Dict.with_properties(widget="mail").of(
+Mail = fl.Dict.with_properties(widget="mail") \
+              .of(
     CommonString.named("to") \
                 .using(label=u"To", optional=False) \
                 .including_validators(IsEmail()) \

@@ -108,8 +108,8 @@ def credentials(person_id):
 
     # get the person
     person = database.get_session().get_person_or_404(person_id)
-    category = { c["id"]: c for c in
-        schema._load_json("refdata/categories.json") }
+    category = {c["id"]: c for c in
+                schema._load_json("refdata/categories.json")}
 
     person.update({
         "meeting_description": "Sixty-first meeting of the Standing Committee",
@@ -315,16 +315,13 @@ def send_mail(person_id):
     session = database.get_session()
 
     person = session.get_person_or_404(person_id)
-    phrases = { item["id"]: item["name"]  for item in
-        schema._load_json("refdata/phrases.json") }
+    phrases = {item["id"]: item["name"]  for item in
+               schema._load_json("refdata/phrases.json")}
 
     if flask.request.method == "POST":
         mail = Mail(app)
-
         # populate schema with data from POST
-        form_data = dict(schema.Mail.from_defaults().flatten())
-        form_data.update(flask.request.form.to_dict())
-        mail_schema = schema.Mail.from_flat(form_data)
+        mail_schema = schema.Mail.from_flat(flask.request.form.to_dict())
 
         if mail_schema.validate():
             # flatten schema
@@ -338,7 +335,7 @@ def send_mail(person_id):
 
             # send email
             msg = Message(mail_data["subject"], sender="meeting@cites.edw.ro",
-                recipients=recipients, body=mail_data["message"])
+                          recipients=recipients, body=mail_data["message"])
             mail.send(msg)
 
             # flash a success message
@@ -346,14 +343,16 @@ def send_mail(person_id):
             if mail_data["cc"]:
                 success_msg += u" and to %s" % mail_data["cc"]
             flask.flash(success_msg, "success")
+
         else:
             flask.flash(u"Errors in mail information", "error")
+
     else:
         # create a schema with default data
         mail_schema = schema.Mail.from_flat({
             "to": "dragos.catarahia@gmail.com",
             "subject": phrases["EM_Subj"],
-            "message": phrases["Intro"]
+            "message": phrases["Intro"],
         })
 
     return flask.render_template("send_mail.html", **{
