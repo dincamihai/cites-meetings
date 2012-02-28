@@ -2,17 +2,14 @@
 
 {% block content %}
 
+{% from 'bits.html' import breadcrumb_items -%}
 <ul class="breadcrumb">
-  <li>
-    <a href="{{ url_for('webpages.meeting') }}">Meeting</a>
-    <span class="divider">/</span>
-  </li>
-  <li>
-    <a href="{{ url_for('webpages.meeting_printouts') }}">Printouts</a>
-    <span class="divider">/</span>
-  </li>
-  <li class="active">
-    <a href="{{ url_for('webpages.meeting_verified_short_list') }}">Print list of registered participants (verified)</a>
+  {{ breadcrumb_items([
+      (url_for('webpages.meeting'), "Meeting"),
+      (url_for('webpages.meeting_printouts'), "Printouts"),
+      (url_for('webpages.meeting_verified_short_list'),
+          "Print list of registered participants (verified)"),
+      ]) }}
   </li>
 </ul>
 
