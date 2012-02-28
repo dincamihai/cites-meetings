@@ -12,3 +12,14 @@
     <p class="alert {{ category_cls }}">{{ message }}</p>
   {% endfor %}
 {%- endmacro %}
+
+{% macro breadcrumb_items(crumb_list) -%}
+  {% for crumb in crumb_list %}
+  <li class="{{ "active" if loop.last else "" }}">
+    <a href="{{ crumb[0] }}">{{ crumb[1] }}</a>
+    {% if not loop.last -%}
+      <span class="divider">/</span>
+    {%- endif %}
+  </li>
+  {% endfor %}
+{%- endmacro %}

@@ -162,8 +162,10 @@ def edit(person_id=None):
 
     if person_id is None:
         person_row = None
+        template = "person_create.html"
     else:
         person_row = session.get_person_or_404(person_id)
+        template = "person_edit.html"
 
     if flask.request.method == "POST":
         form_data = dict(schema.Person.from_defaults().flatten())
@@ -189,9 +191,10 @@ def edit(person_id=None):
         else:
             person = schema.Person.from_flat(person_row)
 
-    return flask.render_template("edit.html", **{
+    return flask.render_template(template, **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_edit.html")),
         "person": person,
+        "person_row": person_row,
     })
 
 
