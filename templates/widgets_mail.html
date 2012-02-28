@@ -11,8 +11,6 @@
 
 {% macro mail(mk, schema) %}
     <fieldset>
-      <legend>Send email to {{ schema.to.value }}</legend>
-
       {%- for name in mk.children_order(schema) %}
         {% set field = schema[name] %}
         {% set error_cls = 'error' if field.errors else '' %}

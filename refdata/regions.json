@@ -1,1 +1,42 @@
-[{"id": "0", "name": "None"}, {"id": "1", "name": "Africa"}, {"id": "2", "name": "Asia"}, {"id": "3", "name": "Central and South America and the Caribbean"}, {"id": "4", "name": "Europe"}, {"id": "5", "name": "North America"}, {"id": "6", "name": "Oceania"}, {"id": "7", "name": "Depositary Government"}, {"id": "8", "name": "Previous host country"}, {"id": "9", "name": "Next host country"}, {"id": "10", "name": "Nomenclature specialist"}]
+[
+  {
+    "id": "1",
+    "name": "Africa / \u00c1frica / Afrique"
+  },
+  {
+    "id": "2",
+    "name": "Asia / Asie"
+  },
+  {
+    "id": "3",
+    "name": "Central and South America and the Caribbean / Am\u00e9rica Central, del Sur y el Caribe / Am\u00e9rique centrale et du Sud et Cara\u00efbes"
+  },
+  {
+    "id": "4",
+    "name": "Europe / Europa"
+  },
+  {
+    "id": "5",
+    "name": "North America / Am\u00e9rica del Norte / Am\u00e9rique du Nord"
+  },
+  {
+    "id": "6",
+    "name": "Oceania / Ocean\u00eda / Oc\u00e9anie"
+  },
+  {
+    "id": "7",
+    "name": "Depositary Government / Gobierno Depositario / Gouvernement d\u00e9positaire"
+  },
+  {
+    "id": "8",
+    "name": "Previous host country / Pa\u00eds Anfitri\u00f3n Anterior / Pays h\u00f4te pr\u00e9c\u00e9dent"
+  },
+  {
+    "id": "9",
+    "name": "Next host country / Pr\u00f3ximo Pa\u00eds Anfitri\u00f3n / Pays h\u00f4te suivant"
+  },
+  {
+    "id": "10",
+    "name": "Nomenclature specialist / Especialista en nomenclatura / Sp\u00e9cialiste de la nomenclature"
+  }
+]

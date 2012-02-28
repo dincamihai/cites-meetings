@@ -37,8 +37,9 @@
 
 {% endblock %}
 
-
 {% block scripts %}
+  {{ super() }}
+
   <script>
   $(function () {
     $("ul.phrases").on("click", ".phrase", function () {

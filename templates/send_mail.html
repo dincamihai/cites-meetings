@@ -22,13 +22,17 @@
 {% endblock %}
 
 {% block content %}
+<div class="alert alert-info">
+  <strong>Heads up!</strong> For this demo, we don't send any emails to the participants.
+</div>
+
+<h2>Send email to {{ mail_schema.to.value }}</h2>
+
 <form action="{{ url_for('webpages.send_mail', person_id=person.id) }}"
       method="POST"
-      class="send-mail-container">
+      class="send-mail-container well">
 
-  <div class="alert alert-info">
-    <strong>Heads up!</strong> For this demo, we don't send any emails to the participants.
-  </div>
+
 
   {{ mk.widget(mail_schema) }}
 
