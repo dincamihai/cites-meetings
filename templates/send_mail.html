@@ -33,24 +33,21 @@
       ]) }}
 </ul>
 
-
-<div class="alert alert-info">
-  <strong>Heads up!</strong> For this demo, we don't send any emails to the participants.
-</div>
-
 <h2>Send email to {{ mail_schema.to.value }}</h2>
 
 <form action="{{ url_for('webpages.send_mail', person_id=person.id) }}"
       method="POST"
       class="send-mail-container well">
 
-
+  <div class="alert alert-info">
+    <strong>Heads up!</strong> For this demo, we don't send any emails to the participants.
+  </div>
 
   {{ mk.widget(mail_schema) }}
 
   <div class="form-actions">
     <button class="btn btn-primary " type="submit">Send email</button>
-    <button class="btn" type="button">Cancel</button>
+    <a href="{{ url_for('webpages.view', person_id=person.id) }}"   class="btn" type="button">Cancel</a>
   </div>
 </form>
 {% endblock %}
