@@ -119,7 +119,8 @@ def credentials(person_id):
     return flask.render_template("credentials.html", **{
         "person": person,
         "person_schema": person_schema,
-        "category": category
+        "category": category,
+        "has_photo": bool(person.get("photo_id", "")),
     })
 
 @webpages.route("/meeting/1/participant/<int:person_id>/badge/normal")
