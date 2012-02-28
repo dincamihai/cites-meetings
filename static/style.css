@@ -1,5 +1,17 @@
 body {
     padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+footer {
+    margin-top: 45px;
+    padding: 35px 0 36px;
+    border-top: 1px solid #E5E5E5;
+}
+
+footer p {
+    margin-bottom: 0;
+    color: #555;
 }
 
 a {
@@ -65,44 +77,6 @@ table.table thead .sorting_desc_disabled { background: url('lib/datatables/image
     line-height: 24px;
 }
 
-.blue-badge .header {
-    position: relative;
-    background-color: #0080FF;
-    height: 1.7cm;
-}
-
-.blue-badge .header .cites-logo {
-    position: absolute;
-    width: 1.5cm;
-    height: 0.9cm;
-    top: 0.3cm;
-    left: 0.2cm;
-}
-
-.blue-badge .header .unep-logo {
-    position: absolute;
-    width: 0.82cm;
-    height: 0.9cm;
-    top: 0.3cm;
-    right: 0.2cm;
-}
-
-.blue-badge .header h1 {
-    position: absolute;
-    font-size: 0.4cm;
-    top: 0.3cm;
-    left: 2cm;
-    right: 1.5cm;
-    text-align: center;
-    line-height: 1;
-    color: white;
-    font-family: Arial Narrow;
-}
-
-.blue-badge .content {
-    background-color: #FFF;
-}
-
 .us_states_container {
     list-style-type: none;
     font-size: 10px;
@@ -135,4 +109,32 @@ dl.phrases h3 {
 
 dl.phrases dd {
     margin: 0;
+}
+
+/* meeting_verified_short_list */
+.container {
+    position: relative;
+}
+
+.container .header h1,
+.container .header h4,
+.container .subheader {
+    text-align: center;
+}
+
+.container .subheader {
+    margin: 15px 250px;
+    background: #ccc;
+    padding: 0.5em;
+    border: 1px solid black;
+    box-shadow:4px 4px #000;
+}
+
+.container .subheader ul {
+    list-style-type: none;
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.container .content {
 }

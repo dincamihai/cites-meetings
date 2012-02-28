@@ -1,0 +1,104 @@
+.badge {
+    position: relative;
+    width: 9cm;
+    height: 5.23cm;
+}
+
+.badge.badge-debug {
+    outline: 1px solid #555;
+}
+
+.badge-stripe {
+    height: 1.7cm;
+}
+
+.badge-blue-stripe .badge-stripe {
+    background-color: #0080FF;
+}
+
+.badge-green-stripe .badge-stripe {
+    background-color: #00BB22;
+}
+
+.badge-yellow-stripe .badge-stripe {
+    background-color: #FEF200;
+}
+
+.badge-grey-stripe .badge-stripe {
+    background-color: #808080;
+}
+
+.badge-content {
+    position: absolute;
+    top: 1.7cm;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #FFF;
+}
+
+.badge-stripe .cites-logo {
+    position: absolute;
+    width: 1.5cm;
+    height: 0.9cm;
+    top: 0.3cm;
+    left: 0.2cm;
+}
+
+.badge-stripe .unep-logo {
+    position: absolute;
+    width: 0.82cm;
+    height: 0.9cm;
+    top: 0.3cm;
+    right: 0.2cm;
+}
+
+.badge-stripe h1,
+.badge-stripe h2 {
+    position: absolute;
+    left: 2cm;
+    right: 1.5cm;
+    text-align: center;
+    line-height: 1;
+    color: white;
+    font-family: Arial Narrow;
+}
+
+.badge-stripe h1 {
+    font-size: 0.30cm;
+    top: 0.5cm;
+}
+
+.badge-stripe h2 {
+    font-size: 0.3cm;
+    top: 0.9cm;
+    font-weight: normal;
+}
+
+
+.badge-content .photo {
+    position: absolute;
+    left: 0.25cm;
+    top: 0.25cm;
+    max-width: 3cm;
+    max-height: 3cm;
+}
+
+.badge-debug .badge-content .photo {
+    outline: 1px solid #555;
+}
+
+.badge-text {
+    position: absolute;
+    top: 1cm;
+    left: 3.5cm;
+    right: 0.5cm;
+}
+
+.badge-text .person-name {
+    font-size: 0.5cm;
+}
+
+.badge-text .person-representing {
+    font-size: 0.4cm;
+}

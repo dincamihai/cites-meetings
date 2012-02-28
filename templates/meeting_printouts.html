@@ -1,5 +1,8 @@
 {% extends 'meeting.html' %}
-{% block tab_content %}
+{% block meeting_content %}
+
+{% from 'meeting.html' import nav_tabs %}
+{{ nav_tabs('printouts') }}
 
 <h2>Meeting room</h2>
 <div class="row">
@@ -7,7 +10,7 @@
     <tbody>
       <tr>
         <th>Short list (by category)</th>
-        <td class="span2"><a class="btn" href="#">verified</a></td>
+        <td class="span2"><a class="btn" href="{{ url_for('webpages.meeting_verified_short_list') }}">verified</a></td>
         <td class="span2"><a class="btn disabled" href="#">attending</a></td>
       </tr>
       <tr>
@@ -110,4 +113,4 @@
 
 
 
-{% endblock tab_content %}
+{% endblock %}

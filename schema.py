@@ -49,6 +49,7 @@ languages = _load_json("refdata/languages.json")
 
 categories = _load_json("refdata/categories.json")
 categories = _switch_id_name_to_key_value(categories)
+categories_map = {c["id"] : c for c in _load_json("refdata/categories.json")}
 
 regions = _load_json("refdata/regions.json")
 regions = _switch_id_name_to_key_value(regions)

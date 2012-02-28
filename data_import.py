@@ -56,7 +56,8 @@ KEYS = {
                    "details_of_registration",
                    "representative",
                    "registration_fee",
-                   "invitation_received"),
+                   "invitation_received",
+                   "registered"),
 
     "regions": ("id",
                 "name"),

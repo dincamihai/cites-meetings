@@ -15,7 +15,9 @@ webpages = flask.Blueprint("webpages", __name__)
 def auth_required(view):
     @wraps(view)
     def wrapper(*args, **kwargs):
-        if flask.session.get("logged_in_email", None) is None:
+        if 'ACCOUNTS' not in flask.current_app.config:
+            pass
+        elif flask.session.get("logged_in_email", None) is None:
             login_url = flask.url_for("webpages.login", next=flask.request.url)
             return flask.redirect(login_url)
         return view(*args, **kwargs)
@@ -24,8 +26,13 @@ def auth_required(view):
 
 
 def initialize_app(app):
+    _my_extensions = app.jinja_options['extensions'] + ['jinja2.ext.do']
+    app.jinja_options = dict(app.jinja_options, extensions=_my_extensions)
+    app.jinja_env.globals['ref'] = {
+        'country': schema.countries,
+    }
+
     app.register_blueprint(webpages)
-    app.config.setdefault("ACCOUNTS", [])
 
 
 @webpages.route("/login", methods=["GET", "POST"])
@@ -36,7 +43,7 @@ def login():
 
     if flask.request.method == "POST":
         app = flask.current_app
-        for email, password in app.config["ACCOUNTS"]:
+        for email, password in app.config.get("ACCOUNTS", []):
             if login_email == email and login_password == password:
                 log.info("Authentication by %r", login_email)
                 flask.session["logged_in_email"] = login_email
@@ -78,7 +85,8 @@ def view(person_id):
     return flask.render_template("view.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
         "person": person,
-        "person_schema": person_schema
+        "person_schema": person_schema,
+        "has_photo": bool(person.get("photo_id", "")),
     })
 
 @webpages.route("/delete/<int:person_id>", methods=["DELETE"])
@@ -202,14 +210,17 @@ def edit_photo(person_id):
 
     if flask.request.method == "POST":
         photo_file = flask.request.files["photo"]
-        db_file = session.get_db_file()
-        db_file.save_from(photo_file)
-        person_row["photo_id"] = str(db_file.id)
-        session.save_person(person_row)
-        session.commit()
-        flask.flash("New photo saved", "success")
-        url = flask.url_for("webpages.edit_photo", person_id=person_id)
-        return flask.redirect(url)
+        if photo_file.filename != u'':
+            db_file = session.get_db_file()
+            db_file.save_from(photo_file)
+            person_row["photo_id"] = str(db_file.id)
+            session.save_person(person_row)
+            session.commit()
+            flask.flash("New photo saved", "success")
+            url = flask.url_for("webpages.view", person_id=person_id)
+            return flask.redirect(url)
+        else:
+            flask.flash("Please select a photo", "error")
 
     return flask.render_template("photo.html", **{
         "person": person_row,
@@ -246,6 +257,32 @@ def meeting_registration():
 @auth_required
 def meeting_printouts():
     return flask.render_template("meeting_printouts.html")
+
+
+@webpages.route("/meeting/1/printouts/verified/short_list")
+@auth_required
+def meeting_verified_short_list():
+    app = flask.current_app
+
+    registered = []
+    for person in database.get_session().get_all_persons():
+        if person["meeting_flags_verified"]:
+            category = schema.categories_map[person["personal_category"]]
+            if category['registered'] == '1':
+                registered.append(person)
+
+    meeting = {
+        "description": "Sixty-first meeting of the Standing Committee",
+        "address": "Geneva (Switzerland), 15-19 August 2011"
+        }
+
+    # create data for flatland schema
+    person_schema = schema.unflatten_with_defaults(schema.Person, person)
+
+    return flask.render_template("print_short_list_verified.html", **{
+        "registered": registered,
+        "meeting": meeting
+    })
 
 
 @webpages.route("/meeting/1/settings/phrases")
