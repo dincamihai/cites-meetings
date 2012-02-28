@@ -136,5 +136,15 @@ dl.phrases dd {
     margin: 0;
 }
 
-.container .content {
+.container .content .actions{
+    float: right;
+    margin-bottom: 1em;
 }
+
+.container .content .category{
+    background: #F9F9F9;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
