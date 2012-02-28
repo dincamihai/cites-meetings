@@ -1,0 +1,32 @@
+{% macro input(mk, field) %}
+  {{ mk.input(field, id="field-%s" % field.name,
+              class=field.properties.css_class) }}
+{% endmacro %}
+
+{% macro textarea(mk, field) %}
+  {{ mk.textarea(field, id="field-%s" % field.name,
+                 class=field.properties.css_class)
+  }}
+{% endmacro %}
+
+{% macro mail(mk, schema) %}
+    <fieldset>
+      <legend>Send email to {{ schema.to.value }}</legend>
+
+      {%- for name in mk.children_order(schema) %}
+        {% set field = schema[name] %}
+        {% set error_cls = 'error' if field.errors else '' %}
+
+
+        <div class="control-group {{ error_cls }}">
+          <label class="control-label">{{ field.label }}</label>
+          <div class="controls">
+            {{ mk.widget(field) }}
+            {% for message in field.errors %}
+              <span class="help-inline">{{ message }}</span>
+            {% endfor %}
+          </div>
+        </div>
+    {% endfor -%}
+    </fieldset>
+{% endmacro %}

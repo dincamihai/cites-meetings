@@ -136,5 +136,28 @@ dl.phrases dd {
     margin: 0;
 }
 
-.container .content {
+.send-mail-container .add-container   {
+    font-size: 11px;
+    height: 15px;
+}
+.send-mail-container input,
+.send-mail-container textarea  {
+    width: 100%;
+}
+.send-mail-container textarea {
+    height: 300px;
+}
+
+.send-mail-container .add-container a {
+    margin-right: 10px;
+}
+.send-mail-container label {
+    font-weight: bold;
+}
+.send-mail-container .control-group {
+    margin: 0;
+    margin-bottom: 15px;
+}
+.send-mail-container .help-inline {
+    padding: 0;
 }
