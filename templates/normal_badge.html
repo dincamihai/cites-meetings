@@ -62,6 +62,15 @@
 
 {% block content %}
 
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('webpages.meeting'), "Meeting"),
+      (url_for('webpages.meeting_registration'), "Registration"),
+      (url_for('webpages.view', person_id=person.id), person.name),
+      ]) }}
+</ul>
+
 <div class="actions">
   <a class="btn btn-success btn-inverse disabled" href="#">
     <i class="icon-print icon-white"></i>

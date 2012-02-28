@@ -2,23 +2,14 @@
 
 {% block content %}
 
+{% from 'bits.html' import breadcrumb_items -%}
 <ul class="breadcrumb">
-  <li>
-    <a href="{{ url_for('webpages.meeting') }}">Meeting</a>
-    <span class="divider">/</span>
-  </li>
-  <li>
-    <a href="{{ url_for('webpages.meeting_registration') }}">Registration</a>
-    <span class="divider">/</span>
-  </li>
-  <li>
-    <a href="{{ url_for('webpages.view', person_id=person.id)
-        -}}">{{ person.name }}</a>
-    <span class="divider">/</span>
-  </li>
-  <li class="active">
-    <a href="{{ url_for('webpages.edit_photo', person_id=person.id)
-        -}}">Participant picture</a>
+  {{ breadcrumb_items([
+      (url_for('webpages.meeting'), "Meeting"),
+      (url_for('webpages.meeting_registration'), "Registration"),
+      (url_for('webpages.view', person_id=person.id), person.name),
+      (url_for('webpages.edit_photo', person_id=person.id), "Participant picture"),
+      ]) }}
   </li>
 </ul>
 
