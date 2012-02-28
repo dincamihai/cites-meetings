@@ -18,31 +18,42 @@
   </li>
   <li class="active">
     <a href="{{ url_for('webpages.edit_photo', person_id=person.id)
-        -}}">photo</a>
+        -}}">Participant picture</a>
   </li>
 </ul>
 
 
-<form method="post" enctype="multipart/form-data"
-      class="form-horizontal span6">
+<h2>Upload picture for <em>{{ person.name }}</em></h2>
 
-  <fieldset>
-    <legend>Upload new photo</legend>
+{% if has_photo %}
+<div class="row">
+  <div class="span6">
+    <div class="thumbnail">
+        <img src="{{ url_for('webpages.photo', person_id=person.id) }}"><br>
 
-    <div class="control-group">
-      <label class="control-label">Photo</label>
-      <div class="controls">
-        <input type="file" name="photo">
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="row">
+  <form method="post" enctype="multipart/form-data"
+        class="form-horizontal span6">
+
+      <div class="control-group">
+        <label class="control-label">Photo</label>
+        <div class="controls">
+          <input type="file" name="photo">
+        </div>
       </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Upload</button>
+      <a class="btn" href="{{ url_for('webpages.view', person_id=person.id)
+          -}}">Cancel</a>
     </div>
 
-   </fieldset>
-
-  <div class="form-actions">
-    <button type="submit" class="btn btn-primary">Save changes</button>
-    <a class="btn" href="{{ url_for('webpages.home') }}">Cancel</a>
-  </div>
-
-</form>
+  </form>
+</div>
 
 {% endblock %}

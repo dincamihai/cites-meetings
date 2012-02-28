@@ -12,7 +12,8 @@
     <span class="divider">/</span>
   </li>
   <li class="active">
-    <a href="#">{{ person.name }}</a>
+    <a href="{{ url_for('webpages.view', person_id=person.id)
+        -}}">{{ person.name }}</a>
   </li>
 </ul>
 
@@ -34,7 +35,8 @@
        data-toggle="dropdown">Actions <span class="caret"></span></a>
     <ul class="dropdown-menu">
       <li><a href="{{ url_for('webpages.credentials', person_id=person.id) }}">Acknowledge details</a></li>
-      <li><a href="#"><del>Acknowledge email</del></a></li>
+      <li><a href="{{ url_for('webpages.send_mail', person_id=person.id) }}">
+        Acknowledge email</a></li>
       <li class="divider"></li>
       <li><a href="{{ url_for('webpages.normal_badge', person_id=person.id) }}">Print badge (normal)</a></li>
       <li><a href="#"><del>Print badge (no stripe)</del></a></li>
@@ -67,7 +69,7 @@
         <p>
           <a class="btn btn-primary"
              href="{{ url_for('webpages.edit_photo', person_id=person.id)
-             -}}">Change photo</a>
+             -}}">{% if has_photo -%} Change {%- else -%} Upload {%- endif %} photo</a>
         </p>
       </div>
 

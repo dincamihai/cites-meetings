@@ -376,3 +376,56 @@ dl.phrases dd {
     margin: 0;
 }
 
+
+/* meeting_verified_short_list */
+.container {
+    position: relative;
+}
+
+.container .header h1,
+.container .header h4,
+.container .subheader {
+    text-align: center;
+}
+
+.container .subheader {
+    margin: 15px 250px;
+    background: #ccc;
+    padding: 0.5em;
+    border: 1px solid black;
+    box-shadow:4px 4px #000;
+}
+
+.container .subheader ul {
+    list-style-type: none;
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.send-mail-container .add-container   {
+    font-size: 11px;
+    height: 15px;
+}
+.send-mail-container input,
+.send-mail-container textarea  {
+    width: 100%;
+}
+.send-mail-container textarea {
+    height: 300px;
+}
+
+.send-mail-container .add-container a {
+    margin-right: 10px;
+}
+.send-mail-container label {
+    font-weight: bold;
+}
+.send-mail-container .control-group {
+    margin: 0;
+    margin-bottom: 15px;
+}
+.send-mail-container .help-inline {
+    padding: 0;
+}
+
+

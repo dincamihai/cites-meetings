@@ -5,6 +5,9 @@ import flatland.out.markup
 import schema
 import database
 
+from flask.views import MethodView
+from flaskext.mail import Mail, Message
+
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
@@ -26,6 +29,9 @@ def auth_required(view):
 def initialize_app(app):
     _my_extensions = app.jinja_options['extensions'] + ['jinja2.ext.do']
     app.jinja_options = dict(app.jinja_options, extensions=_my_extensions)
+    app.jinja_env.globals['ref'] = {
+        'country': schema.country,
+    }
 
     app.register_blueprint(webpages)
 
@@ -102,9 +108,8 @@ def credentials(person_id):
 
     # get the person
     person = database.get_session().get_person_or_404(person_id)
-    categories = schema._load_json("refdata/categories.json")
-    category = [c for c in categories
-        if c["id"] == person["personal_category"]][0]
+    category = {c["id"]: c for c in
+                schema._load_json("refdata/categories.json")}
 
     person.update({
         "meeting_description": "Sixty-first meeting of the Standing Committee",
@@ -116,7 +121,8 @@ def credentials(person_id):
     return flask.render_template("credentials.html", **{
         "person": person,
         "person_schema": person_schema,
-        "category": category
+        "category": category,
+        "has_photo": bool(person.get("photo_id", "")),
     })
 
 @webpages.route("/meeting/1/participant/<int:person_id>/badge/normal")
@@ -205,17 +211,21 @@ def edit_photo(person_id):
 
     if flask.request.method == "POST":
         photo_file = flask.request.files["photo"]
-        db_file = session.get_db_file()
-        db_file.save_from(photo_file)
-        person_row["photo_id"] = str(db_file.id)
-        session.save_person(person_row)
-        session.commit()
-        flask.flash("New photo saved", "success")
-        url = flask.url_for("webpages.view", person_id=person_id)
-        return flask.redirect(url)
+        if photo_file.filename != u'':
+            db_file = session.get_db_file()
+            db_file.save_from(photo_file)
+            person_row["photo_id"] = str(db_file.id)
+            session.save_person(person_row)
+            session.commit()
+            flask.flash("New photo saved", "success")
+            url = flask.url_for("webpages.view", person_id=person_id)
+            return flask.redirect(url)
+        else:
+            flask.flash("Please select a photo", "error")
 
     return flask.render_template("photo.html", **{
         "person": person_row,
+        "has_photo": bool(person_row.get("photo_id", "")),
     })
 
 
@@ -250,6 +260,32 @@ def meeting_printouts():
     return flask.render_template("meeting_printouts.html")
 
 
+@webpages.route("/meeting/1/printouts/verified/short_list")
+@auth_required
+def meeting_verified_short_list():
+    app = flask.current_app
+
+    registered = []
+    for person in database.get_session().get_all_persons():
+        if person["meeting_flags_verified"]:
+            category = schema.categories_map[person["personal_category"]]
+            if category['registered'] == '1':
+                registered.append(person)
+
+    meeting = {
+        "description": "Sixty-first meeting of the Standing Committee",
+        "address": "Geneva (Switzerland), 15-19 August 2011"
+        }
+
+    # create data for flatland schema
+    person_schema = schema.unflatten_with_defaults(schema.Person, person)
+
+    return flask.render_template("print_short_list_verified.html", **{
+        "registered": registered,
+        "meeting": meeting
+    })
+
+
 @webpages.route("/meeting/1/settings/phrases")
 @auth_required
 def meeting_settings_phrases():
@@ -263,16 +299,68 @@ def meeting_settings_phrases():
 @auth_required
 def meeting_settings_fees():
     return flask.render_template("meeting_settings_fees.html", **{
-        "fees": schema.fees,
+        "fees": schema.fee,
     })
 
 @webpages.route("/meeting/1/settings/categories")
 @auth_required
 def meeting_settings_categories():
     return flask.render_template("meeting_settings_categories.html", **{
-        "categories": schema.categories,
+        "categories": schema.category,
     })
 
+@webpages.route("/email/<int:person_id>",  methods=["GET", "POST"])
+@auth_required
+def send_mail(person_id):
+    app = flask.current_app
+    session = database.get_session()
+
+    person = session.get_person_or_404(person_id)
+    phrases = {item["id"]: item["name"]  for item in
+               schema._load_json("refdata/phrases.json")}
+
+    if flask.request.method == "POST":
+        mail = Mail(app)
+        # populate schema with data from POST
+        mail_schema = schema.Mail.from_flat(flask.request.form.to_dict())
+
+        if mail_schema.validate():
+            # flatten schema
+            mail_data = {}
+            mail_data.update(mail_schema.flatten())
+
+            # construct recipients from "to" and "cc"
+            recipients = [mail_data["to"]]
+            if mail_data["cc"]:
+                recipients.append(mail_data["cc"])
+
+            # send email
+            msg = Message(mail_data["subject"], sender="meeting@cites.edw.ro",
+                          recipients=recipients, body=mail_data["message"])
+            mail.send(msg)
+
+            # flash a success message
+            success_msg = u"Mail sent to %s" % mail_data["to"]
+            if mail_data["cc"]:
+                success_msg += u" and to %s" % mail_data["cc"]
+            flask.flash(success_msg, "success")
+
+        else:
+            flask.flash(u"Errors in mail information", "error")
+
+    else:
+        # create a schema with default data
+        mail_schema = schema.Mail.from_flat({
+            "to": "cornel@eaudeweb.ro",
+            "subject": phrases["EM_Subj"],
+            "message": phrases["Intro"],
+        })
+
+    return flask.render_template("send_mail.html", **{
+        "mk": MarkupGenerator(app.jinja_env.get_template("widgets_mail.html")),
+        "person": person,
+        "mail_schema": mail_schema,
+    })
 
 class MarkupGenerator(flatland.out.markup.Generator):
 

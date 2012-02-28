@@ -56,7 +56,8 @@ KEYS = {
                    "details_of_registration",
                    "representative",
                    "registration_fee",
-                   "invitation_received"),
+                   "invitation_received",
+                   "registered"),
 
     "regions": ("id",
                 "name"),
@@ -81,7 +82,7 @@ def to_json(file, what="person"):
                 i["personal_email"] = re.sub(r"\s*@\s*", "@",
                                              i["personal_email"])
 
-        print json.dumps(out)
+        print json.dumps(out, indent=2)
 
 def data_import(file):
     logging.basicConfig()
