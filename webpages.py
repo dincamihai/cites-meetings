@@ -351,7 +351,7 @@ def send_mail(person_id):
     else:
         # create a schema with default data
         mail_schema = schema.Mail.from_flat({
-            "to": "dragos.catarahia@gmail.com",
+            "to": "cornel@eaudeweb.ro",
             "subject": phrases["EM_Subj"],
             "message": phrases["Intro"],
         })
