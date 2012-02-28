@@ -73,6 +73,20 @@
 {% endblock %}
 
 {% block content %}
+
+{% block heading %}
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('webpages.meeting'), "Meeting"),
+      (url_for('webpages.meeting_registration'), "Registration"),
+      (url_for('webpages.view', person_id=person_row.id), person_row.name),
+      ]) }}
+</ul>
+
+<h1>{{ person_row.name }} &ndash; edit</h1>
+{% endblock %}
+
 <form class="form-horizontal" method="post">
   {{ mk.widget(person) }}
   <div class="form-actions">
