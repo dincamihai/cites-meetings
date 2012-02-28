@@ -22,6 +22,18 @@
 {% endblock %}
 
 {% block content %}
+
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('webpages.meeting'), "Meeting"),
+      (url_for('webpages.meeting_registration'), "Registration"),
+      (url_for('webpages.view', person_id=person.id), person.name),
+      (url_for('webpages.send_mail', person_id=person.id), "Acknowledge email"),
+      ]) }}
+</ul>
+
+
 <div class="alert alert-info">
   <strong>Heads up!</strong> For this demo, we don't send any emails to the participants.
 </div>
