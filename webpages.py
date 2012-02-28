@@ -32,7 +32,7 @@ def initialize_app(app):
     app.jinja_env.globals['ref'] = {
         'country': schema.country,
         'region': schema.region,
-        'category': schema.category,
+        'category': schema.category_labels,
         'fee': schema.fee,
     }
 
