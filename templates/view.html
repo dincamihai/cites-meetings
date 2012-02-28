@@ -67,7 +67,7 @@
         <p>
           <a class="btn btn-primary"
              href="{{ url_for('webpages.edit_photo', person_id=person.id)
-             -}}">Change photo</a>
+             -}}">{% if has_photo -%} Change {%- else -%} Upload {%- endif %} photo</a>
         </p>
       </div>
 
