@@ -21,26 +21,16 @@
 {%- endmacro %}
 
 
+{% macro nav_tabs(active) -%}
 <div class="tabbable">
 <ul class="nav nav-tabs">
 
-  <li class="active">
-    <a href="{{ url('meeting_registration') }}" data-toggle="tab">Registration</a>
-  </li>
-
-  <li>
-    <a href="{{ url('meeting_printouts') }}" data-toggle="tab">Printouts</a>
-
-
-{% macro nav_tabs(active) -%}
-<ul class="nav nav-tabs">
-
   <li class="{{ 'active' if active == 'registration' else '' }}">
-    <a href="{{ _url('meeting_registration') }}">Registration</a>
+    <a href="{{ _url('meeting_registration') }}" data-toggle="tab">Registration</a>
   </li>
 
   <li class="{{ 'active' if active == 'printouts' else '' }}">
-    <a href="{{ _url('meeting_printouts') }}">Printouts</a>
+    <a href="{{ _url('meeting_printouts') }}" data-toggle="tab">Printouts</a>
   </li>
 
   <li class="dropdown {{ 'active' if active == 'settings' else '' }}">
@@ -69,19 +59,7 @@
   </li>
 
 </ul>
-
-
-
-{% block tab_content %}
-{% endblock %}
-
-{% endblock %}
-
-{% block scripts %}
-  {% from 'bits.html' import script_src -%}
-  {{ script_src('lib/bootstrap/js/bootstrap-dropdown.js') }}
-{% endblock %}
-
-{%- endmacro %}
 </div>
+{%- endmacro %}
+
 
