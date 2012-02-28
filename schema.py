@@ -201,25 +201,25 @@ Mail = fl.Dict.with_properties(widget="mail").of(
     CommonString.named("to") \
                 .using(label=u"To", optional="False") \
                 .including_validators(IsEmail()) \
-                .with_properties(widget="input"),
+                .with_properties(widget="input", css_class="input-xlarge"),
 
     CommonString.named("cc") \
                 .using(label=u"Cc") \
                 .including_validators(IsEmail())
-                .with_properties(widget="input"),
+                .with_properties(widget="input", css_class="input-xlarge"),
 
     CommonString.named("bcc") \
                 .using(label=u"Bcc") \
                 .including_validators(IsEmail())
-                .with_properties(widget="input"),
+                .with_properties(widget="input", css_class="input-xlarge"),
 
     CommonString.named("subject") \
                 .using(label=u"Subject") \
-                .with_properties(widget="input"),
+                .with_properties(widget="input", css_class="input-xlarge"),
 
     CommonString.named("message") \
                 .using(label=u"Message", optional=False) \
-                .with_properties(widget="textarea")
+                .with_properties(widget="textarea", css_class="input-xlarge")
 
 )
 
