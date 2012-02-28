@@ -132,10 +132,7 @@ dl.phrases dd {
     font-size: 0.8em;
     margin: 0;
 }
-.container .content .actions{
-    float: right;
-    margin-bottom: 1em;
-}
+
 .container .content .category{
     background: #F9F9F9;
     text-align: center;
@@ -167,3 +164,7 @@ dl.phrases dd {
     padding: 0;
 }
 
+.actions{
+    float: right;
+    margin-bottom: 1em;
+}
