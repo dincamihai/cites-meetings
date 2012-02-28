@@ -31,6 +31,9 @@ def initialize_app(app):
     app.jinja_options = dict(app.jinja_options, extensions=_my_extensions)
     app.jinja_env.globals['ref'] = {
         'country': schema.country,
+        'region': schema.region,
+        'category': schema.category_labels,
+        'fee': schema.fee,
     }
 
     app.register_blueprint(webpages)
@@ -263,12 +266,15 @@ def meeting_printouts():
 def meeting_verified_short_list():
     app = flask.current_app
 
-    registered = []
+    registered = {}
+    for category in schema.category.keys():
+        registered[category] = []
+
     for person in database.get_session().get_all_persons():
         if person["meeting_flags_verified"]:
-            category = schema.categories_map[person["personal_category"]]
+            category = schema.category[person["personal_category"]]
             if category['registered'] == '1':
-                registered.append(person)
+                registered[person['personal_category']].append(person)
 
     meeting = {
         "description": "Sixty-first meeting of the Standing Committee",

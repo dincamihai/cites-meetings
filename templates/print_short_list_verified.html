@@ -37,13 +37,19 @@
   </div>
 
   <div class="content">
-    <table class="table table-condensed">
+    <div class="actions">
+      <a class="btn btn-success btn-inverse disabled" href="#">
+        <i class="icon-print icon-white"></i>
+        Print
+      </a>
+    </div>
+    <table class="table table-condensed table-bordered">
       <thead>
         <tr>
-          <th>Picture</th>
+          <th>Pic</th>
           <th>Representing</th>
           <th>Name</th>
-          <th>Cat</th>
+          <!-- <th>Category</th> -->
           <th>Cred</th>
           <th>Appr</th>
           <th>Inv</th>
@@ -53,19 +59,56 @@
         </tr>
       </thead>
       <tbody>
-        {% for person in registered %}
+        {% for category, participants in registered.items() %}
+        {% if participants %}
         <tr>
-          <td>{% if person.photo_id -%} yes {%- else -%} no {%- endif %}</td>
-          <td>{{ person["representing_country"] }}</td>
-          <td>{{ person.name }}</td>
-          <td>{{ person["personal_category"] }}</td>
-          <td>{{ person["meeting_flags_credentials"] }}</td>
-          <td>{{ person["meeting_flags_approval"] }}</td>
-          <td>{{ person["meeting_flags_invitation"] }}</td>
-          <td>{{ person["personal_fee"] }}</td>
-          <td>{{ person["personal_language"] }}</td>
-          <td>{{ person["meeting_flags_web_alert"] }}</td>
+          <td class="category" colspan="9">{{ ref['category'][category] }}</th>
         </tr>
+        {% for p in participants %}
+        <tr>
+          <td>
+            {%- if p["photo_id"] -%}
+            <i class="icon-camera"></i>
+            {%- endif -%}
+          </td>
+          <td>
+            {%- if p["personal_category"] == '10' -%}
+              {{ ref['region'][p['representing_region']] }} - {{ ref['country'][p['representing_country']] }}
+            {%- elif p["personal_category"] in ['20', '30', '40'] -%}
+              {{ ref['country'][p['representing_country']] }}
+            {%- elif p["personal_category"] in ['98', '99'] -%}
+              CITES Secretariat and Conference Staff"
+            {%- else -%}
+              {{ p['representing_organization'] }}
+            {%- endif -%}
+          </td>
+          <td>{{ p.name }}</td>
+          <!-- <td>{{ ref['category'][p["personal_category"]] }}</td> -->
+          <td>
+            {%- if p["meeting_flags_credentials"] -%}
+            <i class="icon-check"></i>
+            {%- endif -%}
+          </td>
+          <td>
+            {%- if p["meeting_flags_approval"] -%}
+            <i class="icon-check"></i>
+            {%- endif -%}
+          </td>
+          <td>
+            {%- if p["meeting_flags_invitation"] -%}
+            <i class="icon-check"></i>
+            {%- endif -%}
+          </td>
+          <td>{{ ref['fee'][p["personal_fee"]] }}</td>
+          <td>{{ p["personal_language"] }}</td>
+          <td>
+            {%- if p["meeting_flags_web_alert"] -%}
+              <i class="icon-check"></i>
+            {%- endif -%}
+          </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
         {% endfor %}
       </tbody>
     </table>
