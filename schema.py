@@ -211,7 +211,9 @@ Mail = fl.Dict.with_properties(widget="mail") \
                 .with_properties(widget="input"),
 
     CommonString.named("message") \
-                .using(label=u"Message", optional=False) \
+                .using(label=u"Message",
+                       optional=False,
+                       strip=False) \
                 .with_properties(widget="textarea")
 )
 

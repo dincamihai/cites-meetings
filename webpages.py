@@ -357,10 +357,10 @@ def send_mail(person_id):
 
     else:
         # create a schema with default data
-        mail_schema = schema.Mail.from_flat({
+        mail_schema = schema.Mail({
             "to": "cornel@eaudeweb.ro",
             "subject": phrases["EM_Subj"],
-            "message": phrases["Intro"],
+            "message": "\n\n\n %s" % phrases["Intro"],
         })
 
     return flask.render_template("send_mail.html", **{
