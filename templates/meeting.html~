@@ -81,6 +81,6 @@
   {% from 'bits.html' import script_src -%}
   {{ script_src('lib/bootstrap/js/bootstrap-dropdown.js') }}
 {% endblock %}
-=======
+
 {%- endmacro %}
->>>>>>> 3811d657f322bc50cee75ae590e1b3675bc776f3
+
