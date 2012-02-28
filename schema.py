@@ -10,11 +10,6 @@ def _load_json(name):
     with open(os.path.join(os.path.dirname(__file__), name), "rb") as f:
         return json.load(f)
 
-# takes a list [{"id": 1, "name": "Test"}] => {1: "Test"}
-def _switch_id_name_to_key_value(lst):
-    lst = { item["id"]: item["name"]  for item in lst }
-    return lst
-
 class EnumValue(Validator):
 
     fail = fl.validation.base.N_(u'%(u)s is not a valid value for %(label)s.')
@@ -37,28 +32,28 @@ class IsPhone(Validator):
             return self.note_error(element, state, 'fail')
         return True
 
-countries = _load_json("refdata/countries.json")
-countries = _switch_id_name_to_key_value(countries)
+country = {item["id"]: item["name"]  for item in
+           _load_json("refdata/countries.json")}
 # sort by country name for select option
 # [("iso code", "country_name"),]
-countries_value = sorted(countries.items(), key=itemgetter(1))
+sorted_country_codes = sorted(country.items(), key=itemgetter(1))
 # ["iso_code", "iso_code"]
-countries_value = [c[0] for c in countries_value]
+sorted_country_codes = [c[0] for c in sorted_country_codes]
 
-languages = _load_json("refdata/languages.json")
+language = _load_json("refdata/languages.json")
 
-categories = _load_json("refdata/categories.json")
-categories = _switch_id_name_to_key_value(categories)
-categories_map = {c["id"] : c for c in _load_json("refdata/categories.json")}
+category = { item["id"]: item["name"]  for item in
+    _load_json("refdata/categories.json") }
 
-regions = _load_json("refdata/regions.json")
-regions = _switch_id_name_to_key_value(regions)
+region =  { item["id"]: item["name"]  for item in
+    _load_json("refdata/regions.json") }
+
 # sort by region name for select option
-regions_value = sorted(regions.items(), key=itemgetter(1))
-regions_value = [r[0] for r in regions_value]
+sorted_regions = sorted(region.items(), key=itemgetter(1))
+sorted_regions = [r[0] for r in sorted_regions]
 
-fees = _load_json("refdata/fee.json")
-fees = _switch_id_name_to_key_value(fees)
+fee = { item["id"]: item["name"]  for item in
+    _load_json("refdata/fee.json") }
 
 CommonString = fl.String.using(optional=True)
 CommonEnum = fl.Enum.using(optional=True) \
@@ -70,7 +65,8 @@ CommonEnum = fl.Enum.using(optional=True) \
 CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
 CommonDict = fl.Dict.with_properties(widget="group")
 
-Person = fl.Dict.with_properties(widget="schema").of(
+Person = fl.Dict.with_properties(widget="schema") \
+                .of(
 
     CommonDict.named("personal") \
               .using(label="") \
@@ -88,9 +84,9 @@ Person = fl.Dict.with_properties(widget="schema").of(
                            label=u"Last name"),
 
         CommonEnum.named("language") \
-                  .valued(*sorted(languages.keys())) \
+                  .valued(*sorted(language.keys())) \
                   .using(label=u"Language") \
-                  .with_properties(value_labels=languages),
+                  .with_properties(value_labels=language),
 
         CommonString.named("address") \
                     .using(label=u"Address") \
@@ -113,20 +109,19 @@ Person = fl.Dict.with_properties(widget="schema").of(
                     .using(label=u"Place"),
 
         CommonEnum.named("country") \
-                  .valued(*countries_value) \
+                  .valued(*sorted_country_codes) \
                   .using(label=u"Country") \
-                  .with_properties(value_labels=countries),
+                  .with_properties(value_labels=country),
 
         CommonEnum.named("category") \
-                  .valued(*sorted(categories.keys())) \
+                  .valued(*sorted(category.keys())) \
                   .using(label=u"Category") \
-                  .with_properties(value_labels=categories),
+                  .with_properties(value_labels=category),
 
         CommonEnum.named("fee") \
                   .using(label=u"Fee") \
-                  .valued(*sorted(fees.keys())) \
-                  .with_properties(value_labels=fees)
-
+                  .valued(*sorted(fee.keys())) \
+                  .with_properties(value_labels=fee)
      ),
 
     CommonDict.named("representing") \
@@ -134,14 +129,14 @@ Person = fl.Dict.with_properties(widget="schema").of(
               .of(
 
         CommonEnum.named("country") \
-                  .valued(*countries_value) \
+                  .valued(*sorted_country_codes) \
                   .using(label=u"Country") \
-                  .with_properties(value_labels=countries),
+                  .with_properties(value_labels=country),
 
         CommonEnum.named("region") \
-                  .valued(*regions_value) \
+                  .valued(*sorted_regions) \
                   .using(label=u"Region") \
-                  .with_properties(value_labels=regions),
+                  .with_properties(value_labels=region),
 
         CommonString.named("organization") \
                     .using(label=u"Organization") \
@@ -196,6 +191,27 @@ Person = fl.Dict.with_properties(widget="schema").of(
                     .with_properties(widget="textarea"),
 
     ),
+)
+
+Mail = fl.Dict.with_properties(widget="mail") \
+              .of(
+    CommonString.named("to") \
+                .using(label=u"To", optional=False) \
+                .including_validators(IsEmail()) \
+                .with_properties(widget="input"),
+
+    CommonString.named("cc") \
+                .using(label=u"Cc") \
+                .including_validators(IsEmail())
+                .with_properties(widget="input"),
+
+    CommonString.named("subject") \
+                .using(label=u"Subject", optional=False) \
+                .with_properties(widget="input"),
+
+    CommonString.named("message") \
+                .using(label=u"Message", optional=False) \
+                .with_properties(widget="textarea")
 )
 
 def unflatten_with_defaults(schema, data):

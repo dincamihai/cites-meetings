@@ -115,13 +115,11 @@ dl.phrases dd {
 .container {
     position: relative;
 }
-
 .container .header h1,
 .container .header h4,
 .container .subheader {
     text-align: center;
 }
-
 .container .subheader {
     margin: 15px 250px;
     background: #ccc;
@@ -129,22 +127,43 @@ dl.phrases dd {
     border: 1px solid black;
     box-shadow:4px 4px #000;
 }
-
 .container .subheader ul {
     list-style-type: none;
     font-size: 0.8em;
     margin: 0;
 }
-
 .container .content .actions{
     float: right;
     margin-bottom: 1em;
 }
-
 .container .content .category{
     background: #F9F9F9;
     text-align: center;
     font-size: 1.2em;
     font-weight: bold;
+}
+.send-mail-container .add-container   {
+    font-size: 11px;
+    height: 15px;
+}
+.send-mail-container input,
+.send-mail-container textarea  {
+    width: 100%;
+}
+.send-mail-container textarea {
+    height: 300px;
+}
+.send-mail-container .add-container a {
+    margin-right: 10px;
+}
+.send-mail-container label {
+    font-weight: bold;
+}
+.send-mail-container .control-group {
+    margin: 0;
+    margin-bottom: 15px;
+}
+.send-mail-container .help-inline {
+    padding: 0;
 }
 
