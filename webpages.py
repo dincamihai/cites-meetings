@@ -10,11 +10,12 @@ log.setLevel(logging.INFO)
 
 webpages = flask.Blueprint("webpages", __name__)
 
-
 def auth_required(view):
     @wraps(view)
     def wrapper(*args, **kwargs):
-        if flask.session.get("logged_in_email", None) is None:
+        if 'ACCOUNTS' not in flask.current_app.config:
+            pass
+        elif flask.session.get("logged_in_email", None) is None:
             login_url = flask.url_for("webpages.login", next=flask.request.url)
             return flask.redirect(login_url)
         return view(*args, **kwargs)
@@ -23,8 +24,10 @@ def auth_required(view):
 
 
 def initialize_app(app):
+    _my_extensions = app.jinja_options['extensions'] + ['jinja2.ext.do']
+    app.jinja_options = dict(app.jinja_options, extensions=_my_extensions)
+
     app.register_blueprint(webpages)
-    app.config.setdefault("ACCOUNTS", [])
 
 
 @webpages.route("/login", methods=["GET", "POST"])
@@ -35,7 +38,7 @@ def login():
 
     if flask.request.method == "POST":
         app = flask.current_app
-        for email, password in app.config["ACCOUNTS"]:
+        for email, password in app.config.get("ACCOUNTS", []):
             if login_email == email and login_password == password:
                 log.info("Authentication by %r", login_email)
                 flask.session["logged_in_email"] = login_email
@@ -64,7 +67,7 @@ def home():
     })
 
 
-@webpages.route("/view/<int:person_id>", methods=["GET"])
+@webpages.route("/meeting/1/participant/<int:person_id>", methods=["GET"])
 @auth_required
 def view(person_id):
     app = flask.current_app
@@ -77,7 +80,8 @@ def view(person_id):
     return flask.render_template("view.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
         "person": person,
-        "person_schema": person_schema
+        "person_schema": person_schema,
+        "has_photo": bool(person.get("photo_id", "")),
     })
 
 @webpages.route("/delete/<int:person_id>", methods=["DELETE"])
@@ -91,7 +95,7 @@ def delete(person_id):
 
     return flask.jsonify(**response)
 
-@webpages.route("/view/credentials/<int:person_id>")
+@webpages.route("/meeting/1/participant/<int:person_id>/credentials")
 @auth_required
 def credentials(person_id):
     app = flask.current_app
@@ -115,8 +119,35 @@ def credentials(person_id):
         "category": category
     })
 
-@webpages.route("/new", methods=["GET", "POST"])
-@webpages.route("/edit/<int:person_id>", methods=["GET", "POST"])
+@webpages.route("/meeting/1/participant/<int:person_id>/badge/normal")
+@auth_required
+def normal_badge(person_id):
+    app = flask.current_app
+
+    # get the person
+    person = database.get_session().get_person_or_404(person_id)
+    categories = schema._load_json("refdata/categories.json")
+    category = [c for c in categories
+        if c["id"] == person["personal_category"]][0]
+
+    import jinja2
+    person.update({
+        "meeting_description": jinja2.Markup("61<sup>st</sup> meeting of the Standing Committee"),
+        "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
+    })
+    # create data for flatland schema
+    person_schema = schema.unflatten_with_defaults(schema.Person, person)
+
+    return flask.render_template("normal_badge.html", **{
+        "person": person,
+        "person_schema": person_schema,
+        "category": category
+    })
+
+@webpages.route("/meeting/1/participant/new",
+                methods=["GET", "POST"])
+@webpages.route("/meeting/1/participant/<int:person_id>/edit",
+                methods=["GET", "POST"])
 @auth_required
 def edit(person_id=None):
     app = flask.current_app
@@ -135,7 +166,6 @@ def edit(person_id=None):
         if person.validate():
             if person_row is None:
                 person_row = database.Person()
-            person_row.clear()
             person_row.update(person.flatten())
             session.save_person(person_row)
             session.commit()
@@ -158,11 +188,53 @@ def edit(person_id=None):
     })
 
 
+@webpages.route("/refdata/us-states")
+@auth_required
+def get_us_states():
+    us_states = schema._load_json("refdata/us.states.json")
+    response = flask.json.dumps(us_states)
+    return flask.Response(response=response, mimetype="application/json")
+
+
+@webpages.route("/meeting/1/participant/<int:person_id>/edit_photo",
+                methods=["GET", "POST"])
+@auth_required
+def edit_photo(person_id):
+    session = database.get_session()
+    person_row = session.get_person_or_404(person_id)
+
+    if flask.request.method == "POST":
+        photo_file = flask.request.files["photo"]
+        db_file = session.get_db_file()
+        db_file.save_from(photo_file)
+        person_row["photo_id"] = str(db_file.id)
+        session.save_person(person_row)
+        session.commit()
+        flask.flash("New photo saved", "success")
+        url = flask.url_for("webpages.view", person_id=person_id)
+        return flask.redirect(url)
+
+    return flask.render_template("photo.html", **{
+        "person": person_row,
+    })
+
+
+@webpages.route("/meeting/1/participant/<int:person_id>/photo")
+def photo(person_id):
+    session = database.get_session()
+    person_row = session.get_person_or_404(person_id)
+    try:
+        db_file = session.get_db_file(int(person_row["photo_id"]))
+    except KeyError:
+        flask.abort(404)
+    return flask.Response(''.join(db_file.iter_data()), # TODO stream response
+                          mimetype="application/octet-stream")
+
+
 @webpages.route("/meeting/1")
 @auth_required
 def meeting():
     return flask.redirect(flask.url_for('webpages.meeting_registration'))
-
 
 @webpages.route("/meeting/1/registration")
 @auth_required
@@ -181,7 +253,10 @@ def meeting_printouts():
 @webpages.route("/meeting/1/settings/phrases")
 @auth_required
 def meeting_settings_phrases():
-    return flask.render_template("meeting_settings_phrases.html")
+    phrases = schema._load_json("refdata/phrases.json")
+    return flask.render_template("meeting_settings_phrases.html", **{
+        "phrases": phrases
+    })
 
 
 @webpages.route("/meeting/1/settings/fees")

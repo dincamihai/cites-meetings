@@ -38,11 +38,17 @@
     </div>
 
     <div class="container">
+
       {{ flash_messages() }}
 
       {% block content %}
         {{ content }}
       {% endblock %}
+
+      <footer>
+        <p class="pull-right">CITES meetings tool - demo</p>
+      </footer>
+
     </div>
 
     {{ script_src('lib/jquery-1.7.1.min.js') }}

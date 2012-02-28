@@ -1,23 +1,32 @@
-{% extends 'meeting.html' %}
-{% block tab_content %}
+{% extends 'meeting_settings.html' %}
+{% block meeting_settings_content %}
 
 <h3>Manage categories</h3>
 
 <div class="row">
-  <table class="table table-bordered span3">
-    <thead>
-      <tr>
-        <th>Categories</th>
-      </tr>
-    </thead>
-    <tbody>
-      {%- for category in categories.values() %}
-      <tr>
-        <td>{{ category }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="span4">
+    <form class=​"form-horizontal">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Categories</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for category in categories.values() %}
+          <tr>
+            <td>{{ category }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success disabled">Add</button>
+        <button type="submit" class="btn btn-primary disabled">Edit</button>
+        <button class="btn disabled">Cancel</button>
+      </div>
+    </form>
+  </div>
 </div>
 
-{% endblock tab_content %}
+{% endblock %}

@@ -1,5 +1,8 @@
 {% extends 'meeting.html' %}
-{% block tab_content %}
+{% block meeting_content %}
+
+{% from 'meeting.html' import nav_tabs %}
+{{ nav_tabs('printouts') }}
 
 <h2>Meeting room</h2>
 <div class="row">
@@ -8,37 +11,37 @@
       <tr>
         <th>Short list (by category)</th>
         <td class="span2"><a class="btn" href="#">verified</a></td>
-        <td class="span2"><a class="btn" href="#">attending</a></td>
+        <td class="span2"><a class="btn disabled" href="#">attending</a></td>
       </tr>
       <tr>
         <th>For meeting room</th>
-        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
         <td></td>
       </tr>
       <tr>
         <th>For distribution of documents</th>
-        <td><a class="btn" href="#">verified</a></td>
-        <td><a class="btn" href="#">attending</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">attending</a></td>
       </tr>
       <tr>
         <th>Labels</th>
-        <td><a class="btn" href="#">verified</a></td>
-        <td><a class="btn" href="#">attending</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">attending</a></td>
       </tr>
       <tr>
         <th>Credentials</th>
-        <td><a class="btn" href="#">verified</a></td>
-        <td><a class="btn" href="#">attending</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">attending</a></td>
       </tr>
       <tr>
         <th>Admission of observers</th>
-        <td><a class="btn" href="#">verified</a></td>
-        <td><a class="btn" href="#">attending</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">attending</a></td>
       </tr>
       <tr>
         <th>Labels for pigeon holes</th>
-        <td><a class="btn" href="#">verified</a></td>
-        <td><a class="btn" href="#">attending</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">attending</a></td>
       </tr>
     </tbody>
   </table>
@@ -51,12 +54,12 @@
       <tr>
         <th>for verification (by delegation)</th>
         <td class="span2"></td>
-        <td class="span2"><a class="btn" href="#">attending</a></td>
+        <td class="span2"><a class="btn disabled" href="#">attending</a></td>
       </tr>
       <tr>
         <th>final (All participants)</th>
-        <td><a class="btn" href="#">verified</a></td>
-        <td><a class="btn" href="#">attending</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">attending</a></td>
       </tr>
     </tbody>
   </table>
@@ -68,7 +71,7 @@
     <tbody>
       <tr>
         <th>using coloured badges</th>
-        <td class="span2"><a class="btn" href="#">verified</a></td>
+        <td class="span2"><a class="btn disabled" href="#">verified</a></td>
         <td class="span2"></td>
       </tr>
       <tr>
@@ -76,7 +79,7 @@
           using blank badges
           <span class="label label-info">blue stripe</span>
         </th>
-        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
         <td></td>
       </tr>
       <tr>
@@ -84,7 +87,7 @@
           using blank badges
           <span class="label label-success">green stripe</span>
         </th>
-        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
         <td></td>
       </tr>
       <tr>
@@ -92,7 +95,7 @@
           using blank badges
           <span class="label">grey stripe</span>
         </th>
-        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
         <td></td>
       </tr>
       <tr>
@@ -100,7 +103,7 @@
           using blank badges
           <span class="label label-warning">yellow stripe</span>
         </th>
-        <td><a class="btn" href="#">verified</a></td>
+        <td><a class="btn disabled" href="#">verified</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -110,4 +113,4 @@
 
 
 
-{% endblock tab_content %}
+{% endblock %}

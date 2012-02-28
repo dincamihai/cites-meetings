@@ -1,6 +1,54 @@
-{% extends 'meeting.html' %}
-{% block tab_content %}
+{% extends 'meeting_settings.html' %}
+{% block meeting_settings_content %}
 
 <h3>Phrases</h3>
 
-{% endblock tab_content %}
+<div class="row">
+  <div class="span3">
+    <ul class="nav nav-pills nav-stacked phrases">
+    {% for phrase in phrases %}
+      <li>
+        <a class="phrase" data-id="#{{ phrase.id|title }}">
+          {{ phrase.id }}
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+  <div class="span9">
+    {% for phrase in phrases %}
+    <dl class="phrases" id="{{ phrase.id|title }}">
+      <dt><h3>{{ phrase.id }}</h3></dt>
+      <dd>
+        <form>
+        <textarea row="5" cols="5" class="disabled" disabled="">{{ phrase.name|trim }}</textarea>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary disabled" disabled="">
+            Save changes</button>
+          <button class="btn disabled" disabled="">Cancel</button>
+        </div>
+        </form>
+      </dd>
+    </dl>
+   {% endfor %}
+
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+  <script>
+  $(function () {
+    $("ul.phrases").on("click", ".phrase", function () {
+      $(".phrase").parent().removeClass("active");
+      $(this).parent().addClass("active");
+      $("dl.phrases").hide()
+      $($(this).data("id")).show();
+    });
+
+    $("ul.phrases").find("li:first a").click();
+  });
+  </script>
+{% endblock scripts %}

@@ -8,8 +8,8 @@
 
 {%- macro select(mk, field) %}
   {% set value_label = (field.properties.value_labels[field.value]
-      if field.properties.value_labels else field.value) %}
-   {{ value_label }}
+     if field.properties.value_labels else field.value) %}
+  {{ value_label }}
 {% endmacro -%}
 
 {%- macro checkbox(mk, field) %}
@@ -18,6 +18,10 @@
   {% else %}
     <i class="icon-remove"></i>
   {% endif %}
+{% endmacro -%}
+
+{%- macro date(mk, field) %}
+  {{ field.value or "" }}
 {% endmacro -%}
 
 {%- macro group(mk, group) %}
@@ -37,11 +41,7 @@
 {%- macro schema(mk, schema) %}
   {%- for name in mk.children_order(schema) %}
     {% set field = schema[name] %}
-    <div class="span6">
-      <div class="row">
-      <h2>{{ field.label }}</h2>
-      {{ mk.widget(field) }}
-      </div>
-    </div>
+    <h2>{{ field.label }}</h2>
+    {{ mk.widget(field) }}
   {% endfor -%}
 {% endmacro -%}
