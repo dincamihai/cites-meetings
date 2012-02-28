@@ -6,42 +6,42 @@
 
   {
     "id": "1",
-    "name": "Africa / \u00c1frica / Afrique"
+    "name": "Africa"
   },
   {
     "id": "2",
-    "name": "Asia / Asie"
+    "name": "Asia"
   },
   {
     "id": "3",
-    "name": "Central and South America and the Caribbean / Am\u00e9rica Central, del Sur y el Caribe / Am\u00e9rique centrale et du Sud et Cara\u00efbes"
+    "name": "Central and South America and the Caribbean"
   },
   {
     "id": "4",
-    "name": "Europe / Europa"
+    "name": "Europe"
   },
   {
     "id": "5",
-    "name": "North America / Am\u00e9rica del Norte / Am\u00e9rique du Nord"
+    "name": "North America"
   },
   {
     "id": "6",
-    "name": "Oceania / Ocean\u00eda / Oc\u00e9anie"
+    "name": "Oceania"
   },
   {
     "id": "7",
-    "name": "Depositary Government / Gobierno Depositario / Gouvernement d\u00e9positaire"
+    "name": "Depositary Government"
   },
   {
     "id": "8",
-    "name": "Previous host country / Pa\u00eds Anfitri\u00f3n Anterior / Pays h\u00f4te pr\u00e9c\u00e9dent"
+    "name": "Previous host country"
   },
   {
     "id": "9",
-    "name": "Next host country / Pr\u00f3ximo Pa\u00eds Anfitri\u00f3n / Pays h\u00f4te suivant"
+    "name": "Next host country"
   },
   {
     "id": "10",
-    "name": "Nomenclature specialist / Especialista en nomenclatura / Sp\u00e9cialiste de la nomenclature"
+    "name": "Nomenclature specialist"
   }
 ]
