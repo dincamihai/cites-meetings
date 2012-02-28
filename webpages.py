@@ -111,8 +111,6 @@ def credentials(person_id):
 
     # get the person
     person = database.get_session().get_person_or_404(person_id)
-    category = {c["id"]: c for c in
-                schema._load_json("refdata/categories.json")}
 
     person.update({
         "meeting_description": "Sixty-first meeting of the Standing Committee",
@@ -124,7 +122,7 @@ def credentials(person_id):
     return flask.render_template("credentials.html", **{
         "person": person,
         "person_schema": person_schema,
-        "category": category,
+        "category": schema.category,
         "has_photo": bool(person.get("photo_id", "")),
     })
 
