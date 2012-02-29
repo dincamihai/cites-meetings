@@ -360,7 +360,7 @@ def send_mail(person_id):
         mail_schema = schema.Mail({
             "to": "cornel@eaudeweb.ro",
             "subject": phrases["EM_Subj"],
-            "message": "\n\n\n %s" % phrases["Intro"],
+            "message": "\n\n\n%s" % phrases["Intro"],
         })
 
     return flask.render_template("send_mail.html", **{
