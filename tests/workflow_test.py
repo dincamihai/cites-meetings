@@ -4,7 +4,7 @@ import flask
 from common import create_mock_app, select
 
 
-class ParticipantWorkflowTest(unittest.TestCase):
+class ParticipantCrudWorkflowTest(unittest.TestCase):
 
     def setUp(self):
         self.app, app_teardown = create_mock_app()
@@ -59,3 +59,30 @@ class ParticipantWorkflowTest(unittest.TestCase):
 
         resp2 = self.client.get(person_url)
         self.assertEqual(resp2.status_code, 404)
+
+
+class ParticipantEmailWorkflowTest(unittest.TestCase):
+
+    def setUp(self):
+        self.app, app_teardown = create_mock_app()
+        self.addCleanup(app_teardown)
+        self.client = self.app.test_client()
+        with self.client.session_transaction() as session:
+            session["logged_in_email"] = "tester@example.com"
+        self.client.post('/meeting/1/participant/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+            'personal_email': u"jsmith@example.com",
+        })
+
+    def test_send_email_page(self):
+        view_resp = self.client.get('/meeting/1/participant/1')
+        [link] = select(view_resp.data, 'a:contains("Acknowledge email")')
+        email_url = '/email/1'
+        self.assertEqual(link.attrib['href'], email_url)
+
+        email_resp = self.client.get(email_url)
+        self.assertEqual(email_resp.status_code, 200)
+
+        [to_input] = select(email_resp.data, 'input[name=to]')
+        self.assertEqual(to_input.attrib['value'], "jsmith@example.com")
