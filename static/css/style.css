@@ -297,10 +297,53 @@ dl.phrases form textarea {
 
 body .row .span9 {
 	background: #fff;
+margin-top: 0px;
 }
 
+.nav-stacked > li {
+	border-bottom: 1px solid #EEE;
+}
 
+.nav-stacked > li.active {
+	background: #fff;
+	padding: 1px 0px;
+border-bottom: 1px solid #EEE;
+}
 
+.nav-stacked > li:hover {
+	background: #eee;
+}
+
+.nav-stacked > li.active:hover {
+	background: white;
+}
+
+body .nav-pills .active > a, 
+body .nav-pills .active > a:hover {
+	background: #fff;
+	color: #333;
+}
+
+body .row .span9 {
+	margin-left: 0px;
+}
+
+.phrases form {
+	margin-top: 40px;
+}
+
+body .nav > li > a:hover {
+	background: #eee;
+	color: #333;
+}
+
+body .nav-pills > li > a:hover {
+	border-radius: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+}
+
+/* page with a person's details */
 
 
 /* VARIOUS */
