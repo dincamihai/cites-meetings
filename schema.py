@@ -183,8 +183,7 @@ Person = fl.Dict.with_properties(widget="schema") \
                .using(label=u"Date acknowledged",
                       optional=True) \
                .including_validators(Converted(incorrect=u"%(label)s is not "
-                                                          "a valid date")) \
-               .with_properties(attr={"type": "date"}),
+                                                          "a valid date")),
 
         CommonBoolean.named("attended") \
                      .using(label=u"Attended"),
