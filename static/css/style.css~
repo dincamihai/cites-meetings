@@ -343,7 +343,7 @@ body .nav-pills > li > a:hover {
 	-moz-border-radius: 0;
 }
 
-
+/* page with a person's details */
 
 
 /* VARIOUS */
@@ -473,8 +473,24 @@ dl.phrases dd {
     padding: 0;
 }
 
-.actions{
+.actions {
     float: right;
     margin-bottom: 1em;
 }
 
+<<<<<<< HEAD
+=======
+/* fix ie7 stuff */
+.breadcrumb {
+    overflow: hidden;
+}
+.breadcrumb, .breadcrumb li {
+    list-style-type: none!important;
+}
+.breadcrumb li {
+    float:left;
+}
+.modal-backdrop {
+    filter:alpha(opacity=0)!important;
+}
+>>>>>>> 98eba29418b9bd0a9b7a318755263ffde82e748f
