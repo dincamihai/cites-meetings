@@ -31,6 +31,9 @@ def initialize_app(app):
     app.jinja_options = dict(app.jinja_options, extensions=_my_extensions)
     app.jinja_env.globals['ref'] = {
         'country': schema.country,
+        'region': schema.region,
+        'category': schema.category_labels,
+        'fee': schema.fee,
     }
 
     app.register_blueprint(webpages)
@@ -108,8 +111,6 @@ def credentials(person_id):
 
     # get the person
     person = database.get_session().get_person_or_404(person_id)
-    category = {c["id"]: c for c in
-                schema._load_json("refdata/categories.json")}
 
     person.update({
         "meeting_description": "Sixty-first meeting of the Standing Committee",
@@ -121,7 +122,7 @@ def credentials(person_id):
     return flask.render_template("credentials.html", **{
         "person": person,
         "person_schema": person_schema,
-        "category": category,
+        "category": schema.category,
         "has_photo": bool(person.get("photo_id", "")),
     })
 
@@ -161,8 +162,10 @@ def edit(person_id=None):
 
     if person_id is None:
         person_row = None
+        template = "person_create.html"
     else:
         person_row = session.get_person_or_404(person_id)
+        template = "person_edit.html"
 
     if flask.request.method == "POST":
         form_data = dict(schema.Person.from_defaults().flatten())
@@ -188,9 +191,10 @@ def edit(person_id=None):
         else:
             person = schema.Person.from_flat(person_row)
 
-    return flask.render_template("edit.html", **{
+    return flask.render_template(template, **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_edit.html")),
         "person": person,
+        "person_row": person_row,
     })
 
 
@@ -265,12 +269,15 @@ def meeting_printouts():
 def meeting_verified_short_list():
     app = flask.current_app
 
-    registered = []
+    registered = {}
+    for category in schema.category.keys():
+        registered[category] = []
+
     for person in database.get_session().get_all_persons():
         if person["meeting_flags_verified"]:
-            category = schema.categories_map[person["personal_category"]]
+            category = schema.category[person["personal_category"]]
             if category['registered'] == '1':
-                registered.append(person)
+                registered[person['personal_category']].append(person)
 
     meeting = {
         "description": "Sixty-first meeting of the Standing Committee",
@@ -350,10 +357,10 @@ def send_mail(person_id):
 
     else:
         # create a schema with default data
-        mail_schema = schema.Mail.from_flat({
+        mail_schema = schema.Mail({
             "to": "cornel@eaudeweb.ro",
             "subject": phrases["EM_Subj"],
-            "message": phrases["Intro"],
+            "message": "\n\n\n%s" % phrases["Intro"],
         })
 
     return flask.render_template("send_mail.html", **{

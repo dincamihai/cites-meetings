@@ -4,9 +4,12 @@
   <head>
     <meta charset="utf-8">
     <title>CITES - Meetings</title>
-    {{ css_link('lib/bootstrap/css/bootstrap.css') }}
-    {{ css_link('lib/bootstrap/css/bootstrap-responsive.css') }}
-    {{ css_link('style.css') }}
+    {{ css_link('bootstrap/css/bootstrap.css') }}
+    {{ css_link('bootstrap/css/bootstrap-responsive.css') }}
+
+    {{ css_link('bootstrap/css/bootstrap-responsive.css') }}
+
+    {{ css_link('css/style.css') }}
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -30,7 +33,7 @@
           </a>
           <div class="nav-collapse">
             <ul class="nav pull-right">
-              <li><a href="#">Meetings</a></li>
+              <li><a href="{{ url_for('webpages.home') }}">Meetings</a></li>
               <li><a href="#"><i class="icon-question-sign icon-white"></i> Help</a></li>
             </ul>
           </div>
@@ -52,7 +55,8 @@
 
     </div>
 
-    {{ script_src('lib/jquery-1.7.1.min.js') }}
+    {{ script_src('js/lib/jquery-1.7.1.min.js') }}
+    {{ script_src('js/lib/jquery-ui-1.8.18.custom.min.js') }}
 
     {% block scripts %}
     {% endblock %}

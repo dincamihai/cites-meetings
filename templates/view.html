@@ -2,19 +2,13 @@
 
 {% block content %}
 
+{% from 'bits.html' import breadcrumb_items -%}
 <ul class="breadcrumb">
-  <li>
-    <a href="{{ url_for('webpages.meeting') }}">Meeting</a>
-    <span class="divider">/</span>
-  </li>
-  <li>
-    <a href="{{ url_for('webpages.meeting_registration') }}">Registration</a>
-    <span class="divider">/</span>
-  </li>
-  <li class="active">
-    <a href="{{ url_for('webpages.view', person_id=person.id)
-        -}}">{{ person.name }}</a>
-  </li>
+  {{ breadcrumb_items([
+      (url_for('webpages.meeting'), "Meeting"),
+      (url_for('webpages.meeting_registration'), "Registration"),
+      (url_for('webpages.view', person_id=person.id), person.name),
+      ]) }}
 </ul>
 
 <h1>{{ person.name }}</h1>
@@ -96,8 +90,8 @@
 
 {% block scripts %}
   {% from 'bits.html' import script_src -%}
-  {{ script_src('lib/bootstrap/js/bootstrap-dropdown.js') }}
-  {{ script_src('lib/bootstrap/js/bootstrap-modal.js') }}
+  {{ script_src('bootstrap/js/bootstrap-dropdown.js') }}
+  {{ script_src('bootstrap/js/bootstrap-modal.js') }}
 
   <script>
     $(document).ready(function () {

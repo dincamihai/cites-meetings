@@ -38,12 +38,12 @@ table.table thead .sorting_desc_disabled {
     *cursor: hand;
 }
 
-table.table thead .sorting { background: url('lib/datatables/images/sort_both.png') no-repeat center right; }
-table.table thead .sorting_asc { background: url('lib/datatables/images/sort_asc.png') no-repeat center right; }
-table.table thead .sorting_desc { background: url('lib/datatables/images/sort_desc.png') no-repeat center right; }
+table.table thead .sorting { background: url('../js/lib/datatables/images/sort_both.png') no-repeat center right; }
+table.table thead .sorting_asc { background: url('../js/lib/datatables/images/sort_asc.png') no-repeat center right; }
+table.table thead .sorting_desc { background: url('../js/lib/datatables/images/sort_desc.png') no-repeat center right; }
 
-table.table thead .sorting_asc_disabled { background: url('lib/datatables/images/sort_asc_disabled.png') no-repeat center right; }
-table.table thead .sorting_desc_disabled { background: url('lib/datatables/images/sort_desc_disabled.png') no-repeat center right; }
+table.table thead .sorting_asc_disabled { background: url('../js/lib/datatables/images/sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { background: url('../js/lib/datatables/images/sort_desc_disabled.png') no-repeat center right; }
 
 .credentials-header h1,
 .credentials-header .subheader {
@@ -381,13 +381,11 @@ dl.phrases dd {
 .container {
     position: relative;
 }
-
 .container .header h1,
 .container .header h4,
 .container .subheader {
     text-align: center;
 }
-
 .container .subheader {
     margin: 15px 250px;
     background: #ccc;
@@ -395,13 +393,18 @@ dl.phrases dd {
     border: 1px solid black;
     box-shadow:4px 4px #000;
 }
-
 .container .subheader ul {
     list-style-type: none;
     font-size: 0.8em;
     margin: 0;
 }
 
+.container .content .category{
+    background: #F9F9F9;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
 .send-mail-container .add-container   {
     font-size: 11px;
     height: 15px;
@@ -413,7 +416,6 @@ dl.phrases dd {
 .send-mail-container textarea {
     height: 300px;
 }
-
 .send-mail-container .add-container a {
     margin-right: 10px;
 }
@@ -428,4 +430,8 @@ dl.phrases dd {
     padding: 0;
 }
 
+.actions{
+    float: right;
+    margin-bottom: 1em;
+}
 

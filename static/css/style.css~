@@ -1,0 +1,437 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+footer {
+    margin-top: 45px;
+    padding: 35px 0 36px;
+    border-top: 1px solid #ccc;
+}
+
+footer p {
+    margin-bottom: 0;
+    color: #555;
+}
+
+a {
+    cursor: pointer;
+}
+
+/* DataTables with Twitter Boostrap v2
+   http://datatables.net/blog/Twitter_Bootstrap_2
+   http://datatables.net/media/blog/bootstrap_2/DT_bootstrap.css */
+
+div.dataTables_length label { float: left; text-align: left; }
+div.dataTables_length select { width: 75px; }
+div.dataTables_filter label { float: right; }
+div.dataTables_info { padding-top: 8px; }
+div.dataTables_paginate { float: right; margin: 0; }
+table.table { clear: both; /*margin-bottom: 6px !important;*/ }
+
+table.table thead .sorting,
+table.table thead .sorting_asc,
+table.table thead .sorting_desc,
+table.table thead .sorting_asc_disabled,
+table.table thead .sorting_desc_disabled {
+    cursor: pointer;
+    *cursor: hand;
+}
+
+table.table thead .sorting { background: url('../js/lib/datatables/images/sort_both.png') no-repeat center right; }
+table.table thead .sorting_asc { background: url('../js/lib/datatables/images/sort_asc.png') no-repeat center right; }
+table.table thead .sorting_desc { background: url('../js/lib/datatables/images/sort_desc.png') no-repeat center right; }
+
+table.table thead .sorting_asc_disabled { background: url('../js/lib/datatables/images/sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { background: url('../js/lib/datatables/images/sort_desc_disabled.png') no-repeat center right; }
+
+.credentials-header h1,
+.credentials-header .subheader {
+    text-align: center;
+}
+
+.credentials-header .subheader {
+    margin-top: 15px;
+    font-style: italic;
+    background: #ccc;
+}
+
+.credentials-header ul {
+    list-style-type: none;
+    margin: 15px 200px;
+}
+.credentials-header .title {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 16px;
+    float: left;
+    width: 160px;
+}
+.credentials-header .content {
+    line-height: 24px;
+    margin-left : 165px;
+    font-size: 16px;
+}
+.credentials-content p {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+
+/* ################### SONIA'S STYLE ######################### */
+
+/* global */
+body {
+	background: #222;
+}
+
+/* remove the background from navbar by overriding some styles from bootstrap.css */
+body .navbar-inner {
+	background: none;
+	webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+/* upper navbar (will be transformed into h1 */
+.navbar-inner .container {
+	background: transparent;
+	border: none;
+}
+
+body .navbar .brand {
+	font-size: 24px;
+}
+
+/* the big container */
+.container {
+	background: #ddd;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	border: 0px solid #fff;
+	margin-bottom: 20px;
+}
+
+.container h1,
+.container hgroup h1 {
+	margin: 10px 10px 0px;
+	font-size: 20px;
+}
+
+.container hgroup h2 {
+	margin: -15px 10px 0px;
+	font-size: 16px;
+	color: #999;
+}
+
+ul.nav-tabs {
+	background-color: #555;
+	height: 50px;
+	border-top: 1px solid #999;
+}
+
+ul.nav-tabs li {
+	height: 65%;
+	margin: 17px 5px 0px; 
+	border-top-left-radius: 4px; 
+	border-top-right-radius: 4px; 
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	background-color: #444;
+	background-image: -moz-linear-gradient(top, #777, #555);
+	background-image: -ms-linear-gradient(top, #777, #555);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#777), to(#555));
+	background-image: -webkit-linear-gradient(top, #777, #555);
+	background-image: -o-linear-gradient(top, #777, #555);
+	background-image: linear-gradient(top, #777, #555);
+	border-top: 1px solid #999;
+}
+
+ul.nav-tabs li > a:hover {
+	color: #444;
+	border-bottom-color: transparent; 
+    background: #ddd;
+}
+
+body ul.nav-tabs li a {
+	color: #ddd;
+}
+
+body ul.nav-tabs li.active {
+	background: transparent;
+}
+
+body .nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+	background: #ddd;
+}
+
+/* the select for number of records per page */
+div.dataTables_length label {
+	margin-left: 20px;
+}
+
+/* the table with records */
+body .table-bordered {
+	margin: 0px;
+	border-radius: 0px;
+	-moz-border-radius: 0px;
+	/*width: 1110px; it destroys the flexible layout on small screens */
+	background: #fff; 
+}
+
+.dataTables_info {
+	margin: 10px 20px 20px;
+}
+
+body .dataTables_paginate {
+	margin: 10px 40px 20px 0px;
+}
+
+body .pagination a {
+	border: 1px solid #ccc;
+}
+
+body .dataTables_filter {
+	margin: 10px 40px 0px;
+}
+
+body .table-bordered.span6,
+body .table-bordered.span3 {
+	width: 520px;
+	margin-left: 50px;
+	margin-bottom: 20px;
+}
+
+.container h2,
+.container h3 {
+	margin-left: 20px;
+}
+
+ul.nav-tabs ul.dropdown-menu li {
+	background: #999;
+	border-top: none;
+}
+
+body .nav-tabs .dropdown-toggle .caret, .nav-pills .dropdown-toggle .caret {
+	border-top-color: white;
+	opacity: 0.6;
+	filter:alpha(opacity: 60);
+}
+
+.btn.btn-primary {
+	margin-left: 20px;
+}
+
+.container h2 {
+	font-size: 20px;
+}
+
+/* settings menu item */
+body ul.nav-tabs ul.dropdown-menu li a {
+	color: #ddd;
+}
+
+body ul.nav-tabs ul.dropdown-menu li a:hover {
+	background: #999;
+	color: #eee;
+}
+
+body ul.nav-tabs ul.dropdown-menu {
+	background: #999;
+	border-top: none;
+}
+
+body ul.nav-tabs ul.dropdown-menu li {
+	margin: 0px;
+}
+
+/* footer */
+.pull-right {
+	margin-right: 20px;
+}
+
+/* upper fixed navbar */
+body .navbar.navbar-fixed-top {
+	position: relative;
+	top: 0px;
+	margin: 0;
+}
+
+/* form for adding a new person */
+.form-horizontal fieldset {
+	margin-top: 4px;
+	vertical-align: top;
+width: 49%;
+display: inline;
+border-right: 1px solid #eee;
+border-bottom: 1px solid #eee;
+}
+
+.form-horizontal fieldset legend {
+	background: #ddd;
+	border: none;
+}
+
+#f_representing_organization,
+#f_personal_address,
+#f_more_info_text {
+	max-width: 24em;
+}
+
+body .form-horizontal .control-group {
+border-bottom: 0px solid #eee;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+}
+
+body .form-actions {
+	background: transparent;
+	border: none;
+}
+
+/* Phrases page */
+dl.phrases form textarea {
+	width: 97%;
+	margin-left: 5px;
+}
+
+body .row .span9 {
+	background: #fff;
+}
+
+
+
+
+
+/* VARIOUS */
+.blue-badge .header {
+    position: relative;
+    background-color: #0080FF;
+    height: 1.7cm;
+}
+
+.blue-badge .header .cites-logo {
+    position: absolute;
+    width: 1.5cm;
+    height: 0.9cm;
+    top: 0.3cm;
+    left: 0.2cm;
+}
+
+.blue-badge .header .unep-logo {
+    position: absolute;
+    width: 0.82cm;
+    height: 0.9cm;
+    top: 0.3cm;
+    right: 0.2cm;
+}
+
+.blue-badge .header h1 {
+    position: absolute;
+    font-size: 0.4cm;
+    top: 0.3cm;
+    left: 2cm;
+    right: 1.5cm;
+    text-align: center;
+    line-height: 1;
+    color: white;
+    font-family: Arial Narrow;
+}
+
+.blue-badge .content {
+    background-color: #FFF;
+}
+
+.us_states_container {
+    list-style-type: none;
+    font-size: 10px;
+    margin: 0;
+    width: 36em;  /* room for 3 columns */
+}
+.us_states_container li {
+    float: left;
+    width: 12em;  /* accommodate the widest item */
+}
+
+.us_states_container .title {
+    font-weight: bold;
+    float: left;
+    width: 26px;
+}
+
+dl.phrases {
+    margin-top: -4px;
+    display: none;
+    magin: 0;
+}
+dl.phrases textarea {
+    width: 100%;
+    height: 250px;
+}
+dl.phrases h3 {
+    margin-bottom: 15px;
+}
+
+dl.phrases dd {
+    margin: 0;
+}
+
+
+/* meeting_verified_short_list */
+.container {
+    position: relative;
+}
+.container .header h1,
+.container .header h4,
+.container .subheader {
+    text-align: center;
+}
+.container .subheader {
+    margin: 15px 250px;
+    background: #ccc;
+    padding: 0.5em;
+    border: 1px solid black;
+    box-shadow:4px 4px #000;
+}
+.container .subheader ul {
+    list-style-type: none;
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.container .content .category{
+    background: #F9F9F9;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.send-mail-container .add-container   {
+    font-size: 11px;
+    height: 15px;
+}
+.send-mail-container input,
+.send-mail-container textarea  {
+    width: 100%;
+}
+.send-mail-container textarea {
+    height: 300px;
+}
+.send-mail-container .add-container a {
+    margin-right: 10px;
+}
+.send-mail-container label {
+    font-weight: bold;
+}
+.send-mail-container .control-group {
+    margin: 0;
+    margin-bottom: 15px;
+}
+.send-mail-container .help-inline {
+    padding: 0;
+}
+
+.actions{
+    float: right;
+    margin-bottom: 1em;
+}
+

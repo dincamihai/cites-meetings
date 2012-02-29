@@ -42,8 +42,9 @@ sorted_country_codes = [c[0] for c in sorted_country_codes]
 
 language = _load_json("refdata/languages.json")
 
-category = { item["id"]: item["name"]  for item in
-    _load_json("refdata/categories.json") }
+category = {c["id"]: c for c in
+            _load_json("refdata/categories.json")}
+category_labels = {c["id"]: c["name"] for c in category.values()}
 
 region =  { item["id"]: item["name"]  for item in
     _load_json("refdata/regions.json") }
@@ -116,7 +117,7 @@ Person = fl.Dict.with_properties(widget="schema") \
         CommonEnum.named("category") \
                   .valued(*sorted(category.keys())) \
                   .using(label=u"Category") \
-                  .with_properties(value_labels=category),
+                  .with_properties(value_labels=category_labels),
 
         CommonEnum.named("fee") \
                   .using(label=u"Fee") \
@@ -210,7 +211,9 @@ Mail = fl.Dict.with_properties(widget="mail") \
                 .with_properties(widget="input"),
 
     CommonString.named("message") \
-                .using(label=u"Message", optional=False) \
+                .using(label=u"Message",
+                       optional=False,
+                       strip=False) \
                 .with_properties(widget="textarea")
 )
 

@@ -34,7 +34,7 @@
         </a>
       </td>
       <td>
-        {{ person["personal_category"] }}
+        {{ ref['category'][person["personal_category"]] }}
       </td>
       <td class="attended">
         {% if person["meeting_flags_attended"] %}
@@ -66,8 +66,8 @@
 {% block scripts %}
 {{ super() }}
 {% from 'bits.html' import script_src -%}
-{{ script_src('lib/datatables/jquery.dataTables.min.js') }}
-{{ script_src('lib/datatables/DT_bootstrap.js') }}
+{{ script_src('js/lib/datatables/jquery.dataTables.min.js') }}
+{{ script_src('js/lib/datatables/DT_bootstrap.js') }}
 <script>
 $(document).ready(function() {
     // DataTables + Bootstrap 2: http://datatables.net/blog/Twitter_Bootstrap_2
