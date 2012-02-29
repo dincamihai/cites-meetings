@@ -42,3 +42,20 @@ class ParticipantWorkflowTest(unittest.TestCase):
 
         [first_name_th] = select(view_resp.data, 'tr th:contains("First name")')
         self.assertElementIn('td:contains("Joe")', first_name_th.getparent())
+
+    def _create_participant(self):
+        return self.client.post('/meeting/1/participant/new', data={
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+        })
+
+    def test_delete_participant(self):
+        person_url = urlparse(self._create_participant().location).path
+        resp1 = self.client.get(person_url)
+        self.assertEqual(resp1.status_code, 200)
+
+        del_resp = self.client.delete('/delete/1')
+        self.assertEqual(del_resp.status_code, 200)
+
+        resp2 = self.client.get(person_url)
+        self.assertEqual(resp2.status_code, 404)
