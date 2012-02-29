@@ -46,9 +46,7 @@
 <div class="row">
 
   <div class="span6">
-
     {{ mk.widget(person_schema) }}
-
   </div>
 
   <div class="span3">
@@ -102,10 +100,10 @@
       $("#delete-modal").on("click", ".btn-primary", function () {
         $.ajax({
           type: "DELETE",
-          url: "/delete/" + $(this).data("id"),
+          url: "/delete/" + $(this).data("id")
         }).done(function () {
           document.location = "{{ url_for('webpages.meeting_registration') }}";
-        })
+        });
       });
     });
   </script>

@@ -164,7 +164,21 @@ dl.phrases dd {
     padding: 0;
 }
 
-.actions{
+.actions {
     float: right;
     margin-bottom: 1em;
+}
+
+/* fix ie7 stuff */
+.breadcrumb {
+    overflow: hidden;
+}
+.breadcrumb, .breadcrumb li {
+    list-style-type: none!important;
+}
+.breadcrumb li {
+    float:left;
+}
+.modal-backdrop {
+    filter:alpha(opacity=0)!important;
 }
