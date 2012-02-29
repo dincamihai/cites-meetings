@@ -103,7 +103,7 @@ Person = fl.Dict.with_properties(widget="schema") \
                     .using(label=u"Phone") \
                     .with_properties(attr={
                         "type": "tel",
-                        "pattern": "^\d+ \d+ \d+$",
+                        "pattern": r"^\d+ \d+ \d+$",
                         "title": "(999 000 555)",
                     }),
 
