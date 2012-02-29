@@ -38,12 +38,12 @@ table.table thead .sorting_desc_disabled {
     *cursor: hand;
 }
 
-table.table thead .sorting { background: url('lib/datatables/images/sort_both.png') no-repeat center right; }
-table.table thead .sorting_asc { background: url('lib/datatables/images/sort_asc.png') no-repeat center right; }
-table.table thead .sorting_desc { background: url('lib/datatables/images/sort_desc.png') no-repeat center right; }
+table.table thead .sorting { background: url('../js/lib/datatables/images/sort_both.png') no-repeat center right; }
+table.table thead .sorting_asc { background: url('../js/lib/datatables/images/sort_asc.png') no-repeat center right; }
+table.table thead .sorting_desc { background: url('../js/lib/datatables/images/sort_desc.png') no-repeat center right; }
 
-table.table thead .sorting_asc_disabled { background: url('lib/datatables/images/sort_asc_disabled.png') no-repeat center right; }
-table.table thead .sorting_desc_disabled { background: url('lib/datatables/images/sort_desc_disabled.png') no-repeat center right; }
+table.table thead .sorting_asc_disabled { background: url('../js/lib/datatables/images/sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { background: url('../js/lib/datatables/images/sort_desc_disabled.png') no-repeat center right; }
 
 .credentials-header h1,
 .credentials-header .subheader {
