@@ -23,3 +23,11 @@ def create_mock_app():
             database.get_session().drop_all()
 
     return app, app_teardown
+
+
+def select(html, selector):
+    """ Select elements using CSS """
+    import lxml.html, lxml.cssselect
+    doc = lxml.html.fromstring(html)
+    xpath = lxml.cssselect.CSSSelector(selector)
+    return xpath(doc)
