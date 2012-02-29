@@ -344,7 +344,11 @@ def send_mail(person_id):
             # send email
             msg = Message(mail_data["subject"], sender="meeting@cites.edw.ro",
                           recipients=recipients, body=mail_data["message"])
-            mail.send(msg)
+
+            if app.config["SEND_REAL_EMAILS"]:
+                mail.send(msg)
+            else:
+                flask.flash("This is a demo, no real email was sent", "info")
 
             # flash a success message
             success_msg = u"Mail sent to %s" % mail_data["to"]
@@ -358,7 +362,7 @@ def send_mail(person_id):
     else:
         # create a schema with default data
         mail_schema = schema.Mail({
-            "to": "cornel@eaudeweb.ro",
+            "to": person["personal_email"],
             "subject": phrases["EM_Subj"],
             "message": "\n\n\n%s" % phrases["Intro"],
         })

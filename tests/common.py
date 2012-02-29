@@ -14,6 +14,7 @@ def create_mock_app():
 
     app = create_app()
     app.config['DATABASE_URI'] = _get_testing_db_uri()
+    app.config['SEND_REAL_EMAILS'] = False
     database.initialize_app(app)
     with app.test_request_context():
         database.get_session().create_all()
