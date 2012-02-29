@@ -1,5 +1,5 @@
 {% macro input(mk, field) %}
-  {{ mk.input(field, **mk.get_properties(field)) }}
+  {{ mk.input(field, **mk.properties(field)) }}
 {% endmacro %}
 
 {% macro textarea(mk, field) %}
