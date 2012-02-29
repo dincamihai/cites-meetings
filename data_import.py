@@ -9,39 +9,6 @@ log = logging.getLogger("data-import")
 log.setLevel(logging.INFO)
 
 KEYS = {
-    "person":  ("id",
-                "personal_name_title",
-                "personal_first_name",
-                "personal_last_name",
-                "personal_address",
-                "personal_place",
-                "personal_country",
-                "personal_phone",
-                "personal_cellular",
-                "personal_fax",
-                "personal_email",
-                "personal_language",
-                "personal_category",
-                "representing_country",
-                "representing_organization",
-                "entered",
-                "meeting",
-                "info_alert",
-                "sc_fin",
-                "representing_region",
-                "meeting_flags_sponsored",
-                "meeting_flags_credentials",
-                "meeting_flags_approval",
-                "meeting_flags_invitation",
-                "personal_fee",
-                "meeting_flags_acknowledge",
-                "meeting_flags_verified",
-                "meeting_flags_attended",
-                "representing_organization_show",
-                "more_info_text",
-                "updated",
-                "pic_path"),
-
     "categories": ("id",
                    "name",
                    "stat",
@@ -59,30 +26,100 @@ KEYS = {
                    "invitation_received",
                    "registered"),
 
-    "regions": ("id",
-                "name"),
-
-    "fee": ("id",
-            "name"),
-
-    "country": ("id", "name"),
 }
 
 # from csv to json
-def to_json(file, what="person"):
-    with open(file, "r") as f:
-        reader = csv.reader(f)
-        out = [dict(zip(KEYS[what], property)) for property in reader]
-        out.pop(0) # remove csv headers
-        # out = out[:1]
-
-        # emails from dragos.catarahia @ eaudeweb.ro =>  dragos.catarahia@eaudeweb.ro
+PERSON = [
+    "id",
+    "personal_name_title",
+    "personal_first_name",
+    "personal_last_name",
+    "personal_address",
+    "personal_place",
+    "personal_country",
+    "personal_phone",
+    "personal_cellular",
+    "personal_fax",
+    "personal_email",
+    "personal_language",
+    "personal_category",
+    "representing_country",
+    "representing_organization",
+    "entered",
+    "meeting",
+    "info_alert",
+    "sc_fin",
+    "representing_region",
+    "meeting_flags_sponsored",
+    "meeting_flags_credentials",
+    "meeting_flags_approval",
+    "meeting_flags_invitation",
+    "personal_fee",
+    "meeting_flags_acknowledge",
+    "meeting_flags_verified",
+    "meeting_flags_attended",
+    "representing_organization_show",
+    "more_info_text",
+    "updated",
+    "pic_path"],
+def person_to_json(file):
+    with open(file) as f:
+        out = csv.DictReader(f, fieldnames=PERSON)
+        # out = list(out)[1:2]
         for i in out:
-            if "personal_email" in i:
-                i["personal_email"] = re.sub(r"\s*@\s*", "@",
-                                             i["personal_email"])
+            print i
+        print out
+        # print json.dumps(out, indent=2)
 
-        print json.dumps(out, indent=2)
+FEE = [
+    "id",
+    "name"
+]
+def fee_to_json(file):
+    out = get_csv(file, fieldnames=FEE)
+    print json.dumps(out, indent=2)
+
+REGION = [
+    "id",
+    "name_en_sp_fr",
+    "name",
+]
+def region_to_json(file):
+    out = get_csv(file, fieldnames=REGION)
+    print json.dumps(out, indent=2)
+
+COUNTRY = [
+    "id",
+    "name",
+]
+def country_to_json(file):
+    out = get_csv(file, fieldnames=COUNTRY)
+    print json.dumps(out, indent=2)
+
+DISPATCH = {
+    "person": person_to_json,
+    "fee": fee_to_json,
+    "region": region_to_json,
+    "country": country_to_json,
+}
+def to_json(file, what="person"):
+    if what in DISPATCH:
+        return DISPATCH[what](file)
+    else:
+        print "Value for -w not valid"
+
+    # # emails from dragos.catarahia @ eaudeweb.ro =>  dragos.catarahia@eaudeweb.ro
+    # for i in out:
+    #     if "personal_email" in i:
+    #         i["personal_email"] = re.sub(r"\s*@\s*", "@",
+    #                                      i["personal_email"])
+
+def get_csv(file, fieldnames):
+    with open(file) as f:
+        out = csv.DictReader(f, fieldnames=fieldnames, restkey="restkey",
+            restval="restval")
+        out = list(out)[1:]
+    return out
 
 def data_import(file):
     logging.basicConfig()
