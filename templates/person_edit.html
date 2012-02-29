@@ -40,8 +40,8 @@
               .off("click", "a")
               .on("click", "a",
                 function () {
-                  $("#field-place").val(
-                    $("#field-place").val() + $(this).text()
+                  $("#f_personal_place").val(
+                    $("#f_personal_place").val() + $(this).text()
                   );
                  })
               .on("click", function(e) { e.stopPropagation(); });
