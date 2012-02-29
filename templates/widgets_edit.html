@@ -1,5 +1,5 @@
 {% macro input(mk, field) %}
-  {{ mk.input(field, class=field.properties.css_class) }}
+  {{ mk.input(field, **mk.properties(field)) }}
 {% endmacro %}
 
 {% macro textarea(mk, field) %}
