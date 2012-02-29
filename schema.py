@@ -74,7 +74,8 @@ Person = fl.Dict.with_properties(widget="schema") \
               .of(
 
         CommonString.named("name_title") \
-                    .using(label=u"Personal title"),
+                    .using(label=u"Personal title") \
+                    .with_properties(attr={"autofocus": ""}),
 
         CommonString.named("first_name") \
                     .using(optional=False,
@@ -95,10 +96,16 @@ Person = fl.Dict.with_properties(widget="schema") \
 
         CommonString.named("email") \
                     .using(label=u"Email") \
-                    .including_validators(IsEmail()),
+                    .including_validators(IsEmail()) \
+                    .with_properties(attr={"type": "email"}),
 
         CommonString.named("phone") \
-                    .using(label=u"Phone"),
+                    .using(label=u"Phone") \
+                    .with_properties(attr={
+                        "type": "tel",
+                        "pattern": "^\d+ \d+ \d+$",
+                        "title": "(999 000 555)",
+                    }),
 
         CommonString.named("cellular") \
                     .using(label=u"Cellular"),
@@ -176,7 +183,8 @@ Person = fl.Dict.with_properties(widget="schema") \
                .using(label=u"Date acknowledged",
                       optional=True) \
                .including_validators(Converted(incorrect=u"%(label)s is not "
-                                                          "a valid date")),
+                                                          "a valid date")) \
+               .with_properties(attr={"type": "date"}),
 
         CommonBoolean.named("attended") \
                      .using(label=u"Attended"),
