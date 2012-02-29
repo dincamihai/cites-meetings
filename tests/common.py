@@ -25,9 +25,12 @@ def create_mock_app():
     return app, app_teardown
 
 
-def select(html, selector):
+def select(container, selector):
     """ Select elements using CSS """
     import lxml.html, lxml.cssselect
-    doc = lxml.html.fromstring(html)
+    if isinstance(container, basestring):
+        doc = lxml.html.fromstring(container)
+    else:
+        doc = container
     xpath = lxml.cssselect.CSSSelector(selector)
     return xpath(doc)

@@ -1,4 +1,5 @@
 import unittest
+from urlparse import urlparse
 import flask
 from common import create_mock_app, select
 
@@ -26,3 +27,18 @@ class ParticipantWorkflowTest(unittest.TestCase):
         self.assertElementIn('form[method="post"] '
                              'input[name="personal_name_title"]',
                              resp.data)
+
+    def test_new_participant_submit(self):
+        form_resp = self.client.post('/meeting/1/participant/new', data={
+            'personal_name_title': u"Mr",
+            'personal_first_name': u"Joe",
+            'personal_last_name': u"Smith",
+        })
+        url_path = urlparse(form_resp.location).path
+        self.assertEqual(url_path, '/meeting/1/participant/1')
+
+        view_resp = self.client.get(url_path)
+        self.assertIn("Person information saved", view_resp.data)
+
+        [first_name_th] = select(view_resp.data, 'tr th:contains("First name")')
+        self.assertElementIn('td:contains("Joe")', first_name_th.getparent())
