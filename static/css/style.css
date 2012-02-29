@@ -344,6 +344,49 @@ body .nav-pills > li > a:hover {
 }
 
 /* page with a person's details */
+.btn-toolbar {
+	margin-left: 10px;
+}
+
+body .row .span6 table th {
+	background: #ddd;
+	text-align: right;
+	color: #888;
+	font-weight: normal;
+}
+
+.row .span6 table td {
+	background: #fff;
+}
+
+body .alert {
+	margin-bottom: 0px;
+}
+
+.row .span6 table~h2 {
+	color: #777;
+	font-size: 16px;
+}
+
+.row .span3 {
+	clear: both;
+}
+
+body .span3 .thumbnail {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 /* VARIOUS */
