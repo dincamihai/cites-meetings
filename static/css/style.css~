@@ -261,15 +261,14 @@ body .navbar.navbar-fixed-top {
 .form-horizontal fieldset {
 	margin-top: 4px;
 	vertical-align: top;
-width: 49%;
 display: inline;
-border-right: 1px solid #eee;
-border-bottom: 1px solid #eee;
 }
 
 .form-horizontal fieldset legend {
 	background: #ddd;
 	border: none;
+	text-align: center;
+
 }
 
 #f_representing_organization,
@@ -279,7 +278,6 @@ border-bottom: 1px solid #eee;
 }
 
 body .form-horizontal .control-group {
-border-bottom: 0px solid #eee;
 	padding-bottom: 5px;
 	margin-bottom: 0px;
 }
@@ -348,11 +346,6 @@ body .nav-pills > li > a:hover {
 	margin-left: 10px;
 }
 
-body .row .span6 {
-width: 100%;
-border: 1px solid blue;
-}
-
 body .row .span6 table th {
 	background: #ddd;
 	text-align: right;
@@ -383,14 +376,61 @@ body .span3 .thumbnail {
 	-moz-box-shadow: none;
 }
 
+/* credentials page */
+.credentials-header,
+.credentials-content,
+body .container .subheader  {
+	background: #fff;
+}
 
+.credentials-header .title,
+.credentials-header .content {
+	font-size: 14px;
+}
 
+footer {
+	margin-top: 0px;
+	padding-top: 15px;
+}
 
+.credentials-header ul {
+	width: 45%;
+	margin: 0px auto;
+}
 
+.credentials-content div {
+	margin: 20px 10px 0px;
+}
 
+.credentials-content p {
+	font-size: 12px;
+}
 
+.breadcrumb {
+	margin-bottom: 0px;
+}
 
+/* email page */
+body .send-mail-container {
+	background: #ddd;
+	margin-bottom: 0px;
+}
 
+body .well {
+border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	-moz-box-shadow: none;
+}
+
+textarea#field-message {
+	max-width: 900px;
+}
+
+/* badge page */
+body .badge {
+background: red;
+}
 
 
 
