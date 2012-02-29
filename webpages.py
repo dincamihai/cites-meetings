@@ -386,3 +386,17 @@ class MarkupGenerator(flatland.out.markup.Generator):
             widget_name = element.properties.get("widget", "input")
         widget_macro = getattr(self.template.module, widget_name)
         return widget_macro(self, element)
+
+    def get_properties(self, field, id=None):
+        properties = {}
+
+        if id:
+            properties["id"] = id
+        if field.properties.get("css_class", None):
+            properties["class"] = field.properties["css_class"]
+        if field.optional is False:
+            properties["required"] = ""
+        if field.properties.get("attr", None):
+            properties.update(field.properties["attr"])
+
+        return properties

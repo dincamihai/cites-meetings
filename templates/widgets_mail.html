@@ -1,16 +1,5 @@
 {% macro input(mk, field) %}
-  {% set properties = {"id": "field-%s" % field.name} %}
-
-  {% if field.properties.css_class %}
-    {% do properties.update({"class": field.properties.css_class }) %}
-  {% endif %}
-  {% if field.optional == false %}
-    {% do properties.update({"required": ""}) %}
-  {% endif %}
-  {% if field.properties.attr %}
-    {% do properties.update(field.properties.attr) %}
-  {% endif %}
-  {{ mk.input(field, **properties) }}
+  {{ mk.input(field, **mk.get_properties(field, id="field-%s" % field.name)) }}
 {% endmacro %}
 
 {% macro textarea(mk, field) %}
