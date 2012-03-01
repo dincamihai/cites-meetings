@@ -89,7 +89,7 @@
 {% endblock %}
 
 <form class="form-horizontal" method="post">
-  {{ mk.widget(person) }}
+  {{ mk.widget(person_schema) }}
   <div class="form-actions">
     <button type="submit" class="btn btn-primary">Save changes</button>
     <a class="btn" href="{{ url_for('webpages.home') }}">Cancel</a>

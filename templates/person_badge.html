@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% macro badge(person) -%}
+{% set category = ref['category'][person['personal']['category']] %}
 {% set badge_color = {
     'NULL':          "",
     'all pink':      "badge-pink",
@@ -20,25 +21,25 @@
 <section class="badge {{ badge_color }}">
 
   <header class="badge-stripe">
-    <h1>{{ person.meeting_description }}</h1>
-    <h2>{{ person.meeting_address }}</h2>
+    <h1>{{ meeting_description }}</h1>
+    <h2>{{ meeting_address }}</h2>
     <img class="cites-logo" src="{{ url_for('static', filename='img/CITES.jpg') }}" />
     <img class="unep-logo" src="{{ url_for('static', filename='img/UNEP.jpg') }}" />
   </header>
 
   <div class="badge-content">
-    {% if person.get("photo_id", "") %}
+    {% if has_photo %}
       <img class="photo"
-           src="{{ url_for('webpages.photo', person_id=person.id) }}">
+           src="{{ url_for('webpages.photo', person_id=person_id) }}">
     {% endif %}
     <p class="badge-text">
       <span class="person-name">
-        {%- if person['representing_country'] == 'CN' -%}
-          {{ person['personal_last_name']|upper }}
-          {{ person['personal_first_name'] }}
+        {%- if person['representing']['country'] == 'CN' -%}
+          {{ person['personal']['last_name']|upper }}
+          {{ person['personal']['first_name'] }}
         {%- else -%}
-          {{ person['personal_first_name'] }}
-          {{ person['personal_last_name']|upper }}
+          {{ person['personal']['first_name'] }}
+          {{ person['personal']['last_name']|upper }}
         {%- endif -%}
       </span>
       <br>
@@ -46,9 +47,9 @@
         {%- if category['stat'] == "Staff" or category['name'] == "Visitor"  -%}
           {{ category['name'] }}
         {%- elif category['representative'] == "Region" -%}
-          {{ person['representing_region'] }}
+          {{ ref['region'][person['representing']['region']] }}
         {%- elif category['representative'] == "Country" -%}
-          {{ ref['country'][person['representing_country']] }}
+          {{ ref['country'][person['representing']['country']] }}
         {%- elif category['reg'] == "Observers, Other" -%}
           OTHER OBSERVER
         {%- endif -%}
@@ -67,7 +68,7 @@
   {{ breadcrumb_items([
       (url_for('webpages.meeting'), "Meeting"),
       (url_for('webpages.meeting_registration'), "Registration"),
-      (url_for('webpages.view', person_id=person.id), person.name),
+      (url_for('webpages.view', person_id=person_id), person.name),
       ]) }}
 </ul>
 

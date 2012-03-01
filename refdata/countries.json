@@ -1,973 +1,2188 @@
 [
   {
+    "restkey": [
+      "Andorra",
+      "Andorre",
+      "Andorra / Andorre"
+    ],
     "id": "AD",
     "name": "Andorra"
   },
   {
+    "restkey": [
+      "Emiratos \u00c1rabes Unidos",
+      "Emirats arabes unis",
+      "United Arab Emirates / Emiratos \u00c1rabes Unidos / Emirats arabes unis"
+    ],
     "id": "AE",
     "name": "United Arab Emirates"
   },
   {
+    "restkey": [
+      "Afganist\u00e1n",
+      "Afghanistan",
+      "Afghanistan / Afganist\u00e1n"
+    ],
     "id": "AF",
     "name": "Afghanistan"
   },
   {
+    "restkey": [
+      "Antigua y Barbuda",
+      "Antigua-et-Barbuda",
+      "Antigua and Barbuda / Antigua y Barbuda / Antigua-et-Barbuda"
+    ],
     "id": "AG",
     "name": "Antigua and Barbuda"
   },
   {
+    "restkey": [
+      "Anguilla",
+      "Anguilla",
+      "Anguilla"
+    ],
     "id": "AI",
     "name": "Anguilla"
   },
   {
+    "restkey": [
+      "Albania",
+      "Albanie",
+      "Albania / Albanie"
+    ],
     "id": "AL",
     "name": "Albania"
   },
   {
+    "restkey": [
+      "Armenia",
+      "Arm\u00e9nie",
+      "Armenia / Arm\u00e9nie"
+    ],
     "id": "AM",
     "name": "Armenia"
   },
   {
+    "restkey": [
+      "Antillas Holandesas",
+      "Antilles n\u00e9erlandaises",
+      "Netherlands Antilles / Antillas Holandesas / Antilles n\u00e9erlandaises"
+    ],
     "id": "AN",
     "name": "Netherlands Antilles"
   },
   {
+    "restkey": [
+      "Angola",
+      "Angola",
+      "Angola"
+    ],
     "id": "AO",
     "name": "Angola"
   },
   {
+    "restkey": [
+      "Ant\u00e1rctica",
+      "Antarctique",
+      "Antarctica / Ant\u00e1rctica / Antarctique"
+    ],
     "id": "AQ",
     "name": "Antarctica"
   },
   {
+    "restkey": [
+      "Argentina",
+      "Argentine",
+      "Argentina / Argentine"
+    ],
     "id": "AR",
     "name": "Argentina"
   },
   {
+    "restkey": [
+      "Samoa Americana",
+      "Samoa am\u00e9ricaines",
+      "American Samoa / Samoa Americana / Samoa am\u00e9ricaines"
+    ],
     "id": "AS",
     "name": "American Samoa"
   },
   {
+    "restkey": [
+      "Austria",
+      "Autriche",
+      "Austria / Autriche"
+    ],
     "id": "AT",
     "name": "Austria"
   },
   {
+    "restkey": [
+      "Australia",
+      "Australie",
+      "Australia / Australie"
+    ],
     "id": "AU",
     "name": "Australia"
   },
   {
+    "restkey": [
+      "Aruba",
+      "Aruba",
+      "Aruba"
+    ],
     "id": "AW",
     "name": "Aruba"
   },
   {
+    "restkey": [
+      "Azerbaiy\u00e1n",
+      "Azerba\u00efdjan",
+      "Azerbaijan / Azerbaiy\u00e1n / Azerba\u00efdjan"
+    ],
     "id": "AZ",
     "name": "Azerbaijan"
   },
   {
+    "restkey": [
+      "Bosnia y Herzegovina",
+      "R\u00e9publique de Bosnie-Herz\u00e9govine",
+      "Bosnia and Herzegovina / Bosnia y Herzegovina / R\u00e9publique de Bosnie-Herz\u00e9govine"
+    ],
     "id": "BA",
     "name": "Bosnia and Herzegovina"
   },
   {
+    "restkey": [
+      "Barbados",
+      "Barbade",
+      "Barbados / Barbade"
+    ],
     "id": "BB",
     "name": "Barbados"
   },
   {
+    "restkey": [
+      "Bangladesh",
+      "Bangladesh",
+      "Bangladesh"
+    ],
     "id": "BD",
     "name": "Bangladesh"
   },
   {
+    "restkey": [
+      "B\u00e9lgica",
+      "Belgique",
+      "Belgium / B\u00e9lgica / Belgique"
+    ],
     "id": "BE",
     "name": "Belgium"
   },
   {
+    "restkey": [
+      "Burkina Faso",
+      "Burkina Faso",
+      "Burkina Faso"
+    ],
     "id": "BF",
     "name": "Burkina Faso"
   },
   {
+    "restkey": [
+      "Bulgaria",
+      "Bulgarie",
+      "Bulgaria / Bulgarie"
+    ],
     "id": "BG",
     "name": "Bulgaria"
   },
   {
+    "restkey": [
+      "Bahrein",
+      "Bahre\u00efn",
+      "Bahrain / Bahrein / Bahre\u00efn"
+    ],
     "id": "BH",
     "name": "Bahrain"
   },
   {
+    "restkey": [
+      "Burundi",
+      "Burundi",
+      "Burundi"
+    ],
     "id": "BI",
     "name": "Burundi"
   },
   {
+    "restkey": [
+      "Benin",
+      "B\u00e9nin",
+      "Benin / B\u00e9nin"
+    ],
     "id": "BJ",
     "name": "Benin"
   },
   {
+    "restkey": [
+      "Bermuda",
+      "Bermudes",
+      "Bermuda / Bermudes"
+    ],
     "id": "BM",
     "name": "Bermuda"
   },
   {
+    "restkey": [
+      "Brunei Darussalam",
+      "Brun\u00e9i Darussalam",
+      "Brunei Darussalam / Brun\u00e9i Darussalam"
+    ],
     "id": "BN",
     "name": "Brunei Darussalam"
   },
   {
+    "restkey": [
+      "Bolivia (Estado Plurinacional de)",
+      "Bolivie (Etat plurinational de)",
+      "Bolivia (Plurinational State of) / Bolivia (Estado Plurinacional de) / Bolivie (Etat plurinational de)"
+    ],
     "id": "BO",
     "name": "Bolivia (Plurinational State of)"
   },
   {
+    "restkey": [
+      "Brasil",
+      "Br\u00e9sil",
+      "Brazil / Brasil / Br\u00e9sil"
+    ],
     "id": "BR",
     "name": "Brazil"
   },
   {
+    "restkey": [
+      "Bahamas",
+      "Bahamas",
+      "Bahamas"
+    ],
     "id": "BS",
     "name": "Bahamas"
   },
   {
+    "restkey": [
+      "Bhut\u00e1n",
+      "Bhoutan",
+      "Bhutan / Bhut\u00e1n / Bhoutan"
+    ],
     "id": "BT",
     "name": "Bhutan"
   },
   {
+    "restkey": [
+      "Isla Bouvet",
+      "Ile Bouvet",
+      "Bouvet Island / Isla Bouvet / Ile Bouvet"
+    ],
     "id": "BV",
     "name": "Bouvet Island"
   },
   {
+    "restkey": [
+      "Botswana",
+      "Botswana",
+      "Botswana"
+    ],
     "id": "BW",
     "name": "Botswana"
   },
   {
+    "restkey": [
+      "Belar\u00fas",
+      "B\u00e9larus",
+      "Belarus / Belar\u00fas / B\u00e9larus"
+    ],
     "id": "BY",
     "name": "Belarus"
   },
   {
+    "restkey": [
+      "Belice",
+      "Belize",
+      "Belize / Belice"
+    ],
     "id": "BZ",
     "name": "Belize"
   },
   {
+    "restkey": [
+      "Canad\u00e1",
+      "Canada",
+      "Canada / Canad\u00e1"
+    ],
     "id": "CA",
     "name": "Canada"
   },
   {
+    "restkey": [
+      "Islas Cocos (Keeling)",
+      "Iles Cocos (Keeling)",
+      "Cocos (Keeling) Islands / Islas Cocos (Keeling) / Iles Cocos (Keeling)"
+    ],
     "id": "CC",
     "name": "Cocos (Keeling) Islands"
   },
   {
+    "restkey": [
+      "Rep\u00fablica Democr\u00e1tica del Congo",
+      "R\u00e9publique d\u00e9mocratique du Congo",
+      "Democratic Republic of the Congo / Rep\u00fablica Democr\u00e1tica del Congo / R\u00e9publique d\u00e9mocratique du Congo"
+    ],
     "id": "CD",
     "name": "Democratic Republic of the Congo"
   },
   {
+    "restkey": [
+      "Rep\u00fablica Centroafricana",
+      "R\u00e9publique centrafricaine",
+      "Central African Republic / Rep\u00fablica Centroafricana / R\u00e9publique centrafricaine"
+    ],
     "id": "CF",
     "name": "Central African Republic"
   },
   {
+    "restkey": [
+      "Congo",
+      "Congo",
+      "Congo"
+    ],
     "id": "CG",
     "name": "Congo"
   },
   {
+    "restkey": [
+      "Suiza",
+      "Suisse",
+      "Switzerland / Suiza / Suisse"
+    ],
     "id": "CH",
     "name": "Switzerland"
   },
   {
+    "restkey": [
+      "C\u00f4te d'Ivoire",
+      "C\u00f4te d'Ivoire",
+      "C\u00f4te d'Ivoire"
+    ],
     "id": "CI",
     "name": "C\u00f4te d'Ivoire"
   },
   {
+    "restkey": [
+      "Islas Cook",
+      "Iles Cook",
+      "Cook Islands / Islas Cook / Iles Cook"
+    ],
     "id": "CK",
     "name": "Cook Islands"
   },
   {
+    "restkey": [
+      "Chile",
+      "Chili",
+      "Chile / Chili"
+    ],
     "id": "CL",
     "name": "Chile"
   },
   {
+    "restkey": [
+      "Camer\u00fan",
+      "Cameroun",
+      "Cameroon / Camer\u00fan / Cameroun"
+    ],
     "id": "CM",
     "name": "Cameroon"
   },
   {
+    "restkey": [
+      "China",
+      "Chine",
+      "China / Chine"
+    ],
     "id": "CN",
     "name": "China"
   },
   {
+    "restkey": [
+      "Colombia",
+      "Colombie",
+      "Colombia / Colombie"
+    ],
     "id": "CO",
     "name": "Colombia"
   },
   {
+    "restkey": [
+      "Costa Rica",
+      "Costa Rica",
+      "Costa Rica"
+    ],
     "id": "CR",
     "name": "Costa Rica"
   },
   {
+    "restkey": [
+      "Cuba",
+      "Cuba",
+      "Cuba"
+    ],
     "id": "CU",
     "name": "Cuba"
   },
   {
+    "restkey": [
+      "Cabo Verde",
+      "Cap-Vert",
+      "Cape Verde / Cabo Verde / Cap-Vert"
+    ],
     "id": "CV",
     "name": "Cape Verde"
   },
   {
+    "restkey": [
+      "Isla Christmas",
+      "Ile Christmas",
+      "Christmas Island / Isla Christmas / Iles Christmas"
+    ],
     "id": "CX",
     "name": "Christmas Island"
   },
   {
+    "restkey": [
+      "Chipre",
+      "Chypre",
+      "Cyprus / Chipre / Chypre"
+    ],
     "id": "CY",
     "name": "Cyprus"
   },
   {
+    "restkey": [
+      "Rep\u00fablica Checa",
+      "R\u00e9publique tch\u00e8que",
+      "Czech Republic / Rep\u00fablica Checa / R\u00e9publique tch\u00e8que"
+    ],
     "id": "CZ",
     "name": "Czech Republic"
   },
   {
+    "restkey": [
+      "Alemania",
+      "Allemagne",
+      "Germany / Alemania / Allemagne"
+    ],
     "id": "DE",
     "name": "Germany"
   },
   {
+    "restkey": [
+      "Djibouti",
+      "Djibouti",
+      "Djibouti"
+    ],
     "id": "DJ",
     "name": "Djibouti"
   },
   {
+    "restkey": [
+      "Dinamarca",
+      "Danemark",
+      "Denmark / Dinamarca / Danemark"
+    ],
     "id": "DK",
     "name": "Denmark"
   },
   {
+    "restkey": [
+      "Dominica",
+      "Dominique",
+      "Dominica / Dominique"
+    ],
     "id": "DM",
     "name": "Dominica"
   },
   {
+    "restkey": [
+      "Rep\u00fablica Dominicana",
+      "R\u00e9publique dominicaine",
+      "Dominican Republic / Rep\u00fablica Dominicana / R\u00e9publique dominicaine"
+    ],
     "id": "DO",
     "name": "Dominican Republic"
   },
   {
+    "restkey": [
+      "Argelia",
+      "Alg\u00e9rie",
+      "Algeria / Argelia / Alg\u00e9rie"
+    ],
     "id": "DZ",
     "name": "Algeria"
   },
   {
+    "restkey": [
+      "Ecuador",
+      "Equateur",
+      "Ecuador / Equateur"
+    ],
     "id": "EC",
     "name": "Ecuador"
   },
   {
+    "restkey": [
+      "Estonia",
+      "Estonie",
+      "Estonia / Estonie"
+    ],
     "id": "EE",
     "name": "Estonia"
   },
   {
+    "restkey": [
+      "Egipto",
+      "Egypte",
+      "Egypt / Egipto / Egypte"
+    ],
     "id": "EG",
     "name": "Egypt"
   },
   {
+    "restkey": [
+      "Sahara Occidental",
+      "Sahara occidental",
+      "Western Sahara / Sahara Occidental / Sahara occidental"
+    ],
     "id": "EH",
     "name": "Western Sahara"
   },
   {
+    "restkey": [
+      "Eritrea",
+      "Erythr\u00e9e",
+      "Eritrea / Erythr\u00e9e"
+    ],
     "id": "ER",
     "name": "Eritrea"
   },
   {
+    "restkey": [
+      "Espa\u00f1a",
+      "Espagne",
+      "Spain / Espa\u00f1a / Espagne"
+    ],
     "id": "ES",
     "name": "Spain"
   },
   {
+    "restkey": [
+      "Etiop\u00eda",
+      "Ethiopie",
+      "Ethiopia / Etiop\u00eda / Ethiopie"
+    ],
     "id": "ET",
     "name": "Ethiopia"
   },
   {
+    "restkey": [
+      "Finlandia",
+      "Finlande",
+      "Finland / Finlandia / Finlande"
+    ],
     "id": "FI",
     "name": "Finland"
   },
   {
+    "restkey": [
+      "Fiji",
+      "Fidji",
+      "Fiji / Fidji"
+    ],
     "id": "FJ",
     "name": "Fiji"
   },
   {
+    "restkey": [
+      "Islas Malvinas (Falkland Islands)",
+      "Iles Falkland (Malvinas)",
+      "Falkland Islands (Malvinas) / Islas Malvinas (Falkland Islands) / Iles Falkland (Malvinas)"
+    ],
     "id": "FK",
     "name": "Falkland Islands (Malvinas)"
   },
   {
+    "restkey": [
+      "Micronesia (Estados Federados de)",
+      "Micron\u00e9sie (Etats f\u00e9d\u00e9r\u00e9s de)",
+      "Micronesia (Federated States of) / Micronesia (Estados Federados del) / Micron\u00e9sie (Etats f\u00e9d\u00e9r\u00e9s de)"
+    ],
     "id": "FM",
     "name": "Micronesia (Federated States of)"
   },
   {
+    "restkey": [
+      "Islas Feroe",
+      "Iles F\u00e9ro\u00e9",
+      "Faroe Islands / Islas Feroe / Iles F\u00e9ro\u00e9"
+    ],
     "id": "FO",
     "name": "Faroe Islands"
   },
   {
+    "restkey": [
+      "Francia",
+      "France",
+      "France / Francia"
+    ],
     "id": "FR",
     "name": "France"
   },
   {
+    "restkey": [
+      "Gab\u00f3n",
+      "Gabon",
+      "Gabon / Gab\u00f3n"
+    ],
     "id": "GA",
     "name": "Gabon"
   },
   {
+    "restkey": [
+      "Reino Unido",
+      "Royaume-Uni",
+      "United Kingdom of Great Britain and Northern Ireland / Reino Unido de Gran Breta\u00f1a e Irlanda del Norte / Royaume-Uni de Grande-Bretagne et d'Irlande du Nord"
+    ],
     "id": "GB",
     "name": "United Kingdom"
   },
   {
+    "restkey": [
+      "Granada",
+      "Grenade",
+      "Grenada / Granada / Grenade"
+    ],
     "id": "GD",
     "name": "Grenada"
   },
   {
+    "restkey": [
+      "Georgia",
+      "G\u00e9orgie",
+      "Georgia / G\u00e9orgie"
+    ],
     "id": "GE",
     "name": "Georgia"
   },
   {
+    "restkey": [
+      "Guyana Francesa",
+      "Guyane fran\u00e7aise",
+      "French Guiana / Guyana Francesa / Guyane fran\u00e7aise"
+    ],
     "id": "GF",
     "name": "French Guiana"
   },
   {
+    "restkey": [
+      "Ghana",
+      "Ghana",
+      "Ghana"
+    ],
     "id": "GH",
     "name": "Ghana"
   },
   {
+    "restkey": [
+      "Gibraltar",
+      "Gibraltar",
+      "Gibraltar"
+    ],
     "id": "GI",
     "name": "Gibraltar"
   },
   {
+    "restkey": [
+      "Groenlandia",
+      "Groenland",
+      "Greenland / Groenlandia / Groenland"
+    ],
     "id": "GL",
     "name": "Greenland"
   },
   {
+    "restkey": [
+      "Gambia",
+      "Gambie",
+      "Gambia / Gambie"
+    ],
     "id": "GM",
     "name": "Gambia"
   },
   {
+    "restkey": [
+      "Guinea",
+      "Guin\u00e9e",
+      "Guinea / Guin\u00e9e"
+    ],
     "id": "GN",
     "name": "Guinea"
   },
   {
+    "restkey": [
+      "Guadelupe",
+      "Guadeloupe",
+      "Guadeloupe / Guadelupe"
+    ],
     "id": "GP",
     "name": "Guadeloupe"
   },
   {
+    "restkey": [
+      "Guinea Ecuatorial",
+      "Guin\u00e9e \u00e9quatoriale",
+      "Equatorial Guinea / Guinea Ecuatorial / Guin\u00e9e \u00e9quatoriale"
+    ],
     "id": "GQ",
     "name": "Equatorial Guinea"
   },
   {
+    "restkey": [
+      "Grecia",
+      "Gr\u00e8ce",
+      "Greece / Grecia / Gr\u00e8ce"
+    ],
     "id": "GR",
     "name": "Greece"
   },
   {
+    "restkey": [
+      "Islas Georgia del Sur y Sandwich del Sur",
+      "Iles de la G\u00e9orgie du Sud et de Sandwich du Sud",
+      "South Georgia and the South Sandwich Islands / Islas de Georgia del Sur y de Sandwich del Sur / Iles de la G\u00e9orgie du Sud et de Sandwich du Sud"
+    ],
     "id": "GS",
     "name": "South Georgia and the South Sandwich Islands"
   },
   {
+    "restkey": [
+      "Guatemala",
+      "Guatemala",
+      "Guatemala"
+    ],
     "id": "GT",
     "name": "Guatemala"
   },
   {
+    "restkey": [
+      "Guam",
+      "Guam",
+      "Guam"
+    ],
     "id": "GU",
     "name": "Guam"
   },
   {
+    "restkey": [
+      "Guinea-Bissau",
+      "Guin\u00e9e-Bissau",
+      "Guinea-Bissau / Guin\u00e9e-Bissau"
+    ],
     "id": "GW",
     "name": "Guinea-Bissau"
   },
   {
+    "restkey": [
+      "Guyana",
+      "Guyana",
+      "Guyana"
+    ],
     "id": "GY",
     "name": "Guyana"
   },
   {
+    "restkey": [
+      "Hong Kong",
+      "Hong Kong",
+      "Hong Kong"
+    ],
     "id": "HK",
     "name": "Hong Kong"
   },
   {
+    "restkey": [
+      "Islas Heard y Mc Donald",
+      "Iles Heard et McDonald",
+      "Heard and Mc Donald Islands / Islas Heard y Mc Donald / Iles Heard et Mc Donald"
+    ],
     "id": "HM",
     "name": "Heard and Mc Donald Islands"
   },
   {
+    "restkey": [
+      "Honduras",
+      "Honduras",
+      "Honduras"
+    ],
     "id": "HN",
     "name": "Honduras"
   },
   {
+    "restkey": [
+      "Croacia",
+      "Croatie",
+      "Croatia / Croacia / Croatie"
+    ],
     "id": "HR",
     "name": "Croatia"
   },
   {
+    "restkey": [
+      "Hait\u00ed",
+      "Ha\u00efti",
+      "Haiti / Hait\u00ed / Ha\u00efti"
+    ],
     "id": "HT",
     "name": "Haiti"
   },
   {
+    "restkey": [
+      "Hungr\u00eda",
+      "Hongrie",
+      "Hungary / Hungr\u00eda / Hongrie"
+    ],
     "id": "HU",
     "name": "Hungary"
   },
   {
+    "restkey": [
+      "Indonesia",
+      "Indon\u00e9sie",
+      "Indonesia / Indon\u00e9sie"
+    ],
     "id": "ID",
     "name": "Indonesia"
   },
   {
+    "restkey": [
+      "Irlanda",
+      "Irlande",
+      "Ireland / Irlanda / Irlande"
+    ],
     "id": "IE",
     "name": "Ireland"
   },
   {
+    "restkey": [
+      "Israel",
+      "Isra\u00ebl",
+      "Israel / Isra\u00ebl"
+    ],
     "id": "IL",
     "name": "Israel"
   },
   {
+    "restkey": [
+      "India",
+      "Inde",
+      "India / Inde"
+    ],
     "id": "IN",
     "name": "India"
   },
   {
+    "restkey": [
+      "Territorio Brit\u00e1nico del Oc\u00e9ano Indico",
+      "Territoire britannique de l'oc\u00e9an Indien",
+      "British Indian Ocean Territory / Territorio Brit\u00e1nico del Oc\u00e9ano Indico / Territoire britannique de l'oc\u00e9an Indien"
+    ],
     "id": "IO",
     "name": "British Indian Ocean Territory"
   },
   {
+    "restkey": [
+      "Iraq",
+      "Iraq",
+      "Iraq"
+    ],
     "id": "IQ",
     "name": "Iraq"
   },
   {
+    "restkey": [
+      "Ir\u00e1n (Rep\u00fablica Isl\u00e1mica del)",
+      "Iran (R\u00e9publique islamique d')",
+      "Iran (Islamic Republic of) / Ir\u00e1n (Rep\u00fablica Isl\u00e1mica del) / Iran (R\u00e9publique islamique d')"
+    ],
     "id": "IR",
     "name": "Iran (Islamic Republic of)"
   },
   {
+    "restkey": [
+      "Islandia",
+      "Islande",
+      "Iceland / Islandia / Islande"
+    ],
     "id": "IS",
     "name": "Iceland"
   },
   {
+    "restkey": [
+      "Italia",
+      "Italie",
+      "Italy / Italia / Italie"
+    ],
     "id": "IT",
     "name": "Italy"
   },
   {
+    "restkey": [
+      "Jamaica",
+      "Jama\u00efque",
+      "Jamaica / Jama\u00efque"
+    ],
     "id": "JM",
     "name": "Jamaica"
   },
   {
+    "restkey": [
+      "Jordania",
+      "Jordanie",
+      "Jordan / Jordania / Jordanie"
+    ],
     "id": "JO",
     "name": "Jordan"
   },
   {
+    "restkey": [
+      "Jap\u00f3n",
+      "Japon",
+      "Japan / Jap\u00f3n / Japon"
+    ],
     "id": "JP",
     "name": "Japan"
   },
   {
+    "restkey": [
+      "Kenya",
+      "Kenya",
+      "Kenya"
+    ],
     "id": "KE",
     "name": "Kenya"
   },
   {
+    "restkey": [
+      "Kirguist\u00e1n",
+      "Kirghizistan",
+      "Kyrgyzstan / Kirguist\u00e1n / Kirghizistan"
+    ],
     "id": "KG",
     "name": "Kyrgyzstan"
   },
   {
+    "restkey": [
+      "Camboya",
+      "Cambodge",
+      "Cambodia / Camboya / Cambodge"
+    ],
     "id": "KH",
     "name": "Cambodia"
   },
   {
+    "restkey": [
+      "Kiribati",
+      "Kiribati",
+      "Kiribati"
+    ],
     "id": "KI",
     "name": "Kiribati"
   },
   {
+    "restkey": [
+      "Comoras",
+      "Comores",
+      "Comoros / Comoras / Comores"
+    ],
     "id": "KM",
     "name": "Comoros"
   },
   {
+    "restkey": [
+      "Saint Kitts y Nevis",
+      "Saint-Kitts-et-Nevis",
+      "Saint Kitts and Nevis / Saint Kitts y Nevis / Saint-Kitts-et-Nevis"
+    ],
     "id": "KN",
     "name": "Saint Kitts and Nevis"
   },
   {
+    "restkey": [
+      "Rep\u00fablica Popular Democr\u00e1tica de Corea",
+      "R\u00e9publique populaire d\u00e9mocratique de Cor\u00e9e",
+      "Democratic People's Republic of Korea / Rep\u00fablica Popular Democr\u00e1tica de Corea / R\u00e9publique populaire d\u00e9mocratique de Cor\u00e9e"
+    ],
     "id": "KP",
     "name": "Democratic People's Republic of Korea"
   },
   {
+    "restkey": [
+      "Rep\u00fablica de Corea",
+      "R\u00e9publique de Cor\u00e9e",
+      "Republic of Korea / Rep\u00fablica de Corea / R\u00e9publique de Cor\u00e9e"
+    ],
     "id": "KR",
     "name": "Republic of Korea"
   },
   {
+    "restkey": [
+      "Kuwait",
+      "Kowe\u00eft",
+      "Kuwait / Kowe\u00eft"
+    ],
     "id": "KW",
     "name": "Kuwait"
   },
   {
+    "restkey": [
+      "Islas Caim\u00e1n",
+      "Iles Ca\u00efmanes",
+      "Cayman Islands / Islas Caim\u00e1n / Iles Ca\u00efmanes"
+    ],
     "id": "KY",
     "name": "Cayman Islands"
   },
   {
+    "restkey": [
+      "Kazajst\u00e1n",
+      "Kazakhstan",
+      "Kazakhstan / Kazajst\u00e1n"
+    ],
     "id": "KZ",
     "name": "Kazakhstan"
   },
   {
+    "restkey": [
+      "Rep\u00fablica Democr\u00e1tica Popular Lao",
+      "R\u00e9publique d\u00e9mocratique populaire lao",
+      "Lao People's Democratic Republic / Rep\u00fablica Democr\u00e1tica Popular Lao / R\u00e9publique d\u00e9mocratique populaire lao"
+    ],
     "id": "LA",
     "name": "Lao People's Democratic Republic"
   },
   {
+    "restkey": [
+      "L\u00edbano",
+      "Liban",
+      "Lebanon / L\u00edbano / Liban"
+    ],
     "id": "LB",
     "name": "Lebanon"
   },
   {
+    "restkey": [
+      "Santa Luc\u00eda",
+      "Sainte-Lucie",
+      "Saint Lucia / Santa Luc\u00eda / Sainte-Lucie"
+    ],
     "id": "LC",
     "name": "Saint Lucia"
   },
   {
+    "restkey": [
+      "Liechtenstein",
+      "Liechtenstein",
+      "Liechtenstein"
+    ],
     "id": "LI",
     "name": "Liechtenstein"
   },
   {
+    "restkey": [
+      "Sri Lanka",
+      "Sri Lanka",
+      "Sri Lanka"
+    ],
     "id": "LK",
     "name": "Sri Lanka"
   },
   {
+    "restkey": [
+      "Liberia",
+      "Lib\u00e9ria",
+      "Liberia / Lib\u00e9ria"
+    ],
     "id": "LR",
     "name": "Liberia"
   },
   {
+    "restkey": [
+      "Lesotho",
+      "Lesotho",
+      "Lesotho"
+    ],
     "id": "LS",
     "name": "Lesotho"
   },
   {
+    "restkey": [
+      "Lituania",
+      "Lituanie",
+      "Lithuania / Lituania / Lituanie"
+    ],
     "id": "LT",
     "name": "Lithuania"
   },
   {
+    "restkey": [
+      "Luxemburgo",
+      "Luxembourg",
+      "Luxembourg / Luxemburgo"
+    ],
     "id": "LU",
     "name": "Luxembourg"
   },
   {
+    "restkey": [
+      "Letonia",
+      "Lettonie",
+      "Latvia / Letonia / Lettonie"
+    ],
     "id": "LV",
     "name": "Latvia"
   },
   {
+    "restkey": [
+      "Libia",
+      "Libye",
+      "Libya / Libia / Libye"
+    ],
     "id": "LY",
     "name": "Libya"
   },
   {
+    "restkey": [
+      "Marruecos",
+      "Maroc",
+      "Morocco / Marruecos / Maroc"
+    ],
     "id": "MA",
     "name": "Morocco"
   },
   {
+    "restkey": [
+      "M\u00f3naco",
+      "Monaco",
+      "Monaco / M\u00f3naco"
+    ],
     "id": "MC",
     "name": "Monaco"
   },
   {
+    "restkey": [
+      "Rep\u00fablica de Moldova",
+      "R\u00e9publique de Moldova",
+      "Republic of Moldova / Rep\u00fablica de Moldova / R\u00e9publique de Moldova"
+    ],
     "id": "MD",
     "name": "Republic of Moldova"
   },
   {
+    "restkey": [
+      "Montenegro",
+      "Mont\u00e9n\u00e9gro",
+      "Montenegro / Mont\u00e9n\u00e9gro"
+    ],
     "id": "ME",
     "name": "Montenegro"
   },
   {
+    "restkey": [
+      "Madagascar",
+      "Madagascar",
+      "Madagascar"
+    ],
     "id": "MG",
     "name": "Madagascar"
   },
   {
+    "restkey": [
+      "Islas Marshall",
+      "Iles Marshall",
+      "Marshall Islands / Islas Marshall / Iles Marshall"
+    ],
     "id": "MH",
     "name": "Marshall Islands"
   },
   {
+    "restkey": [
+      "La ex Rep\u00fablica Yugoslava de Macedonia",
+      "Ex-R\u00e9publique yougoslave de Mac\u00e9doine",
+      "The former Yugoslav Republic of Macedonia / La ex Rep\u00fablica Yugoslava de Macedonia / Ex-R\u00e9publique yougoslave de Mac\u00e9doine"
+    ],
     "id": "MK",
     "name": "The former Yugoslav Republic of Macedonia"
   },
   {
+    "restkey": [
+      "Mal\u00ed",
+      "Mali",
+      "Mali / Mal\u00ed"
+    ],
     "id": "ML",
     "name": "Mali"
   },
   {
+    "restkey": [
+      "Myanmar",
+      "Myanmar",
+      "Myanmar"
+    ],
     "id": "MM",
     "name": "Myanmar"
   },
   {
+    "restkey": [
+      "Mongolia",
+      "Mongolie",
+      "Mongolia / Mongolie"
+    ],
     "id": "MN",
     "name": "Mongolia"
   },
   {
+    "restkey": [
+      "Macao",
+      "Macao",
+      "Macao"
+    ],
     "id": "MO",
     "name": "Macao"
   },
   {
+    "restkey": [
+      "Islas Marianas del Norte",
+      "Iles Mariannes du Nord",
+      "Northern Mariana Islands / Islas Marianas del Norte / Iles Mariannes du Nord"
+    ],
     "id": "MP",
     "name": "Northern Mariana Islands"
   },
   {
+    "restkey": [
+      "Martinica",
+      "Martinique",
+      "Martinique / Martinica"
+    ],
     "id": "MQ",
     "name": "Martinique"
   },
   {
+    "restkey": [
+      "Mauritania",
+      "Mauritanie",
+      "Mauritania / Mauritanie"
+    ],
     "id": "MR",
     "name": "Mauritania"
   },
   {
+    "restkey": [
+      "Montserrat",
+      "Montserrat",
+      "Montserrat"
+    ],
     "id": "MS",
     "name": "Montserrat"
   },
   {
+    "restkey": [
+      "Malta",
+      "Malte",
+      "Malta / Malte"
+    ],
     "id": "MT",
     "name": "Malta"
   },
   {
+    "restkey": [
+      "Mauricio",
+      "Maurice",
+      "Mauritius / Mauricio / Maurice"
+    ],
     "id": "MU",
     "name": "Mauritius"
   },
   {
+    "restkey": [
+      "Maldivas",
+      "Maldives",
+      "Maldives / Maldivas"
+    ],
     "id": "MV",
     "name": "Maldives"
   },
   {
+    "restkey": [
+      "Malawi",
+      "Malawi",
+      "Malawi"
+    ],
     "id": "MW",
     "name": "Malawi"
   },
   {
+    "restkey": [
+      "M\u00e9xico",
+      "Mexique",
+      "Mexico / M\u00e9xico / Mexique"
+    ],
     "id": "MX",
     "name": "Mexico"
   },
   {
+    "restkey": [
+      "Malasia",
+      "Malaisie",
+      "Malaysia / Malasia / Malaisie"
+    ],
     "id": "MY",
     "name": "Malaysia"
   },
   {
+    "restkey": [
+      "Mozambique",
+      "Mozambique",
+      "Mozambique"
+    ],
     "id": "MZ",
     "name": "Mozambique"
   },
   {
+    "restkey": [
+      "Namibia",
+      "Namibie",
+      "Namibia / Namibie"
+    ],
     "id": "NA",
     "name": "Namibia"
   },
   {
+    "restkey": [
+      "Nuevas Caledonia",
+      "Nouvelle-Cal\u00e9donie",
+      "New Caledonia / Nuevas Caledonia / Nouvelle-Cal\u00e9donie"
+    ],
     "id": "NC",
     "name": "New Caledonia"
   },
   {
+    "restkey": [
+      "N\u00edger",
+      "Niger",
+      "Niger / N\u00edger"
+    ],
     "id": "NE",
     "name": "Niger"
   },
   {
+    "restkey": [
+      "Isla Norfolk",
+      "Ile Norfolk",
+      "Norfolk Islands / Isla Norfolk / Ile Norfolk"
+    ],
     "id": "NF",
     "name": "Norfolk Island"
   },
   {
+    "restkey": [
+      "Nigeria",
+      "Nig\u00e9ria",
+      "Nigeria / Nig\u00e9ria"
+    ],
     "id": "NG",
     "name": "Nigeria"
   },
   {
+    "restkey": [
+      "Nicaragua",
+      "Nicaragua",
+      "Nicaragua"
+    ],
     "id": "NI",
     "name": "Nicaragua"
   },
   {
+    "restkey": [
+      "Pa\u00edses Bajos",
+      "Pays-Bas",
+      "Netherlands / Pa\u00edses Bajos / Pays-Bas"
+    ],
     "id": "NL",
     "name": "Netherlands"
   },
   {
+    "restkey": [
+      "Noruega",
+      "Norv\u00e8ge",
+      "Norway / Noruega / Norv\u00e8ge"
+    ],
     "id": "NO",
     "name": "Norway"
   },
   {
+    "restkey": [
+      "Nepal",
+      "N\u00e9pal",
+      "Nepal / N\u00e9pal"
+    ],
     "id": "NP",
     "name": "Nepal"
   },
   {
+    "restkey": [
+      "Nauru",
+      "Nauru",
+      "Nauru"
+    ],
     "id": "NR",
     "name": "Nauru"
   },
   {
+    "restkey": [
+      "Niue",
+      "Niou\u00e9",
+      "Niue / Niou\u00e9"
+    ],
     "id": "NU",
     "name": "Niue"
   },
   {
+    "restkey": [
+      "Nueva Zelandia",
+      "Nouvelle-Z\u00e9lande",
+      "New Zealand / Nueva Zelandia / Nouvelle-Z\u00e9lande"
+    ],
     "id": "NZ",
     "name": "New Zealand"
   },
   {
+    "restkey": [
+      "Om\u00e1n",
+      "Oman",
+      "Oman / Om\u00e1n"
+    ],
     "id": "OM",
     "name": "Oman"
   },
   {
+    "restkey": [
+      "Panam\u00e1",
+      "Panama",
+      "Panama / Panam\u00e1"
+    ],
     "id": "PA",
     "name": "Panama"
   },
   {
+    "restkey": [
+      "Per\u00fa",
+      "P\u00e9rou",
+      "Peru / Per\u00fa / P\u00e9rou"
+    ],
     "id": "PE",
     "name": "Peru"
   },
   {
+    "restkey": [
+      "Polinesia Francesa",
+      "Polyn\u00e9sie fran\u00e7aise",
+      "French Polynesia / Polinesia Francesa / Polyn\u00e9sie fran\u00e7aise"
+    ],
     "id": "PF",
     "name": "French Polynesia"
   },
   {
+    "restkey": [
+      "Papua Nueva Guinea",
+      "Papouasie-Nouvelle-Guin\u00e9e",
+      "Papua New Guinea / Papua Nueva Guinea / Papouasie-Nouvelle-Guin\u00e9e"
+    ],
     "id": "PG",
     "name": "Papua New Guinea"
   },
   {
+    "restkey": [
+      "Filipinas",
+      "Philippines",
+      "Philippines / Filipinas"
+    ],
     "id": "PH",
     "name": "Philippines"
   },
   {
+    "restkey": [
+      "Pakist\u00e1n",
+      "Pakistan",
+      "Pakistan / Pakist\u00e1n"
+    ],
     "id": "PK",
     "name": "Pakistan"
   },
   {
+    "restkey": [
+      "Polonia",
+      "Pologne",
+      "Poland / Polonia / Pologne"
+    ],
     "id": "PL",
     "name": "Poland"
   },
   {
+    "restkey": [
+      "St Pierre y Miquelon",
+      "Saint-Pierre-et-Miquelon",
+      "St Pierre and Miquelon / St Pierre y Miquelon / Saint-Pierre-et-Miquelon"
+    ],
     "id": "PM",
     "name": "St Pierre and Miquelon"
   },
   {
+    "restkey": [
+      "Islas Pitcairn",
+      "Iles Pitcairn",
+      "Pitcairn Islands / Islas Pitcairn / Iles Pitcairn"
+    ],
     "id": "PN",
     "name": "Pitcairn Islands"
   },
   {
+    "restkey": [
+      "Puerto Rico",
+      "Porto Rico",
+      "Puerto Rico / Porto Rico"
+    ],
     "id": "PR",
     "name": "Puerto Rico"
   },
   {
+    "restkey": [
+      "Portugal",
+      "Portugal",
+      "Portugal"
+    ],
     "id": "PT",
     "name": "Portugal"
   },
   {
+    "restkey": [
+      "Palau",
+      "Palaos",
+      "Palau / Palaos"
+    ],
     "id": "PW",
     "name": "Palau"
   },
   {
+    "restkey": [
+      "Paraguay",
+      "Paraguay",
+      "Paraguay"
+    ],
     "id": "PY",
     "name": "Paraguay"
   },
   {
+    "restkey": [
+      "Qatar",
+      "Qatar",
+      "Qatar"
+    ],
     "id": "QA",
     "name": "Qatar"
   },
   {
+    "restkey": [
+      "Reuni\u00f3n",
+      "R\u00e9union",
+      "Reunion / Reuni\u00f3n / R\u00e9union"
+    ],
     "id": "RE",
     "name": "Reunion"
   },
   {
+    "restkey": [
+      "Rumania",
+      "Roumanie",
+      "Romania / Rumania / Roumanie"
+    ],
     "id": "RO",
     "name": "Romania"
   },
   {
+    "restkey": [
+      "Serbia",
+      "Serbie",
+      "Serbia / Serbie"
+    ],
     "id": "RS",
     "name": "Serbia"
   },
   {
+    "restkey": [
+      "Federaci\u00f3n de Rusia",
+      "F\u00e9d\u00e9ration de Russie",
+      "Russian Federation / Federaci\u00f3n de Rusia / F\u00e9d\u00e9ration de Russie"
+    ],
     "id": "RU",
     "name": "Russian Federation"
   },
   {
+    "restkey": [
+      "Rwanda",
+      "Rwanda",
+      "Rwanda"
+    ],
     "id": "RW",
     "name": "Rwanda"
   },
   {
+    "restkey": [
+      "Arabia Saudita",
+      "Arabie saoudite",
+      "Saudi Arabia / Arabia Saudita / Arabie saoudite"
+    ],
     "id": "SA",
     "name": "Saudi Arabia"
   },
   {
+    "restkey": [
+      "Islas Salom\u00f3n",
+      "Iles Salomon",
+      "Solomon Islands / Islas Salom\u00f3n / Iles Salomon"
+    ],
     "id": "SB",
     "name": "Solomon Islands"
   },
   {
+    "restkey": [
+      "Seychelles",
+      "Seychelles",
+      "Seychelles"
+    ],
     "id": "SC",
     "name": "Seychelles"
   },
   {
+    "restkey": [
+      "Sud\u00e1n",
+      "Soudan",
+      "Sudan / Sud\u00e1n / Soudan"
+    ],
     "id": "SD",
     "name": "Sudan"
   },
   {
+    "restkey": [
+      "Suecia",
+      "Su\u00e8de",
+      "Sweden / Suecia / Su\u00e8de"
+    ],
     "id": "SE",
     "name": "Sweden"
   },
   {
+    "restkey": [
+      "Singapur",
+      "Singapour",
+      "Singapore / Singapur / Singapour"
+    ],
     "id": "SG",
     "name": "Singapore"
   },
   {
+    "restkey": [
+      "Santa Helena y sus dependencias",
+      "Sainte-H\u00e9l\u00e8ne et ses d\u00e9pendances",
+      "Saint Helena and Dependencies / Santa Helena y sus dependencias / Sainte-H\u00e9l\u00e8ne et ses d\u00e9pendances"
+    ],
     "id": "SH",
     "name": "Saint Helena and Dependencies"
   },
   {
+    "restkey": [
+      "Eslovenia",
+      "Slov\u00e9nie",
+      "Slovenia / Eslovenia / Slov\u00e9nie"
+    ],
     "id": "SI",
     "name": "Slovenia"
   },
   {
+    "restkey": [
+      "Islas Svalbard y Jan Mayen",
+      "Svalbard et \u00eele Jan Mayen",
+      "Svalbard and Jan Mayen Islands / Islas Svalbard y Jan Mayen / Svalbarg et \u00eele Jan Mayen"
+    ],
     "id": "SJ",
     "name": "Svalbard and Jan Mayen Islands"
   },
   {
+    "restkey": [
+      "Eslovaquia",
+      "Slovaquie",
+      "Slovakia / Eslovaquia / Slovaquie"
+    ],
     "id": "SK",
     "name": "Slovakia"
   },
   {
+    "restkey": [
+      "Sierra Leona",
+      "Sierra Leone",
+      "Sierra Leone / Sierra Leona"
+    ],
     "id": "SL",
     "name": "Sierra Leone"
   },
   {
+    "restkey": [
+      "San Marino",
+      "Saint-Marin",
+      "San Marino / Saint-Marin"
+    ],
     "id": "SM",
     "name": "San Marino"
   },
   {
+    "restkey": [
+      "Senegal",
+      "S\u00e9n\u00e9gal",
+      "Senegal / S\u00e9n\u00e9gal"
+    ],
     "id": "SN",
     "name": "Senegal"
   },
   {
+    "restkey": [
+      "Somalia",
+      "Somalie",
+      "Somalia / Somalie"
+    ],
     "id": "SO",
     "name": "Somalia"
   },
   {
+    "restkey": [
+      "Suriname",
+      "Suriname",
+      "Suriname"
+    ],
     "id": "SR",
     "name": "Suriname"
   },
   {
+    "restkey": [
+      "Santo Tom\u00e9 y Pr\u00edncipe",
+      "Sao Tom\u00e9-et-Principe",
+      "Sao Tome and Principe / Santo Tom\u00e9 y Pr\u00edncipe / Sao Tom\u00e9-et-Principe"
+    ],
     "id": "ST",
     "name": "Sao Tome and Principe"
   },
   {
+    "restkey": [
+      "URSS",
+      "URSS",
+      "USSR / URSS"
+    ],
     "id": "SU",
     "name": "USSR"
   },
   {
+    "restkey": [
+      "El Salvador",
+      "El Salvador",
+      "El Salvador"
+    ],
     "id": "SV",
     "name": "El Salvador"
   },
   {
+    "restkey": [
+      "Rep\u00fablica \u00c1rabe Siria",
+      "R\u00e9publique arabe syrienne",
+      "Syrian Arab Republic / Rep\u00fablica \u00c1rabe Siria / R\u00e9publique arabe syrienne"
+    ],
     "id": "SY",
     "name": "Syrian Arab Republic"
   },
   {
+    "restkey": [
+      "Swazilandia",
+      "Swaziland",
+      "Swaziland / Swazilandia"
+    ],
     "id": "SZ",
     "name": "Swaziland"
   },
   {
+    "restkey": [
+      "Islas Turks y Caicos",
+      "Iles Turks et Ca\u00efques",
+      "Turks and Caicos Islands / Islas Turks y Caicos / Iles Turks et Ca\u00efques"
+    ],
     "id": "TC",
     "name": "Turks and Caicos Islands"
   },
   {
+    "restkey": [
+      "Chad",
+      "Tchad",
+      "Chad / Tchad"
+    ],
     "id": "TD",
     "name": "Chad"
   },
   {
+    "restkey": [
+      "Territorio Franc\u00e9s del Sur",
+      "Terres australes fran\u00e7aises",
+      "French Southern Territories / Territorios Franceses del Sur / Terres australes fran\u00e7aises"
+    ],
     "id": "TF",
     "name": "French Southern Territories"
   },
   {
+    "restkey": [
+      "Togo",
+      "Togo",
+      "Togo"
+    ],
     "id": "TG",
     "name": "Togo"
   },
   {
+    "restkey": [
+      "Tailandia",
+      "Tha\u00eflande",
+      "Thailand / Tailandia / Tha\u00eflande"
+    ],
     "id": "TH",
     "name": "Thailand"
   },
   {
+    "restkey": [
+      "Tayikist\u00e1n",
+      "Tadjikistan",
+      "Tajikistan / Tayikist\u00e1n / Tadjikistan"
+    ],
     "id": "TJ",
     "name": "Tajikistan"
   },
   {
+    "restkey": [
+      "Tokelau",
+      "Tokelau",
+      "Tokelau"
+    ],
     "id": "TK",
     "name": "Tokelau"
   },
   {
+    "restkey": [
+      "Timor-Leste",
+      "Timor oriental",
+      "Timor-Leste / Timor oriental"
+    ],
     "id": "TL",
     "name": "Timor-Leste"
   },
   {
+    "restkey": [
+      "Turkmenist\u00e1n",
+      "Turkm\u00e9nistan",
+      "Turkmenistan / Turkmenist\u00e1n / Turkm\u00e9nistan"
+    ],
     "id": "TM",
     "name": "Turkmenistan"
   },
   {
+    "restkey": [
+      "T\u00fanez",
+      "Tunisie",
+      "Tunisia / T\u00fanez / Tunisie"
+    ],
     "id": "TN",
     "name": "Tunisia"
   },
   {
+    "restkey": [
+      "Tonga",
+      "Tonga",
+      "Tonga"
+    ],
     "id": "TO",
     "name": "Tonga"
   },
   {
+    "restkey": [
+      "Timor Oriental",
+      "Timor oriental",
+      "East Timor / Timor Oriental / Timor oriental"
+    ],
     "id": "TP",
     "name": "East Timor"
   },
   {
+    "restkey": [
+      "Turqu\u00eda",
+      "Turquie",
+      "Turkey / Turqu\u00eda / Turquie"
+    ],
     "id": "TR",
     "name": "Turkey"
   },
   {
+    "restkey": [
+      "Trinidad y Tabago",
+      "Trinit\u00e9-et-Tobago",
+      "Trinidad and Tobago / Trinidad y Tabago / Trinit\u00e9-et-Tobago"
+    ],
     "id": "TT",
     "name": "Trinidad and Tobago"
   },
   {
+    "restkey": [
+      "Tuvalu",
+      "Tuvalu",
+      "Tuvalu"
+    ],
     "id": "TV",
     "name": "Tuvalu"
   },
   {
+    "restkey": [
+      "Taiwan, Provincia de China",
+      "Ta\u00efwan, Province de Chine",
+      "Taiwan, Province of China / Taiwan, Provincia de China / Ta\u00efwan, Province de Chine"
+    ],
     "id": "TW",
     "name": "Taiwan, Province of China"
   },
   {
+    "restkey": [
+      "Rep\u00fablica Unida de Tanzan\u00eda",
+      "R\u00e9publique-Unie de Tanzanie",
+      "United Republic of Tanzania / Rep\u00fablica Unida de Tanzan\u00eda / R\u00e9publique-Unie de Tanzanie"
+    ],
     "id": "TZ",
     "name": "United Republic of Tanzania"
   },
   {
+    "restkey": [
+      "Ucrania",
+      "Ukraine",
+      "Ukraine / Ucrania"
+    ],
     "id": "UA",
     "name": "Ukraine"
   },
   {
+    "restkey": [
+      "Uganda",
+      "Ouganda",
+      "Uganda / Ouganda"
+    ],
     "id": "UG",
     "name": "Uganda"
   },
   {
+    "restkey": [
+      "Islas U.S. Minor Outlying",
+      "Iles mineures \u00e9loign\u00e9es des Etats-Unis",
+      "United States Minor Outlying Islands / Islas U.S. Minor Outlying / Iles mineures \u00e9loign\u00e9es des Etats-Unis"
+    ],
     "id": "UM",
     "name": "United States Minor Outlying Islands"
   },
   {
+    "restkey": [
+      "Estados Unidos de Am\u00e9rica",
+      "Etats-Unis d'Am\u00e9rique",
+      "United States of America / Estados Unidos de Am\u00e9rica / Etats-Unis d'Am\u00e9rique"
+    ],
     "id": "US",
     "name": "United States of America"
   },
   {
+    "restkey": [
+      "Uruguay",
+      "Uruguay",
+      "Uruguay"
+    ],
     "id": "UY",
     "name": "Uruguay"
   },
   {
+    "restkey": [
+      "Uzbekist\u00e1n",
+      "Ouzb\u00e9kistan",
+      "Uzbekistan / Uzbekist\u00e1n / Ouzb\u00e9kistan"
+    ],
     "id": "UZ",
     "name": "Uzbekistan"
   },
   {
+    "restkey": [
+      "Estado de la Ciudad del Vaticano",
+      "Saint-Si\u00e8ge",
+      "Holy See / Estado de la Ciudad del Vaticano / Saint-Si\u00e8ge"
+    ],
     "id": "VA",
     "name": "Holy See"
   },
   {
+    "restkey": [
+      "San Vicente y las Granadinas",
+      "Saint-Vincent-et-les-Grenadines",
+      "Saint Vincent and the Grenadines / San Vicente y las Granadinas / Saint-Vincent-et-les-Grenadines"
+    ],
     "id": "VC",
     "name": "Saint Vincent and the Grenadines"
   },
   {
+    "restkey": [
+      "Venezuela (Rep\u00fablica Bolivariana de)",
+      "Venezuela (R\u00e9publique bolivarienne du)",
+      "Venezuela (Bolivarian Republic of) / Venezuela (Rep\u00fablica Bolivariana de) / Venezuela (R\u00e9publique bolivarienne du)"
+    ],
     "id": "VE",
     "name": "Venezuela (Bolivarian Republic of)"
   },
   {
+    "restkey": [
+      "Islas V\u00edrgenes Brit\u00e1nicas",
+      "Iles Vierges britanniques",
+      "British Virgin Islands / Islas V\u00edrgenes Brit\u00e1nicas / Iles Vierges britanniques"
+    ],
     "id": "VG",
     "name": "British Virgin Islands"
   },
   {
+    "restkey": [
+      "Islas V\u00edrgenes Estadounidenses",
+      "Iles vierges des Etats-Unis",
+      "Virgin Islands of the United States / Islas V\u00edrgenes de los Estados Unidos / Iles vierges des Etats-Unis"
+    ],
     "id": "VI",
     "name": "Virgin Islands of the United States"
   },
   {
+    "restkey": [
+      "Viet Nam",
+      "Viet Nam",
+      "Viet Nam"
+    ],
     "id": "VN",
     "name": "Viet Nam"
   },
   {
+    "restkey": [
+      "Vanuatu",
+      "Vanuatu",
+      "Vanuatu"
+    ],
     "id": "VU",
     "name": "Vanuatu"
   },
   {
+    "restkey": [
+      "Islas Wallis y Futuna",
+      "Iles Wallis-et-Futuna",
+      "Wallis and Futuna Islands / Islas Wallis y Futuna / Iles Wallis-et-Futuna"
+    ],
     "id": "WF",
     "name": "Wallis and Futuna Islands"
   },
   {
+    "restkey": [
+      "Samoa",
+      "Samoa",
+      "Samoa"
+    ],
     "id": "WS",
     "name": "Samoa"
   },
   {
+    "restkey": [
+      "Yemen",
+      "Y\u00e9men",
+      "Yemen / Y\u00e9men"
+    ],
     "id": "YE",
     "name": "Yemen"
   },
   {
+    "restkey": [
+      "Mayotte",
+      "Mayotte",
+      "Mayotte"
+    ],
     "id": "YT",
     "name": "Mayotte"
   },
   {
+    "restkey": [
+      "Yugoslavia",
+      "Yougoslavie",
+      "Yugoslavia / Yougoslavie"
+    ],
     "id": "YU",
     "name": "Yugoslavia"
   },
   {
+    "restkey": [
+      "Sud\u00e1frica",
+      "Afrique du Sud",
+      "South Africa / Sud\u00e1frica / Afrique du Sud"
+    ],
     "id": "ZA",
     "name": "South Africa"
   },
   {
+    "restkey": [
+      "Zambia",
+      "Zambie",
+      "Zambia / Zambie"
+    ],
     "id": "ZM",
     "name": "Zambia"
   },
   {
+    "restkey": [
+      "Zaire",
+      "Za\u00efre",
+      "Zaire / Za\u00efre"
+    ],
     "id": "ZR",
     "name": "Zaire"
   },
   {
+    "restkey": [
+      "Zimbabwe",
+      "Zimbabwe",
+      "Zimbabwe"
+    ],
     "id": "ZW",
     "name": "Zimbabwe"
   }

@@ -15,7 +15,7 @@ class PersonModelTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.Person(hello="world"))
+            session.save_person(database.PersonRow(hello="world"))
             session.commit()
 
         with self.app.test_request_context():
@@ -27,8 +27,8 @@ class PersonModelTest(unittest.TestCase):
     def test_autoincrement_id(self):
         import database
         with self.app.test_request_context():
-            p1 = database.Person()
-            p2 = database.Person()
+            p1 = database.PersonRow()
+            p2 = database.PersonRow()
             session = database.get_session()
             session.save_person(p1)
             session.save_person(p2)
@@ -47,7 +47,7 @@ class PersonModelTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.Person(hello="world"))
+            session.save_person(database.PersonRow(hello="world"))
             session.commit()
 
         with self.app.test_request_context():
@@ -64,7 +64,7 @@ class PersonModelTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.Person(hello="world"))
+            session.save_person(database.PersonRow(hello="world"))
             session.commit()
 
         with self.app.test_request_context():
@@ -83,8 +83,8 @@ class PersonModelTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.Person(hello="world"))
-            session.save_person(database.Person(x="y"))
+            session.save_person(database.PersonRow(hello="world"))
+            session.save_person(database.PersonRow(x="y"))
             session.commit()
 
         with self.app.test_request_context():
@@ -99,7 +99,7 @@ class PersonModelTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.Person(k1="v1", k2="v2", k3="v3"))
+            session.save_person(database.PersonRow(k1="v1", k2="v2", k3="v3"))
             session.commit()
 
         with self.app.test_request_context():
@@ -120,7 +120,7 @@ class PersonModelTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.Person(hello="world"))
+            session.save_person(database.PersonRow(hello="world"))
             session.commit()
 
         with self.app.test_request_context():

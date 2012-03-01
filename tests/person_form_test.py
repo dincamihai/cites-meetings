@@ -36,7 +36,7 @@ class PersonFormTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.Person(random_key="random value"))
+            session.save_person(database.PersonRow(random_key="random value"))
             session.commit()
 
         resp = self.client.post('/meeting/1/participant/1/edit', data={
