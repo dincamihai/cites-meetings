@@ -140,6 +140,8 @@ ul.nav-tabs li {
 	background-color: #444;
 	background-image: -moz-linear-gradient(top, #777, #555);
 	background-image: -ms-linear-gradient(top, #777, #555);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#777', endColorstr='#555'); /* For Internet Explorer 5.5 - 7 */
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#777, endColorstr=#555)"; /* For Internet Explorer 8 */
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#777), to(#555));
 	background-image: -webkit-linear-gradient(top, #777, #555);
 	background-image: -o-linear-gradient(top, #777, #555);
@@ -212,7 +214,8 @@ ul.nav-tabs ul.dropdown-menu li {
 	border-top: none;
 }
 
-body .nav-tabs .dropdown-toggle .caret, .nav-pills .dropdown-toggle .caret {
+body .nav-tabs .dropdown-toggle .caret, 
+body .nav-pills .dropdown-toggle .caret {
 	border-top-color: white;
 	opacity: 0.6;
 	filter:alpha(opacity: 60);
@@ -220,6 +223,7 @@ body .nav-tabs .dropdown-toggle .caret, .nav-pills .dropdown-toggle .caret {
 
 .btn.btn-primary {
 	margin-left: 20px;
+/*margin-bottom: 10px;*/
 }
 
 .container h2 {
@@ -389,7 +393,7 @@ body .container .subheader  {
 }
 
 footer {
-	margin-top: 0px;
+	margin-top: 10px;
 	padding-top: 15px;
 }
 
@@ -410,6 +414,30 @@ footer {
 	margin-bottom: 0px;
 }
 
+/* credentials to be printed */
+@media print {
+
+	.navbar-fixed-top,
+	.breadcrumb {
+		display: none;
+	}
+
+	.subheader {
+		min-width: 300pt;
+		margin: 0pt 10pt 10pt !important;
+		-webkit-box-shadow: none !important;
+	}
+
+	/*.subheader ul {
+	min-width: 378pt;
+	margin: 0pt 10pt 10pt !important;
+	}
+
+	.subheader ul li .content {
+	page-break-inside: avoid;
+	}*/
+}
+
 /* email page */
 body .send-mail-container {
 	background: #ddd;
@@ -417,7 +445,7 @@ body .send-mail-container {
 }
 
 body .well {
-border: none;
+	border: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	-moz-box-shadow: none;
@@ -427,9 +455,14 @@ textarea#field-message {
 	max-width: 900px;
 }
 
+/* manage fees */
+.form-actions button[type="submit"].btn.btn-primary {
+	margin-left: 0px;
+}
+
 /* badge page */
 body .badge {
-background: #fff;
+	background: #fff;
 }
 
 
