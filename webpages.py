@@ -32,8 +32,9 @@ def initialize_app(app):
     app.jinja_env.globals['ref'] = {
         'country': schema.country,
         'region': schema.region,
-        'category': schema.category_labels,
+        'category': schema.category,
         'fee': schema.fee,
+        'language': schema.language,
     }
 
     app.register_blueprint(webpages)
@@ -104,22 +105,15 @@ def view(person_id):
 @webpages.route("/meeting/1/participant/<int:person_id>/credentials")
 @auth_required
 def credentials(person_id):
-    app = flask.current_app
-
-    # get the person
-    person = database.get_session().get_person_or_404(person_id)
-    person.update({
-        "meeting_description": "Sixty-first meeting of the Standing Committee",
-        "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
-    })
-    # create data for flatland schema
-    person_schema = schema.unflatten_with_defaults(schema.PersonSchema, person)
+    person_row = database.get_session().get_person_or_404(person_id)
+    person = schema.PersonSchema.from_flat(person_row).value
 
     return flask.render_template("credentials.html", **{
+        "meeting_description": "Sixty-first meeting of the Standing Committee",
+        "meeting_address": "Geneva (Switzerland), 15-19 August 2011",
+        "person_id": person_id,
         "person": person,
-        "person_schema": person_schema,
-        "category": schema.category,
-        "has_photo": bool(person.get("photo_id", "")),
+        "has_photo": bool(person_row.get("photo_id", "")),
     })
 
 
