@@ -76,10 +76,17 @@ def home():
     })
 
 
-@webpages.route("/meeting/1/participant/<int:person_id>", methods=["GET"])
+@webpages.route("/meeting/1/participant/<int:person_id>",
+                methods=["GET", "DELETE"])
 @auth_required
 def view(person_id):
     app = flask.current_app
+
+    if flask.request.method == "DELETE":
+        session = database.get_session()
+        session.del_person(person_id)
+        session.commit()
+        return flask.jsonify({"status": "success"})
 
     # get the person
     person = database.get_session().get_person_or_404(person_id)
@@ -93,16 +100,6 @@ def view(person_id):
         "has_photo": bool(person.get("photo_id", "")),
     })
 
-@webpages.route("/delete/<int:person_id>", methods=["DELETE"])
-@auth_required
-def delete(person_id):
-    app = flask.current_app
-    response = {"status": "success"}
-    session = database.get_session()
-    session.del_person(person_id)
-    session.commit()
-
-    return flask.jsonify(**response)
 
 @webpages.route("/meeting/1/participant/<int:person_id>/credentials")
 @auth_required

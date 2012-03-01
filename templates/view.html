@@ -100,7 +100,7 @@
       $("#delete-modal").on("click", ".btn-primary", function () {
         $.ajax({
           type: "DELETE",
-          url: "/delete/" + $(this).data("id")
+          url: "/meeting/1/participant/" + $(this).data("id")
         }).done(function () {
           document.location = "{{ url_for('webpages.meeting_registration') }}";
         });

@@ -49,13 +49,15 @@ class ParticipantCrudWorkflowTest(unittest.TestCase):
             'personal_last_name': u"Smith",
         })
 
-    def test_delete_participant(self):
+    def test_remove_participant(self):
         person_url = urlparse(self._create_participant().location).path
         resp1 = self.client.get(person_url)
         self.assertEqual(resp1.status_code, 200)
 
-        del_resp = self.client.delete('/delete/1')
+        del_resp = self.client.delete('/meeting/1/participant/1')
         self.assertEqual(del_resp.status_code, 200)
+        self.assertEqual(flask.json.loads(del_resp.data),
+                         {'status': 'success'})
 
         resp2 = self.client.get(person_url)
         self.assertEqual(resp2.status_code, 404)
