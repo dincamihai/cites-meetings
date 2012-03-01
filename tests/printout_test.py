@@ -41,7 +41,6 @@ class CredentialsTest(unittest.TestCase):
     def test_common_fields(self):
         self._create_participant(u"10") # 10: "Member"
         resp = self.client.get('/meeting/1/participant/1/credentials')
-
         self.assertIn(u"Joe Smith", value_for_label(resp.data, "Name and address"))
         self.assertIn(u"French", value_for_label(resp.data, "Language"))
         self.assertIn(u"Not required",
@@ -53,6 +52,17 @@ class CredentialsTest(unittest.TestCase):
         resp = self.client.get('/meeting/1/participant/1/credentials')
 
         self.assertIn(u"Member", value_for_label(resp.data, "Category"))
+
+        # test details of registration
+        [details_of_registration] = select(resp.data, ".subheader h3")
+        details_of_registration = details_of_registration.text_content()
+        self.assertIn(u"Member", details_of_registration)
+
+        # test representative of
+        self.assertIn(u"Region", value_for_label(resp.data, "Representative of"))
+
+        # test invitation received
+        self.assertIn(u"Not required", value_for_label(resp.data, "Invitation received"))
 
     def test_conference_staff(self):
         self._create_participant(u"98") # 98: "Conference staff"
@@ -73,3 +83,14 @@ class CredentialsTest(unittest.TestCase):
 
         self.assertIn(u"Observer, International NGO",
                       value_for_label(resp.data, "Category"))
+
+    def test_special_guest_of_the_secretary_general(self):
+        self._create_participant(u"0") # 0: "pecial_guest_of_the_secretary_general"
+        resp = self.client.get("/meeting/1/participant/1/credentials")
+
+        self.assertIn(u"Special guest of the Secretary General",
+                      value_for_label(resp.data, "Category"))
+
+
+
+
