@@ -53,3 +53,23 @@ class CredentialsTest(unittest.TestCase):
         resp = self.client.get('/meeting/1/participant/1/credentials')
 
         self.assertIn(u"Member", value_for_label(resp.data, "Category"))
+
+    def test_conference_staff(self):
+        self._create_participant(u"98") # 98: "Conference staff"
+        resp = self.client.get('/meeting/1/participant/1/credentials')
+
+        self.assertIn(u"Conference staff",
+                      value_for_label(resp.data, "Category"))
+
+    def test_visitor(self):
+        self._create_participant(u"1") # 1: "Visitor"
+        resp = self.client.get('/meeting/1/participant/1/credentials')
+
+        self.assertIn(u"Visitor", value_for_label(resp.data, "Category"))
+
+    def test_observer_ngo(self):
+        self._create_participant(u"80") # 80: "Observer, International NGO"
+        resp = self.client.get('/meeting/1/participant/1/credentials')
+
+        self.assertIn(u"Observer, International NGO",
+                      value_for_label(resp.data, "Category"))
