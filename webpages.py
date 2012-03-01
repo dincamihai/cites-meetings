@@ -269,9 +269,6 @@ def meeting_verified_short_list():
         "address": "Geneva (Switzerland), 15-19 August 2011"
     }
 
-    # create data for flatland schema
-    person_schema = schema.unflatten_with_defaults(schema.PersonSchema, person)
-
     return flask.render_template("print_short_list_verified.html", **{
         "registered": registered,
         "meeting": meeting

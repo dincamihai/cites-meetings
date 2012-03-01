@@ -244,10 +244,6 @@ MailSchema = fl.Dict.with_properties(widget="mail") \
                 .with_properties(widget="textarea")
 )
 
-def unflatten_with_defaults(schema, data):
-    schema_data = dict(schema.from_defaults().flatten())
-    schema_data.update(data)
-    return schema.from_flat(schema_data)
 
 from flatland.signals import validator_validated
 from flatland.schema.base import NotEmpty
