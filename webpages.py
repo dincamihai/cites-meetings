@@ -227,7 +227,8 @@ def edit_photo(person_id):
             flask.flash("Please select a photo", "error")
 
     return flask.render_template("photo.html", **{
-        "person": person_row,
+        "person_row": person_row,
+        "person": schema.PersonSchema.from_flat(person_row).value,
         "has_photo": bool(person_row.get("photo_id", "")),
     })
 
