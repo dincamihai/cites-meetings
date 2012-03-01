@@ -144,7 +144,7 @@ def normal_badge(person_id):
     import jinja2
     person.update({
         "meeting_description": jinja2.Markup("61<sup>st</sup> meeting of the"
-                                             "Standing Committee"),
+                                             " Standing Committee"),
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
     })
     # create data for flatland schema
