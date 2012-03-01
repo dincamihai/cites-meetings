@@ -1,34 +1,57 @@
 [
   {
-    "id": "0",
-    "name": "None"
-  },
-
-  {
+    "restkey": [
+      "No se han recibido",
+      "Non re\u00e7us"
+    ],
     "id": "1",
     "name": "Not received"
   },
   {
+    "restkey": [
+      "No se requieren",
+      "Non requis"
+    ],
     "id": "2",
     "name": "Not required"
   },
   {
+    "restkey": [
+      "USD100",
+      "USD100"
+    ],
     "id": "5",
     "name": "USD100"
   },
   {
+    "restkey": [
+      "USD50",
+      "USD50"
+    ],
     "id": "6",
     "name": "USD50"
   },
   {
+    "restkey": [
+      "EUR72",
+      "EUR72"
+    ],
     "id": "10",
     "name": "EUR72"
   },
   {
+    "restkey": [
+      "CHF115",
+      "CHF115"
+    ],
     "id": "11",
     "name": "CHF115"
   },
   {
+    "restkey": [
+      "Exentos",
+      "Exempt\u00e9"
+    ],
     "id": "12",
     "name": "Waived"
   }

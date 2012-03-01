@@ -42,19 +42,18 @@ sorted_country_codes = [c[0] for c in sorted_country_codes]
 
 language = _load_json("refdata/languages.json")
 
-category = {c["id"]: c for c in
-            _load_json("refdata/categories.json")}
+category = {c["id"]: c for c in _load_json("refdata/categories.json")}
 category_labels = {c["id"]: c["name"] for c in category.values()}
 
-region =  { item["id"]: item["name"]  for item in
-    _load_json("refdata/regions.json") }
+region =  {item["id"]: item["name"]
+           for item in _load_json("refdata/regions.json")}
 
 # sort by region name for select option
 sorted_regions = sorted(region.items(), key=itemgetter(1))
 sorted_regions = [r[0] for r in sorted_regions]
 
-fee = { item["id"]: item["name"]  for item in
-    _load_json("refdata/fee.json") }
+fee = {item["id"]: item["name"] for item in
+       _load_json("refdata/fee.json")}
 
 
 CommonString = fl.String.using(optional=True)

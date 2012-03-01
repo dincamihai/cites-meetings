@@ -16,7 +16,7 @@ webpages = flask.Blueprint("webpages", __name__)
 def auth_required(view):
     @wraps(view)
     def wrapper(*args, **kwargs):
-        if 'ACCOUNTS' not in flask.current_app.config:
+        if "ACCOUNTS" not in flask.current_app.config:
             pass
         elif flask.session.get("logged_in_email", None) is None:
             login_url = flask.url_for("webpages.login", next=flask.request.url)
@@ -27,7 +27,7 @@ def auth_required(view):
 
 
 def initialize_app(app):
-    _my_extensions = app.jinja_options['extensions'] + ['jinja2.ext.do']
+    _my_extensions = app.jinja_options["extensions"] + ["jinja2.ext.do"]
     app.jinja_options = dict(app.jinja_options, extensions=_my_extensions)
     app.jinja_env.globals['ref'] = {
         'country': schema.country,
@@ -59,6 +59,7 @@ def login():
         "email": login_email,
         "next": next_url,
     })
+
 
 @webpages.route("/logout")
 def logout():
@@ -107,7 +108,6 @@ def credentials(person_id):
 
     # get the person
     person = database.get_session().get_person_or_404(person_id)
-
     person.update({
         "meeting_description": "Sixty-first meeting of the Standing Committee",
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
@@ -122,6 +122,7 @@ def credentials(person_id):
         "has_photo": bool(person.get("photo_id", "")),
     })
 
+
 @webpages.route("/meeting/1/participant/<int:person_id>/badge/normal")
 @auth_required
 def normal_badge(person_id):
@@ -135,7 +136,8 @@ def normal_badge(person_id):
 
     import jinja2
     person.update({
-        "meeting_description": jinja2.Markup("61<sup>st</sup> meeting of the Standing Committee"),
+        "meeting_description": jinja2.Markup("61<sup>st</sup> meeting of the"
+                                             " Standing Committee"),
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
     })
     # create data for flatland schema
@@ -146,6 +148,7 @@ def normal_badge(person_id):
         "person_schema": person_schema,
         "category": category
     })
+
 
 @webpages.route("/meeting/1/participant/new",
                 methods=["GET", "POST"])
@@ -246,6 +249,7 @@ def photo(person_id):
 def meeting():
     return flask.redirect(flask.url_for('webpages.meeting_registration'))
 
+
 @webpages.route("/meeting/1/registration")
 @auth_required
 def meeting_registration():
@@ -278,7 +282,7 @@ def meeting_verified_short_list():
     meeting = {
         "description": "Sixty-first meeting of the Standing Committee",
         "address": "Geneva (Switzerland), 15-19 August 2011"
-        }
+    }
 
     # create data for flatland schema
     person_schema = schema.unflatten_with_defaults(schema.PersonSchema, person)
@@ -305,12 +309,14 @@ def meeting_settings_fees():
         "fees": schema.fee,
     })
 
+
 @webpages.route("/meeting/1/settings/categories")
 @auth_required
 def meeting_settings_categories():
     return flask.render_template("meeting_settings_categories.html", **{
         "categories": schema.category,
     })
+
 
 @webpages.route("/meeting/1/participant/<int:person_id>/send_mail",
                 methods=["GET", "POST"])
@@ -352,7 +358,7 @@ def send_mail(person_id):
                 flask.flash(success_msg, "success")
 
             else:
-                flask.flash("This is a demo, no real email was sent", "info")
+                flask.flash(u"This is a demo, no real email was sent", "info")
 
         else:
             flask.flash(u"Errors in mail information", "error")
@@ -370,6 +376,7 @@ def send_mail(person_id):
         "person": person,
         "mail_schema": mail_schema,
     })
+
 
 class MarkupGenerator(flatland.out.markup.Generator):
 
