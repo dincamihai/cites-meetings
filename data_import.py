@@ -82,6 +82,7 @@ def category_to_json(file):
         i["room_sort"] = int(i["room_sort"])
         i["credent"] = int(i["credent"])
         i["fee"] = bool(i["fee"])
+        i["registered"] = bool(i["registered"])
     print json.dumps(out, indent=2)
 
 FEE = (
