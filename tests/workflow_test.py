@@ -78,7 +78,7 @@ class ParticipantEmailWorkflowTest(unittest.TestCase):
     def test_send_email_page(self):
         view_resp = self.client.get('/meeting/1/participant/1')
         [link] = select(view_resp.data, 'a:contains("Acknowledge email")')
-        email_url = '/email/1'
+        email_url = '/meeting/1/participant/1/send_mail'
         self.assertEqual(link.attrib['href'], email_url)
 
         email_resp = self.client.get(email_url)

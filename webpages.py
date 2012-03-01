@@ -316,7 +316,8 @@ def meeting_settings_categories():
         "categories": schema.category,
     })
 
-@webpages.route("/email/<int:person_id>",  methods=["GET", "POST"])
+@webpages.route("/meeting/1/participant/<int:person_id>/send_mail",
+                methods=["GET", "POST"])
 @auth_required
 def send_mail(person_id):
     app = flask.current_app
