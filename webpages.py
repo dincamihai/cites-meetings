@@ -1,6 +1,7 @@
 from functools import wraps
 import logging
 import flask
+import jinja2
 import flatland.out.markup
 import schema
 import database
@@ -120,27 +121,16 @@ def credentials(person_id):
 @webpages.route("/meeting/1/participant/<int:person_id>/badge/normal")
 @auth_required
 def normal_badge(person_id):
-    app = flask.current_app
-
-    # get the person
-    person = database.get_session().get_person_or_404(person_id)
-    categories = schema._load_json("refdata/categories.json")
-    category = [c for c in categories
-        if c["id"] == person["personal_category"]][0]
-
-    import jinja2
-    person.update({
-        "meeting_description": jinja2.Markup("61<sup>st</sup> meeting of the"
-                                             " Standing Committee"),
-        "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
-    })
-    # create data for flatland schema
-    person_schema = schema.unflatten_with_defaults(schema.PersonSchema, person)
+    person_row = database.get_session().get_person_or_404(person_id)
+    person = schema.PersonSchema.from_flat(person_row).value
 
     return flask.render_template("normal_badge.html", **{
+        "meeting_description": jinja2.Markup("61<sup>st</sup> meeting of the "
+                                             "Standing Committee"),
+        "meeting_address": "Geneva (Switzerland), 15-19 August 2011",
+        "person_id": person_id,
         "person": person,
-        "person_schema": person_schema,
-        "category": category
+        "has_photo": bool(person_row.get("photo_id", "")),
     })
 
 
