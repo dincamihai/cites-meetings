@@ -345,14 +345,15 @@ def send_mail(person_id):
 
             if app.config["SEND_REAL_EMAILS"]:
                 mail.send(msg)
+
+                # flash a success message
+                success_msg = u"Mail sent to %s" % mail_data["to"]
+                if mail_data["cc"]:
+                    success_msg += u" and to %s" % mail_data["cc"]
+                flask.flash(success_msg, "success")
+
             else:
                 flask.flash("This is a demo, no real email was sent", "info")
-
-            # flash a success message
-            success_msg = u"Mail sent to %s" % mail_data["to"]
-            if mail_data["cc"]:
-                success_msg += u" and to %s" % mail_data["cc"]
-            flask.flash(success_msg, "success")
 
         else:
             flask.flash(u"Errors in mail information", "error")
