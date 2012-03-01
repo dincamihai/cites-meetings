@@ -20,7 +20,7 @@
         {{ meeting["description"] }} <br />
         {{ meeting["address"] }}
       </h4>
-      <h1>List of announced participants - Total: {{ registered | length }}</h1>
+      <h1>List of announced participants - Total: {{ registered_total }}</h1>
   </div>
 
   <div class="subheader">
@@ -59,47 +59,48 @@
         {% for category, participants in registered.items() %}
         {% if participants %}
         <tr>
-          <td class="category" colspan="9">{{ ref['category'][category]['name'] }}</th>
+          <td class="category" colspan="9">{{ ref["category"][category]["name"] }}</th>
         </tr>
-        {% for p in participants %}
+        {% for person, has_photo in participants %}
         <tr>
           <td>
-            {%- if p["photo_id"] -%}
-            <i class="icon-camera"></i>
+            {%- if has_photo -%}
+              <i class="icon-camera"></i>
             {%- endif -%}
           </td>
           <td>
-            {%- if p["personal_category"] == '10' -%}
-              {{ ref['region'][p['representing_region']] }} - {{ ref['country'][p['representing_country']] }}
-            {%- elif p["personal_category"] in ['20', '30', '40'] -%}
-              {{ ref['country'][p['representing_country']] }}
-            {%- elif p["personal_category"] in ['98', '99'] -%}
+            {%- if person["personal"]["category"] == "10" -%}
+              {{ ref["region"][person["representing"]["region"]] }} -
+              {{ ref["country"][person["representing"]["country"]] }}
+            {%- elif person["personal_category"] in ["20", "30", "40"] -%}
+              {{ ref["country"][person["representing"]["country"]] }}
+            {%- elif person["personal_category"] in ["98", "99"] -%}
               CITES Secretariat and Conference Staff"
             {%- else -%}
-              {{ p['representing_organization'] }}
+              {{ person["representing"]["organization"] }}
             {%- endif -%}
           </td>
-          <td>{{ p.name }}</td>
-          <!-- <td>{{ ref['category'][p["personal_category"]]['name'] }}</td> -->
+          <td>{{ person.name }}</td>
+          <!-- <td>{{ ref["category"][person["personal"]["category"]]["name"] }}</td> -->
           <td>
-            {%- if p["meeting_flags_credentials"] -%}
+            {%- if person["meeting_flags"]["credentials"] -%}
             <i class="icon-check"></i>
             {%- endif -%}
           </td>
           <td>
-            {%- if p["meeting_flags_approval"] -%}
+            {%- if person["meeting_flags"]["approval"] -%}
             <i class="icon-check"></i>
             {%- endif -%}
           </td>
           <td>
-            {%- if p["meeting_flags_invitation"] -%}
+            {%- if person["meeting_flags"]["invitation"] -%}
             <i class="icon-check"></i>
             {%- endif -%}
           </td>
-          <td>{{ ref['fee'][p["personal_fee"]] }}</td>
-          <td>{{ p["personal_language"] }}</td>
+          <td>{{ ref["fee"][person["personal"]["fee"]] }}</td>
+          <td>{{ person["personal"]["language"] }}</td>
           <td>
-            {%- if p["meeting_flags_web_alert"] -%}
+            {%- if person["meeting_flags"]["web_alert"] -%}
               <i class="icon-check"></i>
             {%- endif -%}
           </td>

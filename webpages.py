@@ -1,5 +1,6 @@
 from functools import wraps
 import logging
+import collections
 import flask
 import jinja2
 import flatland.out.markup
@@ -252,17 +253,16 @@ def meeting_printouts():
 @webpages.route("/meeting/1/printouts/verified/short_list")
 @auth_required
 def meeting_verified_short_list():
-    app = flask.current_app
+    registered = collections.defaultdict(list)
 
-    registered = {}
-    for category in schema.category.keys():
-        registered[category] = []
-
-    for person in database.get_session().get_all_persons():
-        if person["meeting_flags_verified"]:
-            category = schema.category[person["personal_category"]]
-            if category['registered'] == '1':
-                registered[person['personal_category']].append(person)
+    for person_row in database.get_session().get_all_persons():
+        if person_row["meeting_flags_verified"]:
+            category = schema.category[person_row["personal_category"]]
+            if category['registered']:
+                has_photo = bool(person_row.get("photo_id", ""))
+                person = schema.PersonSchema.from_flat(person_row).value
+                entry = (person, has_photo)
+                registered[person_row['personal_category']].append(entry)
 
     meeting = {
         "description": "Sixty-first meeting of the Standing Committee",
@@ -271,6 +271,7 @@ def meeting_verified_short_list():
 
     return flask.render_template("print_short_list_verified.html", **{
         "registered": registered,
+        "registered_total": sum(len(cat) for cat in registered.values()),
         "meeting": meeting
     })
 
