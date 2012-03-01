@@ -98,7 +98,7 @@ def data_import(file):
             if item["representing_country"].strip() == "NULL":
                 item["representing_country"] = ""
 
-            person = schema.Person.from_flat(item)
+            person = schema.PersonSchema.from_flat(item)
             if person.validate():
                 log.info("Person %r added." %
                          person.find("personal/first_name")[0].value)

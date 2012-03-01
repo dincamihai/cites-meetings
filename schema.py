@@ -66,7 +66,7 @@ CommonEnum = fl.Enum.using(optional=True) \
 CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
 CommonDict = fl.Dict.with_properties(widget="group")
 
-Person = fl.Dict.with_properties(widget="schema") \
+PersonSchema = fl.Dict.with_properties(widget="schema") \
                 .of(
 
     CommonDict.named("personal") \

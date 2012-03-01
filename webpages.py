@@ -91,7 +91,7 @@ def view(person_id):
     # get the person
     person = database.get_session().get_person_or_404(person_id)
     # create data for flatland schema
-    person_schema = schema.unflatten_with_defaults(schema.Person, person)
+    person_schema = schema.unflatten_with_defaults(schema.PersonSchema, person)
 
     return flask.render_template("view.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
@@ -114,7 +114,7 @@ def credentials(person_id):
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
     })
     # create data for flatland schema
-    person_schema = schema.unflatten_with_defaults(schema.Person, person)
+    person_schema = schema.unflatten_with_defaults(schema.PersonSchema, person)
 
     return flask.render_template("credentials.html", **{
         "person": person,
@@ -140,7 +140,7 @@ def normal_badge(person_id):
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011"
     })
     # create data for flatland schema
-    person_schema = schema.unflatten_with_defaults(schema.Person, person)
+    person_schema = schema.unflatten_with_defaults(schema.PersonSchema, person)
 
     return flask.render_template("normal_badge.html", **{
         "person": person,
@@ -165,9 +165,9 @@ def edit(person_id=None):
         template = "person_edit.html"
 
     if flask.request.method == "POST":
-        form_data = dict(schema.Person.from_defaults().flatten())
+        form_data = dict(schema.PersonSchema.from_defaults().flatten())
         form_data.update(flask.request.form.to_dict())
-        person = schema.Person.from_flat(form_data)
+        person = schema.PersonSchema.from_flat(form_data)
 
         if person.validate():
             if person_row is None:
@@ -184,9 +184,9 @@ def edit(person_id=None):
 
     else:
         if person_row is None:
-            person = schema.Person()
+            person = schema.PersonSchema()
         else:
-            person = schema.Person.from_flat(person_row)
+            person = schema.PersonSchema.from_flat(person_row)
 
     return flask.render_template(template, **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_edit.html")),
@@ -282,7 +282,7 @@ def meeting_verified_short_list():
         }
 
     # create data for flatland schema
-    person_schema = schema.unflatten_with_defaults(schema.Person, person)
+    person_schema = schema.unflatten_with_defaults(schema.PersonSchema, person)
 
     return flask.render_template("print_short_list_verified.html", **{
         "registered": registered,
