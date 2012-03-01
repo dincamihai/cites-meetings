@@ -88,16 +88,15 @@ def view(person_id):
         session.commit()
         return flask.jsonify({"status": "success"})
 
-    # get the person
-    person = database.get_session().get_person_or_404(person_id)
-    # create data for flatland schema
-    person_schema = schema.unflatten_with_defaults(schema.PersonSchema, person)
+    person_row = database.get_session().get_person_or_404(person_id)
+    person_schema = schema.PersonSchema.from_flat(person_row)
 
     return flask.render_template("view.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
-        "person": person,
+        "person_id": person_id,
         "person_schema": person_schema,
-        "has_photo": bool(person.get("photo_id", "")),
+        "person": person_schema.value,
+        "has_photo": bool(person_row.get("photo_id", "")),
     })
 
 

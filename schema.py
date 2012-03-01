@@ -208,7 +208,7 @@ class PersonSchema(_PersonSchemaDefinition):
 
     @property
     def value(self):
-        return Person(super(PersonContainer, self).value)
+        return Person(super(PersonSchema, self).value)
 
 
 class Person(dict):
