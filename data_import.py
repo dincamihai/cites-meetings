@@ -8,27 +8,6 @@ import re
 log = logging.getLogger("data-import")
 log.setLevel(logging.INFO)
 
-KEYS = {
-    "categories": ("id",
-                   "name",
-                   "stat",
-                   "stat_sort",
-                   "reg",
-                   "reg_sort",
-                   "room",
-                   "room_sort",
-                   "badge_color",
-                   "credent",
-                   "fee",
-                   "details_of_registration",
-                   "representative",
-                   "registration_fee",
-                   "invitation_received",
-                   "registered"),
-
-}
-
-# from csv to json
 PERSON = [
     "id",
     "personal_name_title",
@@ -61,37 +40,71 @@ PERSON = [
     "representing_organization_show",
     "more_info_text",
     "updated",
-    "pic_path"],
-def person_to_json(file):
-    with open(file) as f:
-        out = csv.DictReader(f, fieldnames=PERSON)
-        # out = list(out)[1:2]
-        for i in out:
-            print i
-        print out
-        # print json.dumps(out, indent=2)
-
-FEE = [
-    "id",
-    "name"
+    "pic_path",
 ]
+def person_to_json(file):
+    out = get_csv(file, fieldnames=PERSON)
+    for i in out:
+        i["personal_email"] = re.sub(r"\s*@\s*", "@", i["personal_email"])
+        i["info_alert"] = bool(i["info_alert"])
+        i["meeting_flags_sponsored"] = bool(i["meeting_flags_sponsored"])
+        i["meeting_flags_credentials"] = bool(i["meeting_flags_credentials"])
+        i["meeting_flags_approval"] = bool(i["meeting_flags_approval"])
+        i["meeting_flags_invitation"] = bool(i["meeting_flags_invitation"])
+        i["meeting_flags_attended"] = bool(i["meeting_flags_attended"])
+        i["meeting_flags_verified"] = bool(i["meeting_flags_verified"])
+        i["representing_organization_show"] = bool(i["representing_organization_show"])
+    print json.dumps(out, indent=2)
+
+CATEGORY = (
+    "id",
+    "name",
+    "stat",
+    "stat_sort",
+    "reg",
+    "reg_sort",
+    "room",
+    "room_sort",
+    "badge_color",
+    "credent",
+    "fee",
+    "details_of_registration",
+    "representative",
+    "registration_fee",
+    "invitation_received",
+    "registered",
+)
+def category_to_json(file):
+    out = get_csv(file, fieldnames=CATEGORY)
+    for i in out:
+        i["stat_sort"] = int(i["stat_sort"])
+        i["reg_sort"] = int(i["reg_sort"])
+        i["room_sort"] = int(i["room_sort"])
+        i["credent"] = int(i["credent"])
+        i["fee"] = bool(i["fee"])
+    print json.dumps(out, indent=2)
+
+FEE = (
+    "id",
+    "name",
+)
 def fee_to_json(file):
     out = get_csv(file, fieldnames=FEE)
     print json.dumps(out, indent=2)
 
-REGION = [
+REGION = (
     "id",
     "name_en_sp_fr",
     "name",
-]
+)
 def region_to_json(file):
     out = get_csv(file, fieldnames=REGION)
     print json.dumps(out, indent=2)
 
-COUNTRY = [
+COUNTRY = (
     "id",
     "name",
-]
+)
 def country_to_json(file):
     out = get_csv(file, fieldnames=COUNTRY)
     print json.dumps(out, indent=2)
@@ -101,6 +114,7 @@ DISPATCH = {
     "fee": fee_to_json,
     "region": region_to_json,
     "country": country_to_json,
+    "category": category_to_json,
 }
 def to_json(file, what="person"):
     if what in DISPATCH:
@@ -108,17 +122,11 @@ def to_json(file, what="person"):
     else:
         print "Value for -w not valid"
 
-    # # emails from dragos.catarahia @ eaudeweb.ro =>  dragos.catarahia@eaudeweb.ro
-    # for i in out:
-    #     if "personal_email" in i:
-    #         i["personal_email"] = re.sub(r"\s*@\s*", "@",
-    #                                      i["personal_email"])
-
 def get_csv(file, fieldnames):
     with open(file) as f:
         out = csv.DictReader(f, fieldnames=fieldnames, restkey="restkey",
-            restval="restval")
-        out = list(out)[1:]
+                             restval="restval")
+        out = list(out)[1:] # remove column headers
     return out
 
 def data_import(file):
