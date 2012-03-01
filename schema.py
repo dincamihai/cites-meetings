@@ -201,7 +201,7 @@ PersonSchema = fl.Dict.with_properties(widget="schema") \
     ),
 )
 
-Mail = fl.Dict.with_properties(widget="mail") \
+MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(
     CommonString.named("to") \
                 .using(label=u"To", optional=False) \

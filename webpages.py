@@ -327,7 +327,7 @@ def send_mail(person_id):
     if flask.request.method == "POST":
         mail = Mail(app)
         # populate schema with data from POST
-        mail_schema = schema.Mail.from_flat(flask.request.form.to_dict())
+        mail_schema = schema.MailSchema.from_flat(flask.request.form.to_dict())
 
         if mail_schema.validate():
             # flatten schema
@@ -360,7 +360,7 @@ def send_mail(person_id):
 
     else:
         # create a schema with default data
-        mail_schema = schema.Mail({
+        mail_schema = schema.MailSchema({
             "to": person["personal_email"],
             "subject": phrases["EM_Subj"],
             "message": "\n\n\n%s" % phrases["Intro"],
