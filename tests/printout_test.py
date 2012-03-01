@@ -38,7 +38,7 @@ class CredentialsTest(unittest.TestCase):
             "personal_language": u"F", # "F": "French"
             "personal_fee": "1",
             "meeting_flags_invitation": True,
-            "meeting_flags_credentials": False
+            "meeting_flags_credentials": False,
         })
 
     def test_common_fields(self):

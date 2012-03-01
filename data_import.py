@@ -26,7 +26,7 @@ PERSON = [
     "representing_organization",
     "entered",
     "meeting",
-    "info_alert",
+    "meeting_flags_web_alert",
     "sc_fin",
     "representing_region",
     "meeting_flags_sponsored",
@@ -46,7 +46,7 @@ def person_to_json(file):
     out = get_csv(file, fieldnames=PERSON)
     for i in out:
         i["personal_email"] = re.sub(r"\s*@\s*", "@", i["personal_email"])
-        i["info_alert"] = bool(i["info_alert"])
+        i["meeting_flags_web_alert"] = bool(i["meeting_flags_web_alert"])
         i["meeting_flags_sponsored"] = bool(i["meeting_flags_sponsored"])
         i["meeting_flags_credentials"] = bool(i["meeting_flags_credentials"])
         i["meeting_flags_approval"] = bool(i["meeting_flags_approval"])
