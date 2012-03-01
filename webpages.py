@@ -178,7 +178,7 @@ def edit(person_id=None):
     return flask.render_template(template, **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_edit.html")),
         "person_schema": person_schema,
-        "person_row": person_row,
+        "person_id": person_id,
     })
 
 
