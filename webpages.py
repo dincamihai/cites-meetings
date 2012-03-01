@@ -1,5 +1,6 @@
 from functools import wraps
 import logging
+import collections
 import flask
 import jinja2
 import flatland.out.markup
@@ -177,7 +178,7 @@ def edit(person_id=None):
     return flask.render_template(template, **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_edit.html")),
         "person_schema": person_schema,
-        "person_row": person_row,
+        "person_id": person_id,
     })
 
 
@@ -211,7 +212,7 @@ def edit_photo(person_id):
             flask.flash("Please select a photo", "error")
 
     return flask.render_template("photo.html", **{
-        "person_row": person_row,
+        "person_id": person_id,
         "person": schema.PersonSchema.from_flat(person_row).value,
         "has_photo": bool(person_row.get("photo_id", "")),
     })
@@ -252,17 +253,16 @@ def meeting_printouts():
 @webpages.route("/meeting/1/printouts/verified/short_list")
 @auth_required
 def meeting_verified_short_list():
-    app = flask.current_app
+    registered = collections.defaultdict(list)
 
-    registered = {}
-    for category in schema.category.keys():
-        registered[category] = []
-
-    for person in database.get_session().get_all_persons():
-        if person["meeting_flags_verified"]:
-            category = schema.category[person["personal_category"]]
-            if category['registered'] == '1':
-                registered[person['personal_category']].append(person)
+    for person_row in database.get_session().get_all_persons():
+        if person_row["meeting_flags_verified"]:
+            category = schema.category[person_row["personal_category"]]
+            if category['registered']:
+                has_photo = bool(person_row.get("photo_id", ""))
+                person = schema.PersonSchema.from_flat(person_row).value
+                entry = (person, has_photo)
+                registered[person_row['personal_category']].append(entry)
 
     meeting = {
         "description": "Sixty-first meeting of the Standing Committee",
@@ -271,6 +271,7 @@ def meeting_verified_short_list():
 
     return flask.render_template("print_short_list_verified.html", **{
         "registered": registered,
+        "registered_total": sum(len(cat) for cat in registered.values()),
         "meeting": meeting
     })
 
@@ -307,7 +308,8 @@ def send_mail(person_id):
     app = flask.current_app
     session = database.get_session()
 
-    person = session.get_person_or_404(person_id)
+    person_row = session.get_person_or_404(person_id)
+    person = schema.PersonSchema.from_flat(person_row).value
     phrases = {item["id"]: item["name"]  for item in
                schema._load_json("refdata/phrases.json")}
 
@@ -348,13 +350,14 @@ def send_mail(person_id):
     else:
         # create a schema with default data
         mail_schema = schema.MailSchema({
-            "to": person["personal_email"],
+            "to": person["personal"]["email"],
             "subject": phrases["EM_Subj"],
             "message": "\n\n\n%s" % phrases["Intro"],
         })
 
     return flask.render_template("send_mail.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_mail.html")),
+        "person_id": person_id,
         "person": person,
         "mail_schema": mail_schema,
     })

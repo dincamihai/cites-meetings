@@ -6,14 +6,6 @@ import flask
 class PersonRow(dict):
     id = None
 
-    @property
-    def name(self):
-        return "%s %s %s" % (
-            self["personal_name_title"],
-            self["personal_first_name"],
-            self["personal_last_name"],
-        )
-
 
 COPY_BUFFER_SIZE = 2**14
 def _iter_file(src_file, close=False):

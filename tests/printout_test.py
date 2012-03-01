@@ -32,21 +32,29 @@ class CredentialsTest(unittest.TestCase):
 
     def _create_participant(self, category):
         return self.client.post('/meeting/1/participant/new', data={
-            'personal_first_name': u"Joe",
-            'personal_last_name': u"Smith",
-            'personal_category': category,
-            'personal_language': u"F", # "F": "French"
+            "personal_first_name": u"Joe",
+            "personal_last_name": u"Smith",
+            "personal_category": category,
+            "personal_language": u"F", # "F": "French"
+            "personal_fee": "1",
+            "meeting_flags_invitation": True,
+            "meeting_flags_credentials": False,
         })
 
     def test_common_fields(self):
         self._create_participant(u"10") # 10: "Member"
         resp = self.client.get('/meeting/1/participant/1/credentials')
-
         self.assertIn(u"Joe Smith", value_for_label(resp.data, "Name and address"))
         self.assertIn(u"French", value_for_label(resp.data, "Language"))
         self.assertIn(u"Not required",
                       value_for_label(resp.data, "Invitation received"))
         self.assertIn(u"No", value_for_label(resp.data, "Web Alerts"))
+
+        [credentials_content] = select(resp.data, ".credentials-content")
+        # check to see if picture alert is present
+        [picture_alert] = select(credentials_content, ".alert")
+        # check to see if phrases credentials is on page
+        [phrases_credential] = select(credentials_content, ".phrases-credentials")
 
     def test_member(self):
         self._create_participant(u"10") # 10: "Member"
@@ -54,12 +62,78 @@ class CredentialsTest(unittest.TestCase):
 
         self.assertIn(u"Member", value_for_label(resp.data, "Category"))
 
+        [details_of_registration] = select(resp.data, ".subheader h3")
+        details_of_registration = details_of_registration.text_content()
+        self.assertIn(u"Member", details_of_registration)
+
+        self.assertIn(u"Region", value_for_label(resp.data, "Representative of"))
+        self.assertIn(u"Not required", value_for_label(resp.data, "Invitation received"))
+
+    def test_alternate_member(self):
+        self._create_participant(u"20") # 20: "Alternate Member"
+        resp = self.client.get('/meeting/1/participant/1/credentials')
+
+        self.assertIn(u"Alternate member",
+                      value_for_label(resp.data, "Category"))
+
+        [details_of_registration] = select(resp.data, ".subheader h3")
+        details_of_registration = details_of_registration.text_content()
+        self.assertIn(u"Alternate member", details_of_registration)
+
+        self.assertIn(u"Country", value_for_label(resp.data, "Representative of"))
+        self.assertIn(u"Not required",
+                      value_for_label(resp.data, "Invitation received"))
+
+    def test_observer_party(self):
+        self._create_participant(u"30") # 30: "Observer, Party"
+        resp = self.client.get('/meeting/1/participant/1/credentials')
+
+        self.assertIn(u"Observer, Party",
+                      value_for_label(resp.data, "Category"))
+
+        [details_of_registration] = select(resp.data, ".subheader h3")
+        details_of_registration = details_of_registration.text_content()
+        self.assertIn(u"Observer, Party", details_of_registration)
+
+        self.assertIn(u"Country",
+                      value_for_label(resp.data, "Representative of"))
+        self.assertIn(u"Not required",
+                      value_for_label(resp.data, "Invitation received"))
+
+    def test_observer_international(self):
+        self._create_participant(u"80") # 80: "Observer, International NGO"
+        resp = self.client.get('/meeting/1/participant/1/credentials')
+
+        self.assertIn(u"Observer, International NGO",
+                    value_for_label(resp.data, "Category"))
+
+        [details_of_registration] = select(resp.data, ".subheader h3")
+        details_of_registration = details_of_registration.text_content()
+        self.assertIn(u"Observer", details_of_registration)
+
+        self.assertIn(u"Organisation",
+                      value_for_label(resp.data, "Representative of"))
+        self.assertIn(u"Yes",
+                      value_for_label(resp.data, "Invitation received"))
+
+        # check to see if phrases.fee and phrases.payment are present
+        [credentials_content] = select(resp.data, ".credentials-content")
+        [phrases_fee] = select(resp.data, ".phrases-fee")
+        [phrases_fee] = select(resp.data, ".phrases-payment")
+        [phrases_approval] = select(resp.data, ".phrases-approval")
+
     def test_conference_staff(self):
         self._create_participant(u"98") # 98: "Conference staff"
         resp = self.client.get('/meeting/1/participant/1/credentials')
 
         self.assertIn(u"Conference staff",
                       value_for_label(resp.data, "Category"))
+
+        [details_of_registration] = select(resp.data, ".subheader h3")
+        details_of_registration = details_of_registration.text_content()
+        self.assertIn(u"Observer", details_of_registration)
+        self.assertIn(u"Description",
+                      value_for_label(resp.data, "Representative of"))
 
     def test_visitor(self):
         self._create_participant(u"1") # 1: "Visitor"
@@ -73,3 +147,11 @@ class CredentialsTest(unittest.TestCase):
 
         self.assertIn(u"Observer, International NGO",
                       value_for_label(resp.data, "Category"))
+
+    def test_special_guest_of_the_secretary_general(self):
+        self._create_participant(u"0") # 0: "pecial_guest_of_the_secretary_general"
+        resp = self.client.get("/meeting/1/participant/1/credentials")
+
+        self.assertIn(u"Special guest of the Secretary General",
+                      value_for_label(resp.data, "Category"))
+

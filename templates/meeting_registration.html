@@ -34,7 +34,7 @@
         </a>
       </td>
       <td>
-        {{ ref['category'][person["personal_category"]] }}
+        {{ ref['category'][person["personal_category"]]["name"] }}
       </td>
       <td class="attended">
         {% if person["meeting_flags_attended"] %}
