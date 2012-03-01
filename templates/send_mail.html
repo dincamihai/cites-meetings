@@ -28,14 +28,14 @@
   {{ breadcrumb_items([
       (url_for('webpages.meeting'), "Meeting"),
       (url_for('webpages.meeting_registration'), "Registration"),
-      (url_for('webpages.view', person_id=person.id), person.name),
-      (url_for('webpages.send_mail', person_id=person.id), "Acknowledge email"),
+      (url_for('webpages.view', person_id=person_id), person.name),
+      (url_for('webpages.send_mail', person_id=person_id), "Acknowledge email"),
       ]) }}
 </ul>
 
 <h2>Send email to {{ mail_schema.to.value }}</h2>
 
-<form action="{{ url_for('webpages.send_mail', person_id=person.id) }}"
+<form action="{{ url_for('webpages.send_mail', person_id=person_id) }}"
       method="POST"
       class="send-mail-container well">
 
@@ -43,7 +43,7 @@
 
   <div class="form-actions">
     <button class="btn btn-primary " type="submit">Send email</button>
-    <a href="{{ url_for('webpages.view', person_id=person.id) }}"   class="btn" type="button">Cancel</a>
+    <a href="{{ url_for('webpages.view', person_id=person_id) }}"   class="btn" type="button">Cancel</a>
   </div>
 </form>
 {% endblock %}
