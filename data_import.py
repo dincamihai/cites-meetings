@@ -103,7 +103,7 @@ def data_import(file):
                 log.info("Person %r added." %
                          person.find("personal/first_name")[0].value)
 
-                session.save_person(database.Person(person.flatten()))
+                session.save_person(database.PersonRow(person.flatten()))
             else:
                # import pdb; pdb.set_trace()
                log.error("Person is not valid.")
