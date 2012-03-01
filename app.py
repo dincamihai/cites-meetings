@@ -11,6 +11,7 @@ from data_import import to_json, data_import
 default_config = {
     "DATABASE_URI": "postgresql://localhost/cites",
     "TESTING_DATABASE_URI": "postgresql://localhost/cites_test",
+    "SEND_REAL_EMAILS": False,
 }
 
 def create_app():

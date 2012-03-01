@@ -3,3 +3,4 @@ nose==1.1.2
 Fabric==1.4.0
 pycrypto==2.5
 ssh==1.7.13
+lxml==2.3.3
