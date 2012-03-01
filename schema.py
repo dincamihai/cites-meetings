@@ -55,6 +55,7 @@ sorted_regions = [r[0] for r in sorted_regions]
 fee = {item["id"]: item["name"] for item in
        _load_json("refdata/fee.json")}
 
+
 CommonString = fl.String.using(optional=True)
 CommonEnum = fl.Enum.using(optional=True) \
                     .including_validators(EnumValue()) \
@@ -65,8 +66,9 @@ CommonEnum = fl.Enum.using(optional=True) \
 CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
 CommonDict = fl.Dict.with_properties(widget="group")
 
-Person = fl.Dict.with_properties(widget="schema") \
-                .of(
+
+_PersonSchemaDefinition = fl.Dict.with_properties(widget="schema") \
+                                 .of(
 
     CommonDict.named("personal") \
               .using(label="") \
@@ -200,7 +202,26 @@ Person = fl.Dict.with_properties(widget="schema") \
     ),
 )
 
-Mail = fl.Dict.with_properties(widget="mail") \
+
+class PersonSchema(_PersonSchemaDefinition):
+
+    @property
+    def value(self):
+        return Person(super(PersonSchema, self).value)
+
+
+class Person(dict):
+
+    @property
+    def name(self):
+        return "%s %s %s" % (
+            self["personal"]["name_title"],
+            self["personal"]["first_name"],
+            self["personal"]["last_name"],
+        )
+
+
+MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(
     CommonString.named("to") \
                 .using(label=u"To", optional=False) \
@@ -223,10 +244,6 @@ Mail = fl.Dict.with_properties(widget="mail") \
                 .with_properties(widget="textarea")
 )
 
-def unflatten_with_defaults(schema, data):
-    schema_data = dict(schema.from_defaults().flatten())
-    schema_data.update(data)
-    return schema.from_flat(schema_data)
 
 from flatland.signals import validator_validated
 from flatland.schema.base import NotEmpty

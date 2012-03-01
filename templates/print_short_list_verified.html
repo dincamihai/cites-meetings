@@ -59,7 +59,7 @@
         {% for category, participants in registered.items() %}
         {% if participants %}
         <tr>
-          <td class="category" colspan="9">{{ ref['category'][category] }}</th>
+          <td class="category" colspan="9">{{ ref['category'][category]['name'] }}</th>
         </tr>
         {% for p in participants %}
         <tr>
@@ -80,7 +80,7 @@
             {%- endif -%}
           </td>
           <td>{{ p.name }}</td>
-          <!-- <td>{{ ref['category'][p["personal_category"]] }}</td> -->
+          <!-- <td>{{ ref['category'][p["personal_category"]]['name'] }}</td> -->
           <td>
             {%- if p["meeting_flags_credentials"] -%}
             <i class="icon-check"></i>

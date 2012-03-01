@@ -3,7 +3,7 @@ import psycopg2.pool, psycopg2.extras
 import flask
 
 
-class Person(dict):
+class PersonRow(dict):
     id = None
 
     @property
@@ -87,7 +87,7 @@ class Session(object):
         if len(rows) == 0:
             raise KeyError("No person with id=%d" % person_id)
         [(data,)] = rows
-        person = Person(data)
+        person = PersonRow(data)
         person.id = person_id
         return person
 
@@ -106,7 +106,7 @@ class Session(object):
         cursor = self.conn.cursor()
         cursor.execute("SELECT id, data FROM person")
         for person_id, person_data in cursor:
-            person = Person(person_data)
+            person = PersonRow(person_data)
             person.id = person_id
             yield person
 

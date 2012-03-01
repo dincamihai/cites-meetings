@@ -49,13 +49,15 @@ class ParticipantCrudWorkflowTest(unittest.TestCase):
             'personal_last_name': u"Smith",
         })
 
-    def test_delete_participant(self):
+    def test_remove_participant(self):
         person_url = urlparse(self._create_participant().location).path
         resp1 = self.client.get(person_url)
         self.assertEqual(resp1.status_code, 200)
 
-        del_resp = self.client.delete('/delete/1')
+        del_resp = self.client.delete('/meeting/1/participant/1')
         self.assertEqual(del_resp.status_code, 200)
+        self.assertEqual(flask.json.loads(del_resp.data),
+                         {'status': 'success'})
 
         resp2 = self.client.get(person_url)
         self.assertEqual(resp2.status_code, 404)
@@ -78,7 +80,7 @@ class ParticipantEmailWorkflowTest(unittest.TestCase):
     def test_send_email_page(self):
         view_resp = self.client.get('/meeting/1/participant/1')
         [link] = select(view_resp.data, 'a:contains("Acknowledge email")')
-        email_url = '/email/1'
+        email_url = '/meeting/1/participant/1/send_mail'
         self.assertEqual(link.attrib['href'], email_url)
 
         email_resp = self.client.get(email_url)
