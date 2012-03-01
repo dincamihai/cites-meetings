@@ -1,46 +1,91 @@
 [
   {
-   "id": "0",
-   "name": "None"
-  },
-
-  {
+    "restkey": [
+      "\u00c1frica",
+      "Afrique"
+    ],
+    "name_en_sp_fr": "Africa / \u00c1frica / Afrique",
     "id": "1",
     "name": "Africa"
   },
   {
+    "restkey": [
+      "Asia",
+      "Asie"
+    ],
+    "name_en_sp_fr": "Asia / Asie",
     "id": "2",
     "name": "Asia"
   },
   {
+    "restkey": [
+      "Am\u00e9rica Central, del Sur y el Caribe",
+      "Am\u00e9rique centrale et du Sud et Cara\u00efbes"
+    ],
+    "name_en_sp_fr": "Central and South America and the Caribbean / Am\u00e9rica Central, del Sur y el Caribe / Am\u00e9rique centrale et du Sud et Cara\u00efbes",
     "id": "3",
     "name": "Central and South America and the Caribbean"
   },
   {
+    "restkey": [
+      "Europa",
+      "Europe"
+    ],
+    "name_en_sp_fr": "Europe / Europa",
     "id": "4",
     "name": "Europe"
   },
   {
+    "restkey": [
+      "Am\u00e9rica del Norte",
+      "Am\u00e9rique du Nord"
+    ],
+    "name_en_sp_fr": "North America / Am\u00e9rica del Norte / Am\u00e9rique du Nord",
     "id": "5",
     "name": "North America"
   },
   {
+    "restkey": [
+      "Ocean\u00eda",
+      "Oc\u00e9anie"
+    ],
+    "name_en_sp_fr": "Oceania / Ocean\u00eda / Oc\u00e9anie",
     "id": "6",
     "name": "Oceania"
   },
   {
+    "restkey": [
+      "Gobierno Depositario",
+      "Gouvernement d\u00e9positaire"
+    ],
+    "name_en_sp_fr": "Depositary Government / Gobierno Depositario / Gouvernement d\u00e9positaire",
     "id": "7",
     "name": "Depositary Government"
   },
   {
+    "restkey": [
+      "Pa\u00eds Anfitri\u00f3n Anterior",
+      "Pays h\u00f4te pr\u00e9c\u00e9dent"
+    ],
+    "name_en_sp_fr": "Previous host country / Pa\u00eds Anfitri\u00f3n Anterior / Pays h\u00f4te pr\u00e9c\u00e9dent",
     "id": "8",
     "name": "Previous host country"
   },
   {
+    "restkey": [
+      "Pr\u00f3ximo Pa\u00eds Anfitri\u00f3n",
+      "Pays h\u00f4te suivant"
+    ],
+    "name_en_sp_fr": "Next host country / Pr\u00f3ximo Pa\u00eds Anfitri\u00f3n / Pays h\u00f4te suivant",
     "id": "9",
     "name": "Next host country"
   },
   {
+    "restkey": [
+      "Especialista en nomenclatura",
+      "Sp\u00e9cialiste de la nomenclature"
+    ],
+    "name_en_sp_fr": "Nomenclature specialist / Especialista en nomenclatura / Sp\u00e9cialiste de la nomenclature",
     "id": "10",
     "name": "Nomenclature specialist"
   }
