@@ -32,12 +32,13 @@ class CredentialsTest(unittest.TestCase):
 
     def _create_participant(self, category):
         return self.client.post('/meeting/1/participant/new', data={
-            'personal_first_name': u"Joe",
-            'personal_last_name': u"Smith",
-            'personal_category': category,
-            'personal_language': u"F", # "F": "French"
-            'personal_fee': "5",
-            'meeting_flags_invitation': True,
+            "personal_first_name": u"Joe",
+            "personal_last_name": u"Smith",
+            "personal_category": category,
+            "personal_language": u"F", # "F": "French"
+            "personal_fee": "1",
+            "meeting_flags_invitation": True,
+            "meeting_flags_credentials": False
         })
 
     def test_common_fields(self):
@@ -48,6 +49,12 @@ class CredentialsTest(unittest.TestCase):
         self.assertIn(u"Not required",
                       value_for_label(resp.data, "Invitation received"))
         self.assertIn(u"No", value_for_label(resp.data, "Web Alerts"))
+
+        [credentials_content] = select(resp.data, ".credentials-content")
+        # check to see if picture alert is present
+        [picture_alert] = select(credentials_content, ".alert")
+        # check to see if phrases credentials is on page
+        [phrases_credential] = select(credentials_content, ".phrases-credentials")
 
     def test_member(self):
         self._create_participant(u"10") # 10: "Member"
@@ -108,6 +115,12 @@ class CredentialsTest(unittest.TestCase):
                       value_for_label(resp.data, "Representative of"))
         self.assertIn(u"Yes",
                       value_for_label(resp.data, "Invitation received"))
+
+        # check to see if phrases.fee and phrases.payment are present
+        [credentials_content] = select(resp.data, ".credentials-content")
+        [phrases_fee] = select(resp.data, ".phrases-fee")
+        [phrases_fee] = select(resp.data, ".phrases-payment")
+        [phrases_approval] = select(resp.data, ".phrases-approval")
 
     def test_conference_staff(self):
         self._create_participant(u"98") # 98: "Conference staff"
