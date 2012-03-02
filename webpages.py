@@ -75,9 +75,7 @@ def logout():
 @webpages.route("/")
 @auth_required
 def home():
-    return flask.render_template("home.html", **{
-        "people": list(database.get_session().get_all_persons()),
-    })
+    return flask.render_template("home.html")
 
 
 @webpages.route("/meeting/1/participant/<int:person_id>",
@@ -88,11 +86,11 @@ def view(person_id):
 
     if flask.request.method == "DELETE":
         session = database.get_session()
-        session.del_person(person_id)
+        session.table(database.PersonRow).delete(person_id)
         session.commit()
         return flask.jsonify({"status": "success"})
 
-    person_row = database.get_session().get_person_or_404(person_id)
+    person_row = database.get_person_or_404(person_id)
     person_schema = schema.PersonSchema.from_flat(person_row)
     person = person_schema.value
     person.id = person_id
@@ -138,7 +136,7 @@ def edit(person_id=None):
         person_row = None
         template = "person_create.html"
     else:
-        person_row = session.get_person_or_404(person_id)
+        person_row = database.get_person_or_404(person_id)
         template = "person_edit.html"
 
     if flask.request.method == "POST":
@@ -150,7 +148,7 @@ def edit(person_id=None):
             if person_row is None:
                 person_row = database.PersonRow()
             person_row.update(person_schema.flatten())
-            session.save_person(person_row)
+            session.save(person_row)
             session.commit()
             flask.flash("Person information saved", "success")
             view_url = flask.url_for("webpages.view", person_id=person_row.id)
@@ -193,9 +191,9 @@ def edit_photo(person_id):
             db_file = session.get_db_file()
             db_file.save_from(photo_file)
 
-            person_row = session.get_person_or_404(person_id)
+            person_row = database.get_person_or_404(person_id)
             person_row["photo_id"] = str(db_file.id)
-            session.save_person(person_row)
+            session.save(person_row)
 
             session.commit()
 
@@ -214,7 +212,7 @@ def edit_photo(person_id):
 @webpages.route("/meeting/1/participant/<int:person_id>/photo")
 def photo(person_id):
     session = database.get_session()
-    person_row = session.get_person_or_404(person_id)
+    person_row = database.get_person_or_404(person_id)
     try:
         db_file = session.get_db_file(int(person_row["photo_id"]))
     except KeyError:
@@ -233,7 +231,7 @@ def meeting():
 @auth_required
 def meeting_registration():
     people = [(person_row.id, schema.PersonSchema.from_flat(person_row).value)
-              for person_row in database.get_session().get_all_persons()]
+              for person_row in database.get_all_persons()]
     return flask.render_template("meeting_registration.html", **{
         "people": people,
     })
@@ -250,7 +248,7 @@ def meeting_printouts():
 def meeting_verified_short_list():
     registered = collections.defaultdict(list)
 
-    for person_row in database.get_session().get_all_persons():
+    for person_row in database.get_all_persons():
         if person_row["meeting_flags_verified"]:
             category = schema.category[person_row["personal_category"]]
             if category["registered"]:

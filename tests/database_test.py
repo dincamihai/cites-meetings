@@ -4,6 +4,11 @@ import flask
 from common import create_mock_app
 
 
+def _get_person(person_id):
+    import database
+    return database.get_session().table(database.PersonRow).get(person_id)
+
+
 class PersonModelTest(unittest.TestCase):
 
     def setUp(self):
@@ -15,7 +20,7 @@ class PersonModelTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.PersonRow(hello="world"))
+            session.save(database.PersonRow(hello="world"))
             session.commit()
 
         with self.app.test_request_context():
@@ -30,8 +35,8 @@ class PersonModelTest(unittest.TestCase):
             p1 = database.PersonRow()
             p2 = database.PersonRow()
             session = database.get_session()
-            session.save_person(p1)
-            session.save_person(p2)
+            session.save(p1)
+            session.save(p2)
             session.commit()
             self.assertEqual(p1.id, 1)
             self.assertEqual(p2.id, 2)
@@ -47,28 +52,28 @@ class PersonModelTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.PersonRow(hello="world"))
+            session.save(database.PersonRow(hello="world"))
             session.commit()
 
         with self.app.test_request_context():
-            person = database.get_session().get_person(1)
+            person = _get_person(1)
             self.assertEqual(person, {"hello": "world"})
 
     def test_load_not_found(self):
         import database
         with self.app.test_request_context():
             with self.assertRaises(KeyError) as e:
-                database.get_session().get_person(13)
+                _get_person(13)
 
     def test_load404_ok(self):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.PersonRow(hello="world"))
+            session.save(database.PersonRow(hello="world"))
             session.commit()
 
         with self.app.test_request_context():
-            person = database.get_session().get_person_or_404(1)
+            person = database.get_person_or_404(1)
             self.assertEqual(person.id, 1)
             self.assertEqual(person, {"hello": "world"})
 
@@ -77,18 +82,18 @@ class PersonModelTest(unittest.TestCase):
         import werkzeug.exceptions
         with self.app.test_request_context():
             with self.assertRaises(werkzeug.exceptions.NotFound) as e:
-                database.get_session().get_person_or_404(13)
+                database.get_person_or_404(13)
 
     def test_load_all(self):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.PersonRow(hello="world"))
-            session.save_person(database.PersonRow(x="y"))
+            session.save(database.PersonRow(hello="world"))
+            session.save(database.PersonRow(x="y"))
             session.commit()
 
         with self.app.test_request_context():
-            all_persons = list(database.get_session().get_all_persons())
+            all_persons = list(database.get_all_persons())
             self.assertEqual(len(all_persons), 2)
             self.assertEqual(all_persons[0], {'hello': "world"})
             self.assertEqual(all_persons[0].id, 1)
@@ -99,33 +104,33 @@ class PersonModelTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.PersonRow(k1="v1", k2="v2", k3="v3"))
+            session.save(database.PersonRow(k1="v1", k2="v2", k3="v3"))
             session.commit()
 
         with self.app.test_request_context():
             session = database.get_session()
-            person = session.get_person(1)
+            person = _get_person(1)
             del person["k1"] # remove value
             person["k2"] = "vX" # change value
             # person["k3"] unchanged
             person["k4"] = "v4" # add value
-            session.save_person(person)
+            session.save(person)
             session.commit()
 
         with self.app.test_request_context():
-            person = database.get_session().get_person(1)
+            person = _get_person(1)
             self.assertEqual(person, {"k2": "vX", "k3": "v3", "k4": "v4"})
 
     def test_delete(self):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.PersonRow(hello="world"))
+            session.save(database.PersonRow(hello="world"))
             session.commit()
 
         with self.app.test_request_context():
             session = database.get_session()
-            session.del_person(1)
+            session.table(database.PersonRow).delete(1)
             session.commit()
 
         with self.app.test_request_context():

@@ -180,14 +180,12 @@ class ListOfParticipantsTest(_BasePrintoutTest):
 
         # conditie: Verif and Cat>9 and Cat<98 and Cat["registered"] is Ture
         with self.app.test_request_context():
-            session = database.get_session()
-            person_row = session.get_person(1)
+            person_row = database.get_person_or_404(1)
             category = schema.category[person_row["personal_category"]]
             self.assertTrue(category["registered"])
 
         with self.app.test_request_context():
-            session = database.get_session()
-            person_row = session.get_person(2)
+            person_row = database.get_person_or_404(2)
             category = schema.category[person_row["personal_category"]]
             self.assertFalse(category["registered"])
 
