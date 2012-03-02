@@ -39,6 +39,26 @@ class DbFile(object):
         return _iter_file(lobject, close=True)
 
 
+class SessionPool(object):
+
+    def __init__(self, schema, connection_uri, debug):
+        self._schema = schema
+        params = transform_connection_uri(connection_uri)
+        self._conn_pool = psycopg2.pool.ThreadedConnectionPool(0, 5, **params)
+        self._debug = debug
+
+    def get_session(self):
+        conn = self._conn_pool.getconn()
+        psycopg2.extras.register_hstore(conn, globally=False, unicode=True)
+        session = Session(self._schema, conn)
+        if self._debug:
+            session._debug = True
+        return session
+
+    def put_session(self, session):
+        self._conn_pool.putconn(session._release_conn())
+
+
 class Schema(object):
 
     def __init__(self):
@@ -53,6 +73,9 @@ class Schema(object):
 
         self.tables.append(cls)
         return cls
+
+    def bind(self, connection_uri, debug=False):
+        return SessionPool(self, connection_uri, debug)
 
 
 class Table(object):
@@ -117,10 +140,11 @@ class Table(object):
 
 class Session(object):
 
+    _debug = False
+
     def __init__(self, schema, conn, debug=False):
         self._schema = schema
         self._conn = conn
-        self._debug = debug
 
     @property
     def conn(self):

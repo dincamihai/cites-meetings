@@ -19,23 +19,19 @@ def get_all_persons():
 
 
 def get_session():
-    if not hasattr(flask.g, 'psycopg2_session'):
-        pool = flask.current_app.extensions['psycopg2_pool']
-        conn = pool.getconn()
-        htables.psycopg2.extras.register_hstore(conn, globally=False, unicode=True)
-        session = htables.Session(htables_schema, conn, debug=flask.current_app.debug)
-        flask.g.psycopg2_session = session
-    return flask.g.psycopg2_session
+    if not hasattr(flask.g, 'htables_session'):
+        htables_pool = flask.current_app.extensions['htables']
+        flask.g.htables_session = htables_pool.get_session()
+    return flask.g.htables_session
 
 
 def initialize_app(app):
-    params = htables.transform_connection_uri(app.config['DATABASE_URI'])
-    pool = htables.psycopg2.pool.ThreadedConnectionPool(0, 5, **params)
-    app.extensions['psycopg2_pool'] = pool
+    connection_uri = app.config['DATABASE_URI']
+    app.extensions['htables'] = htables_schema.bind(connection_uri, app.debug)
 
     @app.teardown_request
     def finalize_connection(response):
-        session = getattr(flask.g, 'psycopg2_session', None)
+        session = getattr(flask.g, 'htables_session', None)
         if session is not None:
-            app.extensions['psycopg2_pool'].putconn(session._release_conn())
-            del flask.g.psycopg2_session
+            app.extensions['htables'].put_session(session)
+            del flask.g.htables_session
