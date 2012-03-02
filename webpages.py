@@ -117,16 +117,11 @@ def credentials(person_id):
 @webpages.route("/meeting/1/participant/<int:person_id>/badge")
 @auth_required
 def badge(person_id):
-    person_row = database.get_session().get_person_or_404(person_id)
-    person = schema.PersonSchema.from_flat(person_row).value
-
     return flask.render_template("person_badge.html", **{
         "meeting_description": jinja2.Markup("61<sup>st</sup> meeting of the "
                                              "Standing Committee"),
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011",
-        "person_id": person_id,
-        "person": person,
-        "has_photo": bool(person_row.get("photo_id", "")),
+        "person": schema.Person.get_or_404(person_id),
     })
 
 
