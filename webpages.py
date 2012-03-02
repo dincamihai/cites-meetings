@@ -75,9 +75,7 @@ def logout():
 @webpages.route("/")
 @auth_required
 def home():
-    return flask.render_template("home.html", **{
-        "people": list(database.get_session().get_all_persons()),
-    })
+    return flask.render_template("home.html")
 
 
 @webpages.route("/meeting/1/participant/<int:person_id>",
