@@ -68,7 +68,7 @@ table.table thead .sorting_desc_disabled { background: url('../js/lib/datatables
     width: 160px;
 }
 .credentials-header .content {
-    line-height: 24px;
+    line-height: 20px; /* 24px */
     margin-left : 165px;
     font-size: 16px;
 }
@@ -414,29 +414,78 @@ footer {
 	margin-bottom: 0px;
 }
 
+
 /* credentials to be printed */
 @media print {
 
+	@page {
+	 margin: 28pt;
+	}
+
+	@page:first {
+	 margin-top: 0pt;
+	}
+
+	body {
+	 font: 12pt Georgia, "Times New Roman", Times, serif;
+	 line-height: 12pt;
+	}
+
 	.navbar-fixed-top,
-	.breadcrumb {
-		display: none;
+	.breadcrumb,
+	footer {
+	 display: none;
+	}
+
+	.credentials-header h1 {
+	 width: 70%;
+	 margin-left: 0;
+	 text-align: left;
+	}
+
+	.credentials-header ul {
+	 width: 80%;
+	 margin-left: 0;
+	}
+
+	.credentials-header .title {
+	 font-style: normal;
+	 text-align: left;
+	}
+
+	.credentials-header .content {
+	 word-wrap: break-word;
 	}
 
 	.subheader {
-		min-width: 300pt;
-		margin: 0pt 10pt 10pt !important;
-		-webkit-box-shadow: none !important;
+	 width: 280pt;
+	 margin-left: 0% !important;
+	 -webkit-box-shadow: none !important;
+	 -moz-box-shadow: none !important;
+	 box-shadow: none !important;
 	}
 
-/*.subheader ul {
-min-width: 378pt;
-margin: 0pt 10pt 10pt !important;
+	.credentials-content div {
+	 margin-left: 0px;
+	}
+
+	p.alert,
+	.alert-info {
+	 border: 1px solid #999;
+	 color: #999;
+	 max-width: 90%;
+	 padding-right: 0px;
+	}
+
+	a {
+	 color: #000;
+	}
+
+	.alert-info p a:after {
+	 content: " (" attr(href) ")";
+	}
 }
 
-.subheader ul li .content {
-page-break-inside: avoid;
-}*/
-}
 
 /* email page */
 body .send-mail-container {
