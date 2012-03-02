@@ -259,23 +259,23 @@ class Person(dict):
 
     @property
     def category(self):
-        return category[self["personal"]["category"]]
+        return category.get(self["personal"]["category"], "")
 
     @property
     def region(self):
-        return region[self["representing"]["region"]]
+        return region.get(self["representing"]["region"], "")
 
     @property
     def country(self):
-        return country[self["representing"]["country"]]
+        return country.get(self["representing"]["country"], "")
 
     @property
     def fee(self):
-        return fee[self["personal"]["fee"]]
+        return fee.get(self["personal"]["fee"], "")
 
     @property
     def language(self):
-        return language[self["personal"]["language"]]
+        return language.get(self["personal"]["language"], "")
 
 MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(
