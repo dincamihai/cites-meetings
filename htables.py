@@ -154,6 +154,9 @@ class Session(object):
                              (obj_or_cls,))
         return Table(row_cls, self)
 
+    def save(self, obj):
+        self.table(obj).save(obj)
+
     def create_all(self):
         for row_cls in self._schema.tables:
             self.table(row_cls)._create()

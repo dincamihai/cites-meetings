@@ -7,22 +7,20 @@ htables_schema = htables.Schema()
 PersonRow = htables_schema.define_table('PersonRow', 'person')
 
 
-class AppSession(htables.Session):
+def save_person(person):
+    get_session().table(person).save(person)
 
-    def save_person(self, person):
-        self.table(person).save(person)
+def get_person(person_id):
+    return get_session().table(PersonRow).get(person_id)
 
-    def get_person(self, person_id):
-        return self.table(PersonRow).get(person_id)
+def get_person_or_404(person_id):
+    try:
+        return get_person(person_id)
+    except KeyError:
+        flask.abort(404)
 
-    def get_person_or_404(self, person_id):
-        try:
-            return self.get_person(person_id)
-        except KeyError:
-            flask.abort(404)
-
-    def del_person(self, person_id):
-        self.table(PersonRow).delete(person_id)
+def del_person(person_id):
+    get_session().table(PersonRow).delete(person_id)
 
 
 def get_all_persons():
@@ -34,7 +32,7 @@ def get_session():
         pool = flask.current_app.extensions['psycopg2_pool']
         conn = pool.getconn()
         htables.psycopg2.extras.register_hstore(conn, globally=False, unicode=True)
-        session = AppSession(htables_schema, conn, debug=flask.current_app.debug)
+        session = htables.Session(htables_schema, conn, debug=flask.current_app.debug)
         flask.g.psycopg2_session = session
     return flask.g.psycopg2_session
 

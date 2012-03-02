@@ -222,8 +222,7 @@ class Person(dict):
 
     @classmethod
     def get_or_404(cls, person_id):
-        session = database.get_session()
-        return cls.from_flat(session.get_person_or_404(person_id))
+        return cls.from_flat(database.get_person_or_404(person_id))
 
     @property
     def name(self):
@@ -236,8 +235,7 @@ class Person(dict):
     @property
     def has_photo(self):
         assert self.id is not None
-        session = database.get_session()
-        person_row = session.get_person_or_404(self.id)
+        person_row = database.get_person_or_404(self.id)
         return bool(person_row.get("photo_id", ""))
 
 
