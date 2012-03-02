@@ -29,8 +29,8 @@ class BasePrintoutTest():
         with self.client.session_transaction() as session:
             session["logged_in_email"] = "tester@example.com"
 
-    def _create_participant(self, category):
-        return self.client.post('/meeting/1/participant/new', data={
+    def _create_participant(self, category, default_data={}):
+        data = {
             "personal_first_name": u"Joe",
             "personal_last_name": u"Smith",
             "personal_category": category,
@@ -41,7 +41,9 @@ class BasePrintoutTest():
             "meeting_flags_verified": True,
             "representing_region": "4",
             "representing_country": u"RO",
-        })
+        }
+        data.update(default_data)
+        return self.client.post('/meeting/1/participant/new', data=data)
 
 
 class CredentialsTest(BasePrintoutTest, unittest.TestCase):
@@ -188,4 +190,18 @@ class ListOfParticipants(BasePrintoutTest, unittest.TestCase):
         representing = representing.text_content()
         self.assertIn(u"Europe", representing)
         self.assertIn(u"Romania", representing)
+
+    def test_list_of_participants_columns(self):
+        self._create_participant(u"10", default_data={
+            "meeting_flags_credentials": True,
+            "meeting_flags_approval": True,
+            "meeting_flags_web_alert": True,
+        })
+
+        resp = self.client.get("/meeting/1/printouts/verified/short_list")
+
+        [printout_credentials] = select(resp.data, "table .printout-credentials .icon-check")
+        [printout_approval] = select(resp.data, "table .printout-approval .icon-check")
+        [printout_invitation] = select(resp.data, "table .printout-webalert .icon-check")
+
 
