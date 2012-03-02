@@ -1,8 +1,13 @@
-import unittest
 from urlparse import urlparse
+
+import unittest
 import flask
-from common import create_mock_app, select
+
 import database
+import schema
+
+from common import create_mock_app, select
+
 
 def parent(element, parent_tag):
     while element is not None:
@@ -41,6 +46,7 @@ class _BasePrintoutTest(unittest.TestCase):
             "meeting_flags_verified": True,
             "representing_region": "4",
             "representing_country": u"RO",
+            "representing_organization": u"International Environmental Law Project",
         }
         data.update(default_data)
         return self.client.post('/meeting/1/participant/new', data=data)
@@ -73,7 +79,8 @@ class CredentialsTest(_BasePrintoutTest):
         details_of_registration = details_of_registration.text_content()
         self.assertIn(u"Member", details_of_registration)
 
-        self.assertIn(u"Region", value_for_label(resp.data, "Representative of"))
+        self.assertIn("%s - %s" % (schema.region["4"], schema.country["RO"]),
+                      value_for_label(resp.data, "Representative of"))
         self.assertIn(u"Not required", value_for_label(resp.data, "Invitation received"))
 
     def test_alternate_member(self):
@@ -87,7 +94,8 @@ class CredentialsTest(_BasePrintoutTest):
         details_of_registration = details_of_registration.text_content()
         self.assertIn(u"Alternate member", details_of_registration)
 
-        self.assertIn(u"Country", value_for_label(resp.data, "Representative of"))
+        self.assertIn(schema.country["RO"],
+                      value_for_label(resp.data, "Representative of"))
         self.assertIn(u"Not required",
                       value_for_label(resp.data, "Invitation received"))
 
@@ -102,7 +110,7 @@ class CredentialsTest(_BasePrintoutTest):
         details_of_registration = details_of_registration.text_content()
         self.assertIn(u"Observer, Party", details_of_registration)
 
-        self.assertIn(u"Country",
+        self.assertIn(schema.country["RO"],
                       value_for_label(resp.data, "Representative of"))
         self.assertIn(u"Not required",
                       value_for_label(resp.data, "Invitation received"))
@@ -118,7 +126,7 @@ class CredentialsTest(_BasePrintoutTest):
         details_of_registration = details_of_registration.text_content()
         self.assertIn(u"Observer", details_of_registration)
 
-        self.assertIn(u"Organisation",
+        self.assertIn(u"International Environmental Law Project",
                       value_for_label(resp.data, "Representative of"))
         self.assertIn(u"Yes",
                       value_for_label(resp.data, "Invitation received"))
@@ -139,7 +147,7 @@ class CredentialsTest(_BasePrintoutTest):
         [details_of_registration] = select(resp.data, ".subheader h3")
         details_of_registration = details_of_registration.text_content()
         self.assertIn(u"Observer", details_of_registration)
-        self.assertIn(u"Description",
+        self.assertIn(schema.category["98"]["name"],
                       value_for_label(resp.data, "Representative of"))
 
     def test_visitor(self):
@@ -166,9 +174,6 @@ class CredentialsTest(_BasePrintoutTest):
 class ListOfParticipantsTest(_BasePrintoutTest):
 
     def test_list_of_participants(self):
-        import database
-        import schema
-
         self._create_participant(u"10")
         self._create_participant(u"1")
         resp = self.client.get("/meeting/1/printouts/verified/short_list")

@@ -240,6 +240,23 @@ class Person(dict):
         person_row = session.get_person_or_404(self.id)
         return bool(person_row.get("photo_id", ""))
 
+    def representing(self, description=None):
+        category_id = self["personal"]["category"]
+        representing = ""
+
+        if category_id  == "10":
+            representing = "%s - %s" % (
+                            region[self["representing"]["region"]],
+                            country[self["representing"]["country"]],
+                           )
+        elif category_id in ["20", "30", "40"]:
+            representing = country[self["representing"]["country"]]
+        elif category_id in ["98", "99"]:
+            representing = description or category[category_id]["name"]
+        else:
+            representing = self["representing"]["organization"]
+        return representing
+
 
 MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(
