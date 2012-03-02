@@ -86,7 +86,7 @@ def view(person_id):
 
     if flask.request.method == "DELETE":
         session = database.get_session()
-        database.del_person(person_id)
+        session.table(database.PersonRow).delete(person_id)
         session.commit()
         return flask.jsonify({"status": "success"})
 

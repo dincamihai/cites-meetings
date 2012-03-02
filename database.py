@@ -7,20 +7,11 @@ htables_schema = htables.Schema()
 PersonRow = htables_schema.define_table('PersonRow', 'person')
 
 
-def save_person(person):
-    get_session().table(person).save(person)
-
-def get_person(person_id):
-    return get_session().table(PersonRow).get(person_id)
-
 def get_person_or_404(person_id):
     try:
-        return get_person(person_id)
+        return get_session().table(PersonRow).get(person_id)
     except KeyError:
         flask.abort(404)
-
-def del_person(person_id):
-    get_session().table(PersonRow).delete(person_id)
 
 
 def get_all_persons():

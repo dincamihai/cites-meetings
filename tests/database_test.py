@@ -4,6 +4,11 @@ import flask
 from common import create_mock_app
 
 
+def _get_person(person_id):
+    import database
+    return database.get_session().table(database.PersonRow).get(person_id)
+
+
 class PersonModelTest(unittest.TestCase):
 
     def setUp(self):
@@ -51,14 +56,14 @@ class PersonModelTest(unittest.TestCase):
             session.commit()
 
         with self.app.test_request_context():
-            person = database.get_person(1)
+            person = _get_person(1)
             self.assertEqual(person, {"hello": "world"})
 
     def test_load_not_found(self):
         import database
         with self.app.test_request_context():
             with self.assertRaises(KeyError) as e:
-                database.get_person(13)
+                _get_person(13)
 
     def test_load404_ok(self):
         import database
@@ -104,7 +109,7 @@ class PersonModelTest(unittest.TestCase):
 
         with self.app.test_request_context():
             session = database.get_session()
-            person = database.get_person(1)
+            person = _get_person(1)
             del person["k1"] # remove value
             person["k2"] = "vX" # change value
             # person["k3"] unchanged
@@ -113,7 +118,7 @@ class PersonModelTest(unittest.TestCase):
             session.commit()
 
         with self.app.test_request_context():
-            person = database.get_person(1)
+            person = _get_person(1)
             self.assertEqual(person, {"k2": "vX", "k3": "v3", "k4": "v4"})
 
     def test_delete(self):
