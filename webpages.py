@@ -184,27 +184,30 @@ def get_us_states():
                 methods=["GET", "POST"])
 @auth_required
 def edit_photo(person_id):
-    session = database.get_session()
-    person_row = session.get_person_or_404(person_id)
-
     if flask.request.method == "POST":
         photo_file = flask.request.files["photo"]
+
         if photo_file.filename != u'':
+            session = database.get_session()
+
             db_file = session.get_db_file()
             db_file.save_from(photo_file)
+
+            person_row = session.get_person_or_404(person_id)
             person_row["photo_id"] = str(db_file.id)
             session.save_person(person_row)
+
             session.commit()
+
             flask.flash("New photo saved", "success")
             url = flask.url_for("webpages.view", person_id=person_id)
             return flask.redirect(url)
+
         else:
             flask.flash("Please select a photo", "error")
 
     return flask.render_template("photo.html", **{
-        "person_id": person_id,
-        "person": schema.PersonSchema.from_flat(person_row).value,
-        "has_photo": bool(person_row.get("photo_id", "")),
+        "person": schema.Person.get_or_404(person_id),
     })
 
 
