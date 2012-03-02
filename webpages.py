@@ -253,7 +253,7 @@ def meeting_verified_short_list():
     for person_row in database.get_session().get_all_persons():
         if person_row["meeting_flags_verified"]:
             category = schema.category[person_row["personal_category"]]
-            if category['registered']:
+            if category["registered"]:
                 person = schema.Person.from_flat(person_row)
                 registered[person_row['personal_category']].append(person)
 
