@@ -3,37 +3,16 @@ import htables
 
 
 class PersonRow(htables.TableRow):
-    pass
+    _table = 'person'
 
 
 class AppSession(htables.Session):
 
     def save_person(self, person):
-        cursor = self.conn.cursor()
-        if self._debug:
-            for key, value in person.iteritems():
-                assert isinstance(key, basestring), \
-                    "Key %r is not a string" % key
-                assert isinstance(value, basestring), \
-                    "Value %r for key %r is not a string" % (value, key)
-        if person.id is None:
-            cursor.execute("INSERT INTO person (data) VALUES (%s)", (person,))
-            cursor.execute("SELECT CURRVAL('person_id_seq')")
-            [(person.id,)] = list(cursor)
-        else:
-            cursor.execute("UPDATE person SET data = %s WHERE id = %s",
-                           (person, person.id))
+        self.table(person).save(person)
 
     def get_person(self, person_id):
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT data FROM person WHERE id = %s", (person_id,))
-        rows = list(cursor)
-        if len(rows) == 0:
-            raise KeyError("No person with id=%d" % person_id)
-        [(data,)] = rows
-        person = PersonRow(data)
-        person.id = person_id
-        return person
+        return self.table(PersonRow).get(person_id)
 
     def get_person_or_404(self, person_id):
         try:
@@ -42,17 +21,10 @@ class AppSession(htables.Session):
             flask.abort(404)
 
     def del_person(self, person_id):
-        assert isinstance(person_id, int)
-        cursor = self.conn.cursor()
-        cursor.execute("DELETE FROM person WHERE id = %s", (person_id,))
+        self.table(PersonRow).delete(person_id)
 
     def get_all_persons(self):
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT id, data FROM person")
-        for person_id, person_data in cursor:
-            person = PersonRow(person_data)
-            person.id = person_id
-            yield person
+        return self.table(PersonRow).get_all()
 
     def create_all(self):
         cursor = self.conn.cursor()

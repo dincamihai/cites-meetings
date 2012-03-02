@@ -39,6 +39,56 @@ class DbFile(object):
         return _iter_file(lobject, close=True)
 
 
+class Table(object):
+
+    def __init__(self, row_cls, session):
+        self._session = session
+        self._row_cls = row_cls
+        self._name = row_cls._table
+
+    def save(self, obj):
+        cursor = self._session.conn.cursor()
+        if self._session._debug:
+            for key, value in obj.iteritems():
+                assert isinstance(key, basestring), \
+                    "Key %r is not a string" % key
+                assert isinstance(value, basestring), \
+                    "Value %r for key %r is not a string" % (value, key)
+        if obj.id is None:
+            cursor.execute("INSERT INTO " + self._name + " (data) VALUES (%s)",
+                           (obj,))
+            cursor.execute("SELECT CURRVAL(%s)", (self._name + '_id_seq',))
+            [(obj.id,)] = list(cursor)
+        else:
+            cursor.execute("UPDATE " + self._name + " SET data = %s WHERE id = %s",
+                           (obj, obj.id))
+
+    def get(self, obj_id):
+        cursor = self._session.conn.cursor()
+        cursor.execute("SELECT data FROM " + self._name + " WHERE id = %s",
+                       (obj_id,))
+        rows = list(cursor)
+        if len(rows) == 0:
+            raise KeyError("No %r with id=%d" % (self._row_cls, obj_id))
+        [(data,)] = rows
+        obj = self._row_cls(data)
+        obj.id = obj_id
+        return obj
+
+    def delete(self, obj_id):
+        assert isinstance(obj_id, int)
+        cursor = self._session.conn.cursor()
+        cursor.execute("DELETE FROM " + self._name + " WHERE id = %s", (obj_id,))
+
+    def get_all(self):
+        cursor = self._session.conn.cursor()
+        cursor.execute("SELECT id, data FROM " + self._name)
+        for ob_id, ob_data in cursor:
+            ob = self._row_cls(ob_data)
+            ob.id = ob_id
+            yield ob
+
+
 class Session(object):
 
     def __init__(self, conn, debug=False):
@@ -66,6 +116,16 @@ class Session(object):
 
     def commit(self):
         self.conn.commit()
+
+    def table(self, obj_or_cls):
+        if isinstance(obj_or_cls, TableRow):
+            row_cls = type(obj_or_cls)
+        elif issubclass(obj_or_cls, TableRow):
+            row_cls = obj_or_cls
+        else:
+            raise ValueError("Can't determine table type from %r" %
+                             (obj_or_cls,))
+        return Table(row_cls, self)
 
 
 def transform_connection_uri(connection_uri):
