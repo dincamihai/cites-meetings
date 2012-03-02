@@ -88,7 +88,7 @@
             <i class="icon-check"></i>
             {%- endif -%}
           </td>
-          <td>{{ ref["fee"][person["personal"]["fee"]] }}</td>
+          <td>{{ person.fee }}</td>
           <td>{{ person["personal"]["language"] }}</td>
           <td class="printout-webalert">
             {%- if person["meeting_flags"]["web_alert"] -%}

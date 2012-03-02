@@ -255,6 +255,25 @@ class Person(dict):
             representing = self["representing"]["organization"]
         return representing
 
+    @property
+    def category(self):
+        return category.get(self["personal"]["category"], "")
+
+    @property
+    def region(self):
+        return region.get(self["representing"]["region"], "")
+
+    @property
+    def country(self):
+        return country.get(self["representing"]["country"], "")
+
+    @property
+    def fee(self):
+        return fee.get(self["personal"]["fee"], "")
+
+    @property
+    def language(self):
+        return language.get(self["personal"]["language"], "")
 
 MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(
