@@ -61,10 +61,10 @@
         <tr>
           <td class="category" colspan="9">{{ ref["category"][category]["name"] }}</th>
         </tr>
-        {% for person, has_photo in participants %}
+        {% for person in participants %}
         <tr>
           <td>
-            {%- if has_photo -%}
+            {%- if person.has_photo -%}
               <i class="icon-camera"></i>
             {%- endif -%}
           </td>

@@ -15,42 +15,36 @@
   </thead>
 
   <tbody>
-  {% set more_searchable_fields = [
-    'personal_address',
-    'personal_email',
-    'personal_place',
-    'personal_country',
-    'representing_country',
-    'representing_region',
-    'representing_organisation',
-    'info_more_info',
-  ] %}
-  {% for person in people %}
+  {% for person_id, person in people %}
 
     <tr>
       <td>
-        <a href="{{ url_for('webpages.view', person_id=person.id) }}">
-          {{ person["personal_first_name"] }}
-          {{ person["personal_last_name"] }}
+        <a href="{{ url_for('webpages.view', person_id=person_id) }}">
+          {{- person.name -}}
         </a>
       </td>
       <td>
-        {{ ref['category'][person["personal_category"]]["name"] }}
+        {{- ref['category'][person["personal"]["category"]]["name"] -}}
       </td>
       <td>
-        {% if person["meeting_flags_attended"] %}
+        {% if person["meeting_flags"]["attended"] %}
           <i class="icon-ok"></i>
         {% endif %}
       </td>
       <td>
-        {% if person["meeting_flags_verified"] %}
+        {% if person["meeting_flags"]["verified"] %}
           <i class="icon-ok"></i>
         {% endif %}
       </td>
       <td class="hidden">
-        {% for flat_field_name in more_searchable_fields %}
-          {{ person[flat_field_name] }}
-        {% endfor %}
+        {{ person["personal"]["address"] }}
+        {{ person["personal"]["email"] }}
+        {{ person["personal"]["place"] }}
+        {{ person["personal"]["country"] }}
+        {{ person["representing"]["country"] }}
+        {{ person["representing"]["region"] }}
+        {{ person["representing"]["organisation"] }}
+        {{ person["more_info"]["text"] }}
       </td>
     </tr>
 

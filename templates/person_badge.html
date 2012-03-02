@@ -28,9 +28,9 @@
   </header>
 
   <div class="badge-content">
-    {% if has_photo %}
+    {% if person.has_photo %}
       <img class="photo"
-           src="{{ url_for('webpages.photo', person_id=person_id) }}">
+           src="{{ url_for('webpages.photo', person_id=person.id) }}">
     {% endif %}
     <p class="badge-text">
       <span class="person-name">
@@ -68,7 +68,7 @@
   {{ breadcrumb_items([
       (url_for('webpages.meeting'), "Meeting"),
       (url_for('webpages.meeting_registration'), "Registration"),
-      (url_for('webpages.view', person_id=person_id), person.name),
+      (url_for('webpages.view', person_id=person.id), person.name),
       ]) }}
 </ul>
 

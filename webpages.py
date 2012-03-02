@@ -94,44 +94,34 @@ def view(person_id):
 
     person_row = database.get_session().get_person_or_404(person_id)
     person_schema = schema.PersonSchema.from_flat(person_row)
+    person = person_schema.value
+    person.id = person_id
 
     return flask.render_template("view.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
-        "person_id": person_id,
         "person_schema": person_schema,
-        "person": person_schema.value,
-        "has_photo": bool(person_row.get("photo_id", "")),
+        "person": person,
     })
 
 
 @webpages.route("/meeting/1/participant/<int:person_id>/credentials")
 @auth_required
 def credentials(person_id):
-    person_row = database.get_session().get_person_or_404(person_id)
-    person = schema.PersonSchema.from_flat(person_row).value
-
     return flask.render_template("credentials.html", **{
         "meeting_description": "Sixty-first meeting of the Standing Committee",
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011",
-        "person_id": person_id,
-        "person": person,
-        "has_photo": bool(person_row.get("photo_id", "")),
+        "person": schema.Person.get_or_404(person_id),
     })
 
 
 @webpages.route("/meeting/1/participant/<int:person_id>/badge")
 @auth_required
 def badge(person_id):
-    person_row = database.get_session().get_person_or_404(person_id)
-    person = schema.PersonSchema.from_flat(person_row).value
-
     return flask.render_template("person_badge.html", **{
         "meeting_description": jinja2.Markup("61<sup>st</sup> meeting of the "
                                              "Standing Committee"),
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011",
-        "person_id": person_id,
-        "person": person,
-        "has_photo": bool(person_row.get("photo_id", "")),
+        "person": schema.Person.get_or_404(person_id),
     })
 
 
@@ -194,27 +184,30 @@ def get_us_states():
                 methods=["GET", "POST"])
 @auth_required
 def edit_photo(person_id):
-    session = database.get_session()
-    person_row = session.get_person_or_404(person_id)
-
     if flask.request.method == "POST":
         photo_file = flask.request.files["photo"]
+
         if photo_file.filename != u'':
+            session = database.get_session()
+
             db_file = session.get_db_file()
             db_file.save_from(photo_file)
+
+            person_row = session.get_person_or_404(person_id)
             person_row["photo_id"] = str(db_file.id)
             session.save_person(person_row)
+
             session.commit()
+
             flask.flash("New photo saved", "success")
             url = flask.url_for("webpages.view", person_id=person_id)
             return flask.redirect(url)
+
         else:
             flask.flash("Please select a photo", "error")
 
     return flask.render_template("photo.html", **{
-        "person_id": person_id,
-        "person": schema.PersonSchema.from_flat(person_row).value,
-        "has_photo": bool(person_row.get("photo_id", "")),
+        "person": schema.Person.get_or_404(person_id),
     })
 
 
@@ -239,8 +232,10 @@ def meeting():
 @webpages.route("/meeting/1/registration")
 @auth_required
 def meeting_registration():
+    people = [(person_row.id, schema.PersonSchema.from_flat(person_row).value)
+              for person_row in database.get_session().get_all_persons()]
     return flask.render_template("meeting_registration.html", **{
-        "people": database.get_session().get_all_persons(),
+        "people": people,
     })
 
 
@@ -259,10 +254,8 @@ def meeting_verified_short_list():
         if person_row["meeting_flags_verified"]:
             category = schema.category[person_row["personal_category"]]
             if category['registered']:
-                has_photo = bool(person_row.get("photo_id", ""))
-                person = schema.PersonSchema.from_flat(person_row).value
-                entry = (person, has_photo)
-                registered[person_row['personal_category']].append(entry)
+                person = schema.Person.from_flat(person_row)
+                registered[person_row['personal_category']].append(person)
 
     meeting = {
         "description": "Sixty-first meeting of the Standing Committee",

@@ -1,10 +1,10 @@
-import flatland as fl
-from flatland.validation import IsEmail, Converted, Validator
-
 from operator import itemgetter
 import os
 import json
 import re
+import flatland as fl
+from flatland.validation import IsEmail, Converted, Validator
+import database
 
 def _load_json(name):
     with open(os.path.join(os.path.dirname(__file__), name), "rb") as f:
@@ -212,6 +212,19 @@ class PersonSchema(_PersonSchemaDefinition):
 
 class Person(dict):
 
+    id = None
+
+    @staticmethod
+    def from_flat(person_row):
+        person = PersonSchema.from_flat(person_row).value
+        person.id = person_row.id
+        return person
+
+    @classmethod
+    def get_or_404(cls, person_id):
+        session = database.get_session()
+        return cls.from_flat(session.get_person_or_404(person_id))
+
     @property
     def name(self):
         return "%s %s %s" % (
@@ -219,6 +232,13 @@ class Person(dict):
             self["personal"]["first_name"],
             self["personal"]["last_name"],
         )
+
+    @property
+    def has_photo(self):
+        assert self.id is not None
+        session = database.get_session()
+        person_row = session.get_person_or_404(self.id)
+        return bool(person_row.get("photo_id", ""))
 
 
 MailSchema = fl.Dict.with_properties(widget="mail") \

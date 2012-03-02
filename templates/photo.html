@@ -7,8 +7,8 @@
   {{ breadcrumb_items([
       (url_for('webpages.meeting'), "Meeting"),
       (url_for('webpages.meeting_registration'), "Registration"),
-      (url_for('webpages.view', person_id=person_id), person.name),
-      (url_for('webpages.edit_photo', person_id=person_id), "Participant picture"),
+      (url_for('webpages.view', person_id=person.id), person.name),
+      (url_for('webpages.edit_photo', person_id=person.id), "Participant picture"),
       ]) }}
   </li>
 </ul>
@@ -16,11 +16,11 @@
 
 <h2>Upload picture for <em>{{ person.name }}</em></h2>
 
-{% if has_photo %}
+{% if person.has_photo %}
 <div class="row">
   <div class="span6">
     <div class="thumbnail">
-        <img src="{{ url_for('webpages.photo', person_id=person_id) }}"><br>
+        <img src="{{ url_for('webpages.photo', person_id=person.id) }}"><br>
 
     </div>
   </div>
@@ -40,7 +40,7 @@
 
     <div class="form-actions">
       <button type="submit" class="btn btn-primary">Upload</button>
-      <a class="btn" href="{{ url_for('webpages.view', person_id=person_id)
+      <a class="btn" href="{{ url_for('webpages.view', person_id=person.id)
           -}}">Cancel</a>
     </div>
 
