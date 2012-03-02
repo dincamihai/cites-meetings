@@ -24,8 +24,9 @@ class AppSession(htables.Session):
     def del_person(self, person_id):
         self.table(PersonRow).delete(person_id)
 
-    def get_all_persons(self):
-        return self.table(PersonRow).get_all()
+
+def get_all_persons():
+    return get_session().table(PersonRow).get_all()
 
 
 def get_session():

@@ -15,7 +15,7 @@ class PersonFormTest(unittest.TestCase):
     def _get_person_data(self):
         import database
         with self.app.test_request_context():
-            return list(database.get_session().get_all_persons())
+            return list(database.get_all_persons())
 
     def test_homepage(self):
         resp = self.client.get('/')

@@ -88,7 +88,7 @@ class PersonModelTest(unittest.TestCase):
             session.commit()
 
         with self.app.test_request_context():
-            all_persons = list(database.get_session().get_all_persons())
+            all_persons = list(database.get_all_persons())
             self.assertEqual(len(all_persons), 2)
             self.assertEqual(all_persons[0], {'hello': "world"})
             self.assertEqual(all_persons[0].id, 1)

@@ -231,7 +231,7 @@ def meeting():
 @auth_required
 def meeting_registration():
     people = [(person_row.id, schema.PersonSchema.from_flat(person_row).value)
-              for person_row in database.get_session().get_all_persons()]
+              for person_row in database.get_all_persons()]
     return flask.render_template("meeting_registration.html", **{
         "people": people,
     })
@@ -248,7 +248,7 @@ def meeting_printouts():
 def meeting_verified_short_list():
     registered = collections.defaultdict(list)
 
-    for person_row in database.get_session().get_all_persons():
+    for person_row in database.get_all_persons():
         if person_row["meeting_flags_verified"]:
             category = schema.category[person_row["personal_category"]]
             if category['registered']:
