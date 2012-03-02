@@ -257,6 +257,11 @@ class Person(dict):
             representing = self["representing"]["organization"]
         return representing
 
+    @property
+    def category(self):
+        return category[self["personal"]["category"]]
+
+
 
 MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(

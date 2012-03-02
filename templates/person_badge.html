@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% macro badge(person) -%}
-{% set category = ref['category'][person['personal']['category']] %}
+{% set category = person.category %}
 {% set badge_color = {
     'NULL':          "",
     'all pink':      "badge-pink",
