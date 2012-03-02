@@ -7,7 +7,7 @@
   {{ breadcrumb_items([
       (url_for('webpages.meeting'), "Meeting"),
       (url_for('webpages.meeting_registration'), "Registration"),
-      (url_for('webpages.view', person_id=person_id), person.name),
+      (url_for('webpages.view', person_id=person.id), person.name),
       ]) }}
 </ul>
 
@@ -17,7 +17,7 @@
 
   <div class="btn-group">
     <a class="btn btn-primary"
-        href="{{ url_for('webpages.edit', person_id=person_id) }}">Edit</a>
+        href="{{ url_for('webpages.edit', person_id=person.id) }}">Edit</a>
   </div>
 
   <div class="btn-group">
@@ -28,11 +28,11 @@
     <a class="btn dropdown-toggle"
        data-toggle="dropdown">Actions <span class="caret"></span></a>
     <ul class="dropdown-menu">
-      <li><a href="{{ url_for('webpages.credentials', person_id=person_id) }}">Acknowledge details</a></li>
-      <li><a href="{{ url_for('webpages.send_mail', person_id=person_id) }}">
+      <li><a href="{{ url_for('webpages.credentials', person_id=person.id) }}">Acknowledge details</a></li>
+      <li><a href="{{ url_for('webpages.send_mail', person_id=person.id) }}">
         Acknowledge email</a></li>
       <li class="divider"></li>
-      <li><a href="{{ url_for('webpages.badge', person_id=person_id) }}">Print badge</a></li>
+      <li><a href="{{ url_for('webpages.badge', person_id=person.id) }}">Print badge</a></li>
       <li><a href="#"><del>Print badge (no stripe)</del></a></li>
       <li><a href="#"><del>Print badge (visitor)</del></a></li>
       <li class="divider"></li>
@@ -53,15 +53,15 @@
 
     <div class="thumbnail">
 
-      {% if has_photo %}
-        <img src="{{ url_for('webpages.photo', person_id=person_id) }}"><br>
+      {% if person.has_photo %}
+        <img src="{{ url_for('webpages.photo', person_id=person.id) }}"><br>
       {% endif %}
 
       <div class="caption">
         <p>
           <a class="btn btn-primary"
-             href="{{ url_for('webpages.edit_photo', person_id=person_id)
-             -}}">{% if has_photo -%} Change {%- else -%} Upload {%- endif %} photo</a>
+             href="{{ url_for('webpages.edit_photo', person_id=person.id)
+             -}}">{% if person.has_photo -%} Change {%- else -%} Upload {%- endif %} photo</a>
         </p>
       </div>
 
@@ -80,7 +80,7 @@
     <p>Are you sure you want to delete this person?</p>
   </div>
   <div class="modal-footer">
-    <a class="btn btn-primary btn-danger" data-id="{{ person_id }}">Delete</a>
+    <a class="btn btn-primary btn-danger" data-id="{{ person.id }}">Delete</a>
     <a class="btn btn-cancel">Cancel</a>
   </div>
 </div>

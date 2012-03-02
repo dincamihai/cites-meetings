@@ -2,7 +2,7 @@ import unittest
 from urlparse import urlparse
 import flask
 from common import create_mock_app, select
-
+import database
 
 def parent(element, parent_tag):
     while element is not None:
@@ -20,8 +20,7 @@ def value_for_label(html, label, text=True):
     else:
         return content
 
-
-class CredentialsTest(unittest.TestCase):
+class _BasePrintoutTest(unittest.TestCase):
 
     def setUp(self):
         self.app, app_teardown = create_mock_app()
@@ -30,8 +29,8 @@ class CredentialsTest(unittest.TestCase):
         with self.client.session_transaction() as session:
             session["logged_in_email"] = "tester@example.com"
 
-    def _create_participant(self, category):
-        return self.client.post('/meeting/1/participant/new', data={
+    def _create_participant(self, category, default_data={}):
+        data = {
             "personal_first_name": u"Joe",
             "personal_last_name": u"Smith",
             "personal_category": category,
@@ -39,7 +38,15 @@ class CredentialsTest(unittest.TestCase):
             "personal_fee": "1",
             "meeting_flags_invitation": True,
             "meeting_flags_credentials": False,
-        })
+            "meeting_flags_verified": True,
+            "representing_region": "4",
+            "representing_country": u"RO",
+        }
+        data.update(default_data)
+        return self.client.post('/meeting/1/participant/new', data=data)
+
+
+class CredentialsTest(_BasePrintoutTest):
 
     def test_common_fields(self):
         self._create_participant(u"10") # 10: "Member"
@@ -52,9 +59,9 @@ class CredentialsTest(unittest.TestCase):
 
         [credentials_content] = select(resp.data, ".credentials-content")
         # check to see if picture alert is present
-        [picture_alert] = select(credentials_content, ".alert")
+        self.assertTrue(select(credentials_content, ".alert"))
         # check to see if phrases credentials is on page
-        [phrases_credential] = select(credentials_content, ".phrases-credentials")
+        self.assertTrue(select(credentials_content, ".phrases-credentials"))
 
     def test_member(self):
         self._create_participant(u"10") # 10: "Member"
@@ -155,3 +162,62 @@ class CredentialsTest(unittest.TestCase):
         self.assertIn(u"Special guest of the Secretary General",
                       value_for_label(resp.data, "Category"))
 
+
+class ListOfParticipantsTest(_BasePrintoutTest):
+
+    def test_list_of_participants(self):
+        import database
+        import schema
+
+        self._create_participant(u"10")
+        self._create_participant(u"1")
+        resp = self.client.get("/meeting/1/printouts/verified/short_list")
+
+        # conditie: Verif and Cat>9 and Cat<98 and Cat["registered"] is Ture
+        with self.app.test_request_context():
+            session = database.get_session()
+            person_row = session.get_person(1)
+            category = schema.category[person_row["personal_category"]]
+            self.assertTrue(category["registered"])
+
+        with self.app.test_request_context():
+            session = database.get_session()
+            person_row = session.get_person(2)
+            category = schema.category[person_row["personal_category"]]
+            self.assertFalse(category["registered"])
+
+        [representing] = select(resp.data, "table .printout-representing")
+        representing = representing.text_content()
+        self.assertIn(u"Europe", representing)
+        self.assertIn(u"Romania", representing)
+
+    def test_list_of_participants_columns(self):
+        self._create_participant(u"10", default_data={
+            "meeting_flags_credentials": True,
+            "meeting_flags_approval": True,
+            "meeting_flags_web_alert": True,
+        })
+
+        resp = self.client.get("/meeting/1/printouts/verified/short_list")
+
+        self.assertTrue(select(resp.data, "table .printout-credentials .icon-check"))
+        self.assertTrue(select(resp.data, "table .printout-approval .icon-check"))
+        self.assertTrue(select(resp.data, "table .printout-webalert .icon-check"))
+
+
+class BadgeTest(_BasePrintoutTest):
+
+    def test_badge(self):
+        self._create_participant(u"10")
+        resp = self.client.get("/meeting/1/participant/1/badge")
+
+        self.assertTrue(select(resp.data, ".badge-blue-stripe"))
+
+        [person_name] = select(resp.data, ".person-name")
+        person_name = person_name.text_content()
+        self.assertIn(u"joe", person_name.lower())
+        self.assertIn(u"smith", person_name.lower())
+
+        [representative] = select(resp.data, ".person-representing")
+        representative = representative.text_content()
+        self.assertIn(u"Europe", representative)

@@ -61,14 +61,14 @@
         <tr>
           <td class="category" colspan="9">{{ ref["category"][category]["name"] }}</th>
         </tr>
-        {% for person, has_photo in participants %}
+        {% for person in participants %}
         <tr>
           <td>
-            {%- if has_photo -%}
+            {%- if person.has_photo -%}
               <i class="icon-camera"></i>
             {%- endif -%}
           </td>
-          <td>
+          <td class="printout-representing">
             {%- if person["personal"]["category"] == "10" -%}
               {{ ref["region"][person["representing"]["region"]] }} -
               {{ ref["country"][person["representing"]["country"]] }}
@@ -82,24 +82,24 @@
           </td>
           <td>{{ person.name }}</td>
           <!-- <td>{{ ref["category"][person["personal"]["category"]]["name"] }}</td> -->
-          <td>
+          <td class="printout-credentials">
             {%- if person["meeting_flags"]["credentials"] -%}
             <i class="icon-check"></i>
             {%- endif -%}
           </td>
-          <td>
+          <td class="printout-approval">
             {%- if person["meeting_flags"]["approval"] -%}
             <i class="icon-check"></i>
             {%- endif -%}
           </td>
-          <td>
+          <td class="printout-invitation">
             {%- if person["meeting_flags"]["invitation"] -%}
             <i class="icon-check"></i>
             {%- endif -%}
           </td>
           <td>{{ ref["fee"][person["personal"]["fee"]] }}</td>
           <td>{{ person["personal"]["language"] }}</td>
-          <td>
+          <td class="printout-webalert">
             {%- if person["meeting_flags"]["web_alert"] -%}
               <i class="icon-check"></i>
             {%- endif -%}
