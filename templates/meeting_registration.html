@@ -30,7 +30,8 @@
     <tr>
       <td>
         <a href="{{ url_for('webpages.view', person_id=person.id) }}">
-          {{ person.name }}
+          {{ person["personal_first_name"] }}
+          {{ person["personal_last_name"] }}
         </a>
       </td>
       <td>
