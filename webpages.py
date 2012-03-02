@@ -94,13 +94,13 @@ def view(person_id):
 
     person_row = database.get_session().get_person_or_404(person_id)
     person_schema = schema.PersonSchema.from_flat(person_row)
+    person = person_schema.value
+    person.id = person_id
 
     return flask.render_template("view.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
-        "person_id": person_id,
         "person_schema": person_schema,
-        "person": person_schema.value,
-        "has_photo": bool(person_row.get("photo_id", "")),
+        "person": person,
     })
 
 
