@@ -15,7 +15,7 @@ class PersonFormTest(unittest.TestCase):
     def _get_person_data(self):
         import database
         with self.app.test_request_context():
-            return list(database.get_session().get_all_persons())
+            return list(database.get_all_persons())
 
     def test_homepage(self):
         resp = self.client.get('/')
@@ -36,7 +36,7 @@ class PersonFormTest(unittest.TestCase):
         import database
         with self.app.test_request_context():
             session = database.get_session()
-            session.save_person(database.PersonRow(random_key="random value"))
+            session.save(database.PersonRow(random_key="random value"))
             session.commit()
 
         resp = self.client.post('/meeting/1/participant/1/edit', data={

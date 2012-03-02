@@ -69,16 +69,7 @@
             {%- endif -%}
           </td>
           <td class="printout-representing">
-            {%- if person["personal"]["category"] == "10" -%}
-              {{ ref["region"][person["representing"]["region"]] }} -
-              {{ ref["country"][person["representing"]["country"]] }}
-            {%- elif person["personal_category"] in ["20", "30", "40"] -%}
-              {{ ref["country"][person["representing"]["country"]] }}
-            {%- elif person["personal_category"] in ["98", "99"] -%}
-              CITES Secretariat and Conference Staff"
-            {%- else -%}
-              {{ person["representing"]["organization"] }}
-            {%- endif -%}
+            {{ person.representing(description="CITES Secretariat and Conference Staff")}}
           </td>
           <td>{{ person.name }}</td>
           <!-- <td>{{ ref["category"][person["personal"]["category"]]["name"] }}</td> -->
@@ -97,7 +88,7 @@
             <i class="icon-check"></i>
             {%- endif -%}
           </td>
-          <td>{{ ref["fee"][person["personal"]["fee"]] }}</td>
+          <td>{{ person.fee }}</td>
           <td>{{ person["personal"]["language"] }}</td>
           <td class="printout-webalert">
             {%- if person["meeting_flags"]["web_alert"] -%}

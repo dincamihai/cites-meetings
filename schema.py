@@ -222,8 +222,7 @@ class Person(dict):
 
     @classmethod
     def get_or_404(cls, person_id):
-        session = database.get_session()
-        return cls.from_flat(session.get_person_or_404(person_id))
+        return cls.from_flat(database.get_person_or_404(person_id))
 
     @property
     def name(self):
@@ -236,10 +235,45 @@ class Person(dict):
     @property
     def has_photo(self):
         assert self.id is not None
-        session = database.get_session()
-        person_row = session.get_person_or_404(self.id)
+        person_row = database.get_person_or_404(self.id)
         return bool(person_row.get("photo_id", ""))
 
+    def representing(self, description=None):
+        category_id = self["personal"]["category"]
+        representing = ""
+
+        if category_id  == "10":
+            representing = "%s - %s" % (
+                            region[self["representing"]["region"]],
+                            country[self["representing"]["country"]],
+                           )
+        elif category_id in ["20", "30", "40"]:
+            representing = country[self["representing"]["country"]]
+        elif category_id in ["98", "99"]:
+            representing = description or category[category_id]["name"]
+        else:
+            representing = self["representing"]["organization"]
+        return representing
+
+    @property
+    def category(self):
+        return category.get(self["personal"]["category"], "")
+
+    @property
+    def region(self):
+        return region.get(self["representing"]["region"], "")
+
+    @property
+    def country(self):
+        return country.get(self["representing"]["country"], "")
+
+    @property
+    def fee(self):
+        return fee.get(self["personal"]["fee"], "")
+
+    @property
+    def language(self):
+        return language.get(self["personal"]["language"], "")
 
 MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(
