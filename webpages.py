@@ -239,8 +239,10 @@ def meeting():
 @webpages.route("/meeting/1/registration")
 @auth_required
 def meeting_registration():
+    people = [(person_row.id, schema.PersonSchema.from_flat(person_row).value)
+              for person_row in database.get_session().get_all_persons()]
     return flask.render_template("meeting_registration.html", **{
-        "people": database.get_session().get_all_persons(),
+        "people": people,
     })
 
 
