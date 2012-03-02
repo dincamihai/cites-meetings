@@ -2,7 +2,7 @@ import unittest
 from urlparse import urlparse
 import flask
 from common import create_mock_app, select
-
+import database
 
 def parent(element, parent_tag):
     while element is not None:
@@ -20,8 +20,7 @@ def value_for_label(html, label, text=True):
     else:
         return content
 
-
-class CredentialsTest(unittest.TestCase):
+class BasePrintoutTest():
 
     def setUp(self):
         self.app, app_teardown = create_mock_app()
@@ -39,7 +38,13 @@ class CredentialsTest(unittest.TestCase):
             "personal_fee": "1",
             "meeting_flags_invitation": True,
             "meeting_flags_credentials": False,
+            "meeting_flags_verified": True,
+            "representing_region": "4",
+            "representing_country": u"RO",
         })
+
+
+class CredentialsTest(BasePrintoutTest, unittest.TestCase):
 
     def test_common_fields(self):
         self._create_participant(u"10") # 10: "Member"
@@ -154,4 +159,33 @@ class CredentialsTest(unittest.TestCase):
 
         self.assertIn(u"Special guest of the Secretary General",
                       value_for_label(resp.data, "Category"))
+
+
+class ListOfParticipants(BasePrintoutTest, unittest.TestCase):
+
+    def test_list_of_participants(self):
+        import database
+        import schema
+
+        self._create_participant(u"10")
+        self._create_participant(u"1")
+        resp = self.client.get("/meeting/1/printouts/verified/short_list")
+
+        # conditie: Verif and Cat>9 and Cat<98 and Cat["registered"] is Ture
+        with self.app.test_request_context():
+            session = database.get_session()
+            person_row = session.get_person(1)
+            category = schema.category[person_row["personal_category"]]
+            self.assertTrue(category["registered"])
+
+        with self.app.test_request_context():
+            session = database.get_session()
+            person_row = session.get_person(2)
+            category = schema.category[person_row["personal_category"]]
+            self.assertFalse(category["registered"])
+
+        [representing] = select(resp.data, "table .printout-representing")
+        representing = representing.text_content()
+        self.assertIn(u"Europe", representing)
+        self.assertIn(u"Romania", representing)
 

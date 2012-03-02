@@ -258,7 +258,7 @@ def meeting_verified_short_list():
     for person_row in database.get_session().get_all_persons():
         if person_row["meeting_flags_verified"]:
             category = schema.category[person_row["personal_category"]]
-            if category['registered']:
+            if category["registered"]:
                 has_photo = bool(person_row.get("photo_id", ""))
                 person = schema.PersonSchema.from_flat(person_row).value
                 entry = (person, has_photo)

@@ -46,14 +46,14 @@ def person_to_json(file):
     out = get_csv(file, fieldnames=PERSON)
     for i in out:
         i["personal_email"] = re.sub(r"\s*@\s*", "@", i["personal_email"])
-        i["meeting_flags_web_alert"] = bool(i["meeting_flags_web_alert"])
-        i["meeting_flags_sponsored"] = bool(i["meeting_flags_sponsored"])
-        i["meeting_flags_credentials"] = bool(i["meeting_flags_credentials"])
-        i["meeting_flags_approval"] = bool(i["meeting_flags_approval"])
-        i["meeting_flags_invitation"] = bool(i["meeting_flags_invitation"])
-        i["meeting_flags_attended"] = bool(i["meeting_flags_attended"])
-        i["meeting_flags_verified"] = bool(i["meeting_flags_verified"])
-        i["representing_organization_show"] = bool(i["representing_organization_show"])
+        i["meeting_flags_web_alert"] = bool(int(i["meeting_flags_web_alert"]))
+        i["meeting_flags_sponsored"] = bool(int(i["meeting_flags_sponsored"]))
+        i["meeting_flags_credentials"] = bool(int(i["meeting_flags_credentials"]))
+        i["meeting_flags_approval"] = bool(int(i["meeting_flags_approval"]))
+        i["meeting_flags_invitation"] = bool(int(i["meeting_flags_invitation"]))
+        i["meeting_flags_attended"] = bool(int(i["meeting_flags_attended"]))
+        i["meeting_flags_verified"] = bool(int(i["meeting_flags_verified"]))
+        i["representing_organization_show"] = bool(int(i["representing_organization_show"]))
     print json.dumps(out, indent=2)
 
 CATEGORY = (
@@ -81,8 +81,8 @@ def category_to_json(file):
         i["reg_sort"] = int(i["reg_sort"])
         i["room_sort"] = int(i["room_sort"])
         i["credent"] = int(i["credent"])
-        i["fee"] = bool(i["fee"])
-        i["registered"] = bool(i["registered"])
+        i["fee"] = bool(int(i["fee"]))
+        i["registered"] = bool(int(i["registered"]))
     print json.dumps(out, indent=2)
 
 FEE = (
