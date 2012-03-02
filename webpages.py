@@ -32,11 +32,7 @@ def initialize_app(app):
     _my_extensions = app.jinja_options["extensions"] + ["jinja2.ext.do"]
     app.jinja_options = dict(app.jinja_options, extensions=_my_extensions)
     app.jinja_env.globals['ref'] = {
-        'country': schema.country,
-        'region': schema.region,
         'category': schema.category,
-        'fee': schema.fee,
-        'language': schema.language,
     }
 
     app.register_blueprint(webpages)

@@ -261,7 +261,21 @@ class Person(dict):
     def category(self):
         return category[self["personal"]["category"]]
 
+    @property
+    def region(self):
+        return region[self["representing"]["region"]]
 
+    @property
+    def country(self):
+        return country[self["representing"]["country"]]
+
+    @property
+    def fee(self):
+        return fee[self["personal"]["fee"]]
+
+    @property
+    def language(self):
+        return language[self["personal"]["language"]]
 
 MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(

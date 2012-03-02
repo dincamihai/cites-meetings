@@ -47,9 +47,9 @@
         {%- if category['stat'] == "Staff" or category['name'] == "Visitor"  -%}
           {{ category['name'] }}
         {%- elif category['representative'] == "Region" -%}
-          {{ ref['region'][person['representing']['region']] }}
+          {{ person.region }}
         {%- elif category['representative'] == "Country" -%}
-          {{ ref['country'][person['representing']['country']] }}
+          {{ person.country }}
         {%- elif category['reg'] == "Observers, Other" -%}
           OTHER OBSERVER
         {%- endif -%}
