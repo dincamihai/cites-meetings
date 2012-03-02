@@ -2,8 +2,9 @@ import flask
 import htables
 
 
-class PersonRow(htables.TableRow):
-    _table = 'person'
+htables_schema = htables.Schema()
+
+PersonRow = htables_schema.define_table('PersonRow', 'person')
 
 
 class AppSession(htables.Session):
@@ -26,28 +27,13 @@ class AppSession(htables.Session):
     def get_all_persons(self):
         return self.table(PersonRow).get_all()
 
-    def create_all(self):
-        cursor = self.conn.cursor()
-        cursor.execute("CREATE TABLE person("
-                            "id SERIAL PRIMARY KEY, "
-                            "data HSTORE)")
-        cursor.connection.commit()
-
-    def drop_all(self):
-        cursor = self.conn.cursor()
-        cursor.execute("DROP TABLE person")
-        cursor.execute("SELECT oid FROM pg_largeobject_metadata")
-        for [oid] in cursor:
-            self.conn.lobject(oid, 'n').unlink()
-        cursor.connection.commit()
-
 
 def get_session():
     if not hasattr(flask.g, 'psycopg2_session'):
         pool = flask.current_app.extensions['psycopg2_pool']
         conn = pool.getconn()
         htables.psycopg2.extras.register_hstore(conn, globally=False, unicode=True)
-        session = AppSession(conn, debug=flask.current_app.debug)
+        session = AppSession(htables_schema, conn, debug=flask.current_app.debug)
         flask.g.psycopg2_session = session
     return flask.g.psycopg2_session
 

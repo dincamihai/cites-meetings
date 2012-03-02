@@ -39,12 +39,38 @@ class DbFile(object):
         return _iter_file(lobject, close=True)
 
 
+class Schema(object):
+
+    def __init__(self):
+        self.tables = []
+
+    def define_table(self, cls_name, table_name):
+        # TODO make sure table_name is safe
+
+        class cls(TableRow):
+            _table = table_name
+        cls.__name__ = cls_name
+
+        self.tables.append(cls)
+        return cls
+
+
 class Table(object):
 
     def __init__(self, row_cls, session):
         self._session = session
         self._row_cls = row_cls
         self._name = row_cls._table
+
+    def _create(self):
+        cursor = self._session.conn.cursor()
+        cursor.execute("CREATE TABLE " + self._name + " ("
+                            "id SERIAL PRIMARY KEY, "
+                            "data HSTORE)")
+
+    def _drop(self):
+        cursor = self._session.conn.cursor()
+        cursor.execute("DROP TABLE person")
 
     def save(self, obj):
         cursor = self._session.conn.cursor()
@@ -91,7 +117,8 @@ class Table(object):
 
 class Session(object):
 
-    def __init__(self, conn, debug=False):
+    def __init__(self, schema, conn, debug=False):
+        self._schema = schema
         self._conn = conn
         self._debug = debug
 
@@ -126,6 +153,20 @@ class Session(object):
             raise ValueError("Can't determine table type from %r" %
                              (obj_or_cls,))
         return Table(row_cls, self)
+
+    def create_all(self):
+        for row_cls in self._schema.tables:
+            self.table(row_cls)._create()
+        self._conn.commit()
+
+    def drop_all(self):
+        for row_cls in self._schema.tables:
+            self.table(row_cls)._drop()
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT oid FROM pg_largeobject_metadata")
+        for [oid] in cursor:
+            self.conn.lobject(oid, 'n').unlink()
+        self._conn.commit()
 
 
 def transform_connection_uri(connection_uri):
