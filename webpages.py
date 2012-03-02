@@ -254,10 +254,8 @@ def meeting_verified_short_list():
         if person_row["meeting_flags_verified"]:
             category = schema.category[person_row["personal_category"]]
             if category['registered']:
-                has_photo = bool(person_row.get("photo_id", ""))
-                person = schema.PersonSchema.from_flat(person_row).value
-                entry = (person, has_photo)
-                registered[person_row['personal_category']].append(entry)
+                person = schema.Person.from_flat(person_row)
+                registered[person_row['personal_category']].append(person)
 
     meeting = {
         "description": "Sixty-first meeting of the Standing Committee",
