@@ -222,6 +222,3 @@ class BadgeTest(_BasePrintoutTest):
         representative = representative.text_content()
         self.assertIn(u"Europe", representative)
 
-
-
-
