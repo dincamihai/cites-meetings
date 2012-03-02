@@ -301,8 +301,7 @@ def send_mail(person_id):
     app = flask.current_app
     session = database.get_session()
 
-    person_row = session.get_person_or_404(person_id)
-    person = schema.PersonSchema.from_flat(person_row).value
+    person = schema.Person.get_or_404(person_id)
     phrases = {item["id"]: item["name"]  for item in
                schema._load_json("refdata/phrases.json")}
 
@@ -350,7 +349,6 @@ def send_mail(person_id):
 
     return flask.render_template("send_mail.html", **{
         "mk": MarkupGenerator(app.jinja_env.get_template("widgets_mail.html")),
-        "person_id": person_id,
         "person": person,
         "mail_schema": mail_schema,
     })
