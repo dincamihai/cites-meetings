@@ -20,7 +20,7 @@ def value_for_label(html, label, text=True):
     else:
         return content
 
-class BasePrintoutTest():
+class _BasePrintoutTest(unittest.TestCase):
 
     def setUp(self):
         self.app, app_teardown = create_mock_app()
@@ -46,7 +46,7 @@ class BasePrintoutTest():
         return self.client.post('/meeting/1/participant/new', data=data)
 
 
-class CredentialsTest(BasePrintoutTest, unittest.TestCase):
+class CredentialsTest(_BasePrintoutTest):
 
     def test_common_fields(self):
         self._create_participant(u"10") # 10: "Member"
@@ -59,9 +59,9 @@ class CredentialsTest(BasePrintoutTest, unittest.TestCase):
 
         [credentials_content] = select(resp.data, ".credentials-content")
         # check to see if picture alert is present
-        [picture_alert] = select(credentials_content, ".alert")
+        self.assertTrue(select(credentials_content, ".alert"))
         # check to see if phrases credentials is on page
-        [phrases_credential] = select(credentials_content, ".phrases-credentials")
+        self.assertTrue(select(credentials_content, ".phrases-credentials"))
 
     def test_member(self):
         self._create_participant(u"10") # 10: "Member"
@@ -163,7 +163,7 @@ class CredentialsTest(BasePrintoutTest, unittest.TestCase):
                       value_for_label(resp.data, "Category"))
 
 
-class ListOfParticipants(BasePrintoutTest, unittest.TestCase):
+class ListOfParticipantsTest(_BasePrintoutTest):
 
     def test_list_of_participants(self):
         import database
@@ -200,8 +200,28 @@ class ListOfParticipants(BasePrintoutTest, unittest.TestCase):
 
         resp = self.client.get("/meeting/1/printouts/verified/short_list")
 
-        [printout_credentials] = select(resp.data, "table .printout-credentials .icon-check")
-        [printout_approval] = select(resp.data, "table .printout-approval .icon-check")
-        [printout_invitation] = select(resp.data, "table .printout-webalert .icon-check")
+        self.assertTrue(select(resp.data, "table .printout-credentials .icon-check"))
+        self.assertTrue(select(resp.data, "table .printout-approval .icon-check"))
+        self.assertTrue(select(resp.data, "table .printout-webalert .icon-check"))
+
+
+class BadgeTest(_BasePrintoutTest):
+
+    def test_badge(self):
+        self._create_participant(u"10")
+        resp = self.client.get("/meeting/1/participant/1/badge")
+
+        self.assertTrue(select(resp.data, ".badge-blue-stripe"))
+
+        [person_name] = select(resp.data, ".person-name")
+        person_name = person_name.text_content()
+        self.assertIn(u"joe", person_name.lower())
+        self.assertIn(u"smith", person_name.lower())
+
+        [representative] = select(resp.data, ".person-representing")
+        representative = representative.text_content()
+        self.assertIn(u"Europe", representative)
+
+
 
 
