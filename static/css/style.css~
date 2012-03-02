@@ -414,79 +414,6 @@ footer {
 	margin-bottom: 0px;
 }
 
-
-/* credentials to be printed */
-@media print {
-
-	@page {
-	 margin: 28pt;
-	}
-
-	@page:first {
-	 margin-top: 0pt;
-	}
-
-	body {
-	 font: 12pt Georgia, "Times New Roman", Times, serif;
-	 line-height: 12pt;
-	}
-
-	.navbar-fixed-top,
-	.breadcrumb,
-	footer {
-	 display: none;
-	}
-
-	.credentials-header h1 {
-	 width: 70%;
-	 margin-left: 0;
-	 text-align: left;
-	}
-
-	.credentials-header ul {
-	 width: 80%;
-	 margin-left: 0;
-	}
-
-	.credentials-header .title {
-	 font-style: normal;
-	 text-align: left;
-	}
-
-	.credentials-header .content {
-	 word-wrap: break-word;
-	}
-
-	.subheader {
-	 width: 280pt;
-	 margin-left: 0% !important;
-	 -webkit-box-shadow: none !important;
-	 -moz-box-shadow: none !important;
-	 box-shadow: none !important;
-	}
-
-	.credentials-content div {
-	 margin-left: 0px;
-	}
-
-	p.alert,
-	.alert-info {
-	 border: 1px solid #999;
-	 color: #999;
-	 max-width: 90%;
-	 padding-right: 0px;
-	}
-
-	a {
-	 color: #000;
-	}
-
-	.alert-info p a:after {
-	 content: " (" attr(href) ")";
-	}
-}
-
-
 /* email page */
 body .send-mail-container {
 	background: #ddd;
@@ -663,3 +590,81 @@ dl.phrases dd {
     filter:alpha(opacity=0)!important;
 }
 
+
+/* PRINT version for Credentials and Printouts verified list */
+/*@media print {*/
+
+	@page {
+	 margin: 28pt;
+	 size: landscape;
+	}
+
+	@page:first {
+	 margin-top: 0pt;
+	}
+
+	body {
+	 font: 12pt Georgia, "Times New Roman", Times, serif;
+	 line-height: 12pt;
+	}
+
+	.navbar-fixed-top,
+	.breadcrumb,
+	footer,
+	.actions {
+	 display: none;
+	}
+
+	.credentials-header h1 {
+	 width: 70%;
+	 margin-left: 0;
+	 text-align: left;
+	}
+
+	.credentials-header ul {
+	 width: 80%;
+	 margin-left: 0;
+	}
+
+	.credentials-header .title {
+	 font-style: normal;
+	 text-align: left;
+	}
+
+	.credentials-header .content {
+	 word-wrap: break-word;
+	}
+
+	.subheader {
+	 width: 280pt;
+	 margin-left: 0% !important;
+	 -webkit-box-shadow: none !important;
+	 -moz-box-shadow: none !important;
+	 box-shadow: none !important;
+	}
+
+	.credentials-content div {
+	 margin-left: 0px;
+	}
+
+	p.alert,
+	.alert-info {
+	 border: 1px solid #999;
+	 color: #999;
+	 max-width: 90%;
+	 padding-right: 0px;
+	}
+
+	a {
+	 color: #000;
+	}
+
+	.alert-info p a:after {
+	 content: " (" attr(href) ")";
+	}
+
+	.container .header~.subheader {
+	 border: 1px solid red;
+	 margin-left: 200px;
+	}
+/*}*/
