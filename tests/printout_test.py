@@ -221,4 +221,3 @@ class BadgeTest(_BasePrintoutTest):
         [representative] = select(resp.data, ".person-representing")
         representative = representative.text_content()
         self.assertIn(u"Europe", representative)
-
