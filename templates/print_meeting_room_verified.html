@@ -39,7 +39,9 @@
         {% for room, room_lists in participants_in_rooms.items() %}
           {% if room_lists["data"] %}
             <tr>
-              <td class="category" colspan="2">{{ room }}</td>
+              <td class="category" colspan="2">
+                {{ room }} (total = {{ room_lists["count"] }})
+              </td>
             </tr>
             {% for room_list, participants in room_lists["data"]|dictsort %}
               <tr>
