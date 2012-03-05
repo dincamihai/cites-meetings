@@ -14,6 +14,8 @@ import database
 from flask.views import MethodView
 from flaskext.mail import Mail, Message
 
+from sugar import templated
+
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
@@ -268,6 +270,7 @@ def meeting_verified_short_list():
 
 @webpages.route("/meeting/1/printouts/verified/meeting_room")
 @auth_required
+@templated("print_meeting_room_verified.html")
 def meeting_verified_meeting_room():
     try:
         assert isinstance(schema.category , dict)
@@ -305,10 +308,10 @@ def meeting_verified_meeting_room():
         "address": "Geneva (Switzerland), 15-19 August 2011"
     }
 
-    return flask.render_template("print_meeting_room_verified.html", **{
+    return {
         "meeting": meeting,
         "participants_in_rooms": participants_in_rooms,
-    })
+    }
 
 @webpages.route("/meeting/1/settings/phrases")
 @auth_required
