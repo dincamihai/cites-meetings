@@ -15,6 +15,6 @@ def templated(template=None):
             elif not isinstance(ctx, dict):
                 return ctx
             return render_template(template_name, **ctx)
-            decorated_function.original = f
+        decorated_function.original = f
         return decorated_function
     return decorator
