@@ -1,5 +1,6 @@
-{% macro css_link(filename) -%}
-<link rel="stylesheet" href="{{ url_for('static', filename=filename) }}">
+{%- macro css_link(filename, media) -%}
+  <link rel="stylesheet" href="{{ url_for('static', filename=filename) }}"
+        {% if media %}media="{{ media }}"{% endif %} />
 {%- endmacro %}
 
 {% macro script_src(filename) -%}

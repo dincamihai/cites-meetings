@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{% from 'bits.html' import css_link -%}
+{% block extra_head %}
+  {{ css_link("css/print.css", "print") }}
+{% endblock %}
 
+{% block content %}
 {% from 'bits.html' import breadcrumb_items -%}
 <ul class="breadcrumb">
   {{ breadcrumb_items([
@@ -21,7 +25,7 @@
 
   <div class="content">
     <div class="actions">
-      <a class="btn btn-success btn-inverse disabled" href="#">
+      <a class="btn btn-success btn-inverse print">
         <i class="icon-print icon-white"></i> Print
       </a>
     </div> {# /.actions #}
@@ -40,7 +44,7 @@
           {% if room_lists["data"] %}
             <tr>
               <td class="category" colspan="2">
-                {{ room }} (total = {{ room_lists["count"] }})
+                <span>{{ room }} (total = {{ room_lists["count"] }})</span>
               </td>
             </tr>
             {% for room_list, participants in room_lists["data"]|dictsort %}
@@ -55,6 +59,4 @@
     </table>
   </div> {# /.content #}
 </div> {# /.container #}
-
-
 {% endblock %}

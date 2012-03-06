@@ -1,8 +1,11 @@
 {% extends "layout.html" %}
 
-{% block content %}
+{% from 'bits.html' import breadcrumb_items, css_link -%}
+{% block extra_head %}
+  {{ css_link("css/print.css", "print") }}
+{% endblock %}
 
-{% from 'bits.html' import breadcrumb_items -%}
+{% block content %}
 <ul class="breadcrumb">
   {{ breadcrumb_items([
       (url_for('webpages.meeting'), "Meeting"),
@@ -35,7 +38,7 @@
 
   <div class="content">
     <div class="actions">
-      <a class="btn btn-success btn-inverse disabled" href="#">
+      <a class="btn btn-success btn-inverse print">
         <i class="icon-print icon-white"></i>
         Print
       </a>
