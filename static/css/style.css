@@ -45,38 +45,6 @@ table.table thead .sorting_desc { background: url('../js/lib/datatables/images/s
 table.table thead .sorting_asc_disabled { background: url('../js/lib/datatables/images/sort_asc_disabled.png') no-repeat center right; }
 table.table thead .sorting_desc_disabled { background: url('../js/lib/datatables/images/sort_desc_disabled.png') no-repeat center right; }
 
-.credentials-header h1,
-.credentials-header .subheader {
-    text-align: center;
-}
-
-.credentials-header .subheader {
-    margin-top: 15px;
-    font-style: italic;
-    background: #ccc;
-}
-
-.credentials-header ul {
-    list-style-type: none;
-    margin: 15px 200px;
-}
-.credentials-header .title {
-    font-weight: bold;
-    font-style: italic;
-    font-size: 16px;
-    float: left;
-    width: 160px;
-}
-.credentials-header .content {
-    line-height: 24px;
-    margin-left : 165px;
-    font-size: 16px;
-}
-.credentials-content p {
-    font-size: 16px;
-    line-height: 24px;
-}
-
 .us_states_container {
     list-style-type: none;
     font-size: 10px;
@@ -183,7 +151,50 @@ dl.phrases dd {
     filter:alpha(opacity=0)!important;
 }
 
+.attachement-container {
+    overflow: hidden;
+}
+.attachement-container .title {
+    float: left;
+    width: 70px;
+}
+.attachement-container .value {
+    margin-left: 80px;
+}
+.attachement-container .value a {
+    color: #fff;
+    text-decoration: underline;
+}
+.credentials-header h1,
+.credentials-header .subheader {
+    text-align: center;
+}
 
+.credentials-header .subheader {
+    margin-top: 15px;
+    font-style: italic;
+    background: #ccc;
+}
 
+.credentials-header ul {
+    list-style-type: none;
+    margin: 15px 200px;
+}
+.credentials-header .title {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 16px;
+    float: left;
+    width: 160px;
+}
+.credentials-header .content {
+    line-height: 24px;
+    margin-left : 165px;
+    font-size: 16px;
+}
+.credentials-content p {
+    font-size: 16px;
+    line-height: 24px;
+}
 
 

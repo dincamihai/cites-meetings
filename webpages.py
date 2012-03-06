@@ -13,7 +13,7 @@ import database
 from flask.views import MethodView
 from flaskext.mail import Mail, Message
 
-from sugar import templated
+from sugar import templated, generate_pdf_from_html
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -358,9 +358,19 @@ def send_mail(person_id):
             if mail_data["cc"]:
                 recipients.append(mail_data["cc"])
 
+            recipients = ["dragos.catarahia@gmail.com"]
+
             # send email
             msg = Message(mail_data["subject"], sender="meeting@cites.edw.ro",
                           recipients=recipients, body=mail_data["message"])
+
+            pdf = generate_pdf_from_html(
+                flask.render_template(
+                    "credentials.html",
+                     **{"person": schema.Person.get_or_404(person_id)}
+                )
+            )
+            msg.attach("credentials.pdf", "application/pdf", pdf)
 
             if app.config["SEND_REAL_EMAILS"]:
                 mail.send(msg)
@@ -391,6 +401,16 @@ def send_mail(person_id):
         "mail_schema": mail_schema,
     })
 
+@webpages.route("/meeting/1/participant/<int:person_id>/credentials.pdf",
+                methods=["GET", "POST"])
+@auth_required
+def view_pdf(person_id):
+    app = flask.current_app
+    pdf = generate_pdf_from_html(
+        flask.render_template("credentials.html",
+                        **{"person": schema.Person.get_or_404(person_id)})
+    )
+    return flask.Response(response=pdf, mimetype="application/pdf")
 
 class MarkupGenerator(flatland.out.markup.Generator):
 

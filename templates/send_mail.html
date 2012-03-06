@@ -1,14 +1,25 @@
 {% extends "layout.html" %}
 
 {% block scripts %}
+  <script id="attachement-html" type="text/template">
+    <div class="attachement-container label">
+      <div class="title">Attachement:</div>
+      <div class="value">
+        <a href="{{ url_for('webpages.view_pdf', person_id=person.id) }}">
+          credentials.html
+        </a>
+      </div>
+    </div>
+  </script>
+
   <script>
     $(function () {
       $("#field-cc").parents(".control-group").hide();
-      $("#field-to").addClass("disabled").attr("readonly", "" );
+      // $("#field-to").addClass("disabled").attr("readonly", "" );
 
-      var add_container = $("<div />").attr({ "class": "add-container" });
+      var add_container = $("<div />").attr({"class": "add-container"});
       var add_cc = $("<a />")
-          .attr({ "id": "add-cc", "class": "add" })
+          .attr({"id": "add-cc", "class": "add"})
           .text("+Add CC")
           .click(function () {
             $("#field-cc").parents(".control-group").slideDown("fast")
@@ -16,7 +27,10 @@
             $(this).fadeOut("fast");
           });
       add_container.append(add_cc);
+
+      var attachement_html = $("#attachement-html").html()
       $("#field-to").after(add_container);
+      $("#field-subject").after(attachement_html);
     });
   </script>
 {% endblock %}
@@ -34,7 +48,6 @@
 </ul>
 
 <h2>Send email to {{ mail_schema.to.value }}</h2>
-
 <form action="{{ url_for('webpages.send_mail', person_id=person.id) }}"
       method="POST"
       class="send-mail-container well">
