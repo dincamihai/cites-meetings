@@ -1,4 +1,5 @@
 from urlparse import urlparse
+from copy import deepcopy
 
 import unittest
 import flask
@@ -7,6 +8,43 @@ import database
 import schema
 
 from common import create_mock_app, select
+from mock import patch
+
+
+CATEGORY_MOCK = {
+    "1": {
+        "name": "Visitor",
+        "room_sort": 0,
+        "registered": False,
+        "id": "1",
+        "reg_sort": 0,
+        "room": "NULL"
+
+    },
+    "10" : {
+        "name": "Member",
+        "room_sort": 1,
+        "registered": True,
+        "id": "10",
+        "room": "Members"
+    },
+    "20": {
+        "name": "Alternate member",
+        "room_sort": 3,
+        "registered": True,
+        "id": "20",
+        "room": "Alternate members & Observers, Party"
+    },
+
+    "99" :{
+        "name": "CITES Secretariat",
+        "room_sort": 0,
+        "id": "99",
+        "reg_sort": 0,
+        "stat_sort": 3,
+        "room": "NULL"
+    }
+}
 
 
 def parent(element, parent_tag):
@@ -224,3 +262,41 @@ class BadgeTest(_BasePrintoutTest):
         [representative] = select(resp.data, ".person-representing")
         representative = representative.text_content()
         self.assertIn(u"Europe", representative)
+
+
+class MeetingRoom(_BasePrintoutTest):
+
+    @patch("schema.category", deepcopy(CATEGORY_MOCK))
+    def test_meeting_room(self):
+        import webpages
+
+        self._create_participant(u"10")
+        self._create_participant(u"10")
+        self._create_participant(u"20")
+
+        with self.app.test_request_context("/meeting/1/printouts/verified/meeting_room"):
+            flask.session["logged_in_email"] = "tester@example.com"
+            resp = webpages.meeting_verified_meeting_room.original()
+            participants_in_rooms = resp["participants_in_rooms"]
+
+            # (Cat>9 and Cat<98)
+            self.assertEqual(participants_in_rooms.keys(),
+                            ["Members", "Alternate members & Observers, Party"])
+
+            values =  participants_in_rooms.values()
+            # first user should have region - country room list
+            self.assertIn(u"Europe - Romania", values[0]["data"].keys())
+            self.assertEqual(values[0]["count"], 2)
+
+            # second user should have country room list
+            self.assertIn(u"Romania", values[1]["data"].keys())
+            self.assertEqual(values[1]["count"], 1)
+
+    def test_meeting_room_qty(self):
+        self._create_participant(u"10")
+        self._create_participant(u"10")
+
+        resp = self.client.get("/meeting/1/printouts/verified/meeting_room")
+        [qty] = select(resp.data, ".qty")
+        self.assertEqual(qty.text_content(), "2")
+

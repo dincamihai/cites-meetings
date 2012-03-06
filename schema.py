@@ -275,6 +275,23 @@ class Person(dict):
     def language(self):
         return language.get(self["personal"]["language"], "")
 
+    @property
+    def room_list(self):
+        category_id = self["personal"]["category"]
+        room_list = None
+
+        if category_id == "10":
+            room_list = "%s - %s" % (
+                            region[self["representing"]["region"]],
+                            country[self["representing"]["country"]],
+                           )
+        elif category_id in ["20", "30", "40"]:
+            room_list = country[self["representing"]["country"]]
+        elif category_id > 40:
+            roomt_list = self["representing"]["organization"]
+
+        return room_list
+
 MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(
     CommonString.named("to") \
