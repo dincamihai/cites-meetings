@@ -45,7 +45,7 @@
             </tr>
             {% for room_list, participants in room_lists["data"]|dictsort %}
               <tr>
-                <td>{{ participants|length }}</td>
+                <td class="qty">{{ participants|length }}</td>
                 <td>{{ room_list }}</td>
               </tr>
             {% endfor %}

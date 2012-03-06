@@ -270,7 +270,6 @@ class MeetingRoom(_BasePrintoutTest):
     def test_meeting_room(self):
         import webpages
 
-        self.app.config["DEBUG"] = True
         self._create_participant(u"10")
         self._create_participant(u"10")
         self._create_participant(u"20")
@@ -281,26 +280,23 @@ class MeetingRoom(_BasePrintoutTest):
             participants_in_rooms = resp["participants_in_rooms"]
 
             # (Cat>9 and Cat<98)
-            self.assertEqual(["Members", "Alternate members & Observers, Party"],
-                              participants_in_rooms.keys())
-            self.assertNotIn(u"Visitor", participants_in_rooms.keys())
-            self.assertNotIn(u"CITES Secretariat", participants_in_rooms.keys())
+            self.assertEqual(participants_in_rooms.keys(),
+                            ["Members", "Alternate members & Observers, Party"])
 
             values =  participants_in_rooms.values()
             # first user should have region - country room list
             self.assertIn(u"Europe - Romania", values[0]["data"].keys())
-            self.assertEqual(2, values[0]["count"])
+            self.assertEqual(values[0]["count"], 2)
 
             # second user should have country room list
             self.assertIn(u"Romania", values[1]["data"].keys())
-            self.assertEqual(1, values[1]["count"])
+            self.assertEqual(values[1]["count"], 1)
 
+    def test_meeting_room_qty(self):
+        self._create_participant(u"10")
+        self._create_participant(u"10")
 
-
-
-
-
-
-
-
+        resp = self.client.get("/meeting/1/printouts/verified/meeting_room")
+        [qty] = select(resp.data, ".qty")
+        self.assertEqual(qty.text_content(), "2")
 

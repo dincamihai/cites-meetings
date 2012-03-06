@@ -1,7 +1,6 @@
 from functools import wraps
 import logging
 import collections
-import operator
 import itertools
 
 import flask
@@ -272,36 +271,31 @@ def meeting_verified_short_list():
 @auth_required
 @templated("print_meeting_room_verified.html")
 def meeting_verified_meeting_room():
-    try:
-        assert isinstance(schema.category , dict)
-        # get all room and sort them by room_sort
-        # rooms => [(1, 'Members'), (3, 'Alternate members & Observers, Party')]
-        rooms = [(c["room_sort"], c["room"]) for c in schema.category.values()
-                 if c["room_sort"] > 0]
-        rooms = sorted(rooms, key=operator.itemgetter(0))
+    # get all room and sort them by room_sort
+    # rooms => [(1, 'Members'), (3, 'Alternate members & Observers, Party')]
+    rooms = [(c["room_sort"], c["room"]) for c in schema.category.values()
+             if c["room_sort"] > 0]
+    rooms = sorted(rooms)
 
-        # dictionary with ordered items => OrderedDict([(u'Members', {'data': [], 'id': 1}),])
-        participants_in_rooms = collections.OrderedDict()
-        for room in rooms:
-            participants_in_rooms[room[1]] = {
-                "id": room[0],
-                "count": 0,
-                "data": collections.defaultdict(list)
-            }
+    # dictionary with ordered items => OrderedDict([(u'Members', {'data': [], 'id': 1}),])
+    participants_in_rooms = collections.OrderedDict()
+    for room in rooms:
+        participants_in_rooms[room[1]] = {
+            "id": room[0],
+            "count": 0,
+            "data": collections.defaultdict(list),
+        }
 
-        for person_row in database.get_all_persons():
-            category = schema.category[person_row["personal_category"]]
-            if (not person_row["meeting_flags_verified"] and
-                not category["registered"]):
-                continue
-            person = schema.Person.from_flat(person_row)
-            if person.room_list:
-                participants_in_rooms[category["room"]]["data"][person.room_list] \
-                    .append(person)
-                participants_in_rooms[category["room"]]["count"] += 1
-    except Exception, e:
-        log.exception(e)
-        raise e
+    for person_row in database.get_all_persons():
+        category = schema.category[person_row["personal_category"]]
+        if (not person_row["meeting_flags_verified"] and
+            not category["registered"]):
+            continue
+        person = schema.Person.from_flat(person_row)
+        if person.room_list:
+            participants_in_rooms[category["room"]]["data"][person.room_list] \
+                .append(person)
+            participants_in_rooms[category["room"]]["count"] += 1
 
     meeting = {
         "description": "Sixty-first meeting of the Standing Committee",
