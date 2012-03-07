@@ -6,6 +6,8 @@ import flaskext.script
 import database
 import webpages
 
+from blueprints import auth
+
 from data_import import to_json, data_import
 
 default_config = {
@@ -20,6 +22,7 @@ def create_app():
     app.config.from_pyfile('settings.py', silent=True)
     database.initialize_app(app)
     webpages.initialize_app(app)
+    auth.initialize_app(app)
     return app
 
 manager = flaskext.script.Manager(create_app)

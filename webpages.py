@@ -29,7 +29,7 @@ def auth_required(view):
         if "ACCOUNTS" not in flask.current_app.config:
             pass
         elif flask.session.get("logged_in_email", None) is None:
-            login_url = flask.url_for("webpages.login", next=flask.request.url)
+            login_url = flask.url_for("auth.login", next=flask.request.url)
             return flask.redirect(login_url)
         return view(*args, **kwargs)
 
@@ -46,34 +46,34 @@ def initialize_app(app):
     app.register_blueprint(webpages)
 
 
-@webpages.route("/login", methods=["GET", "POST"])
-def login():
-    login_email = flask.request.form.get("email", "")
-    login_password = flask.request.form.get("password", "")
-    next_url = flask.request.values.get("next", flask.url_for("webpages.home"))
+# @webpages.route("/login", methods=["GET", "POST"])
+# def login():
+#     login_email = flask.request.form.get("email", "")
+#     login_password = flask.request.form.get("password", "")
+#     next_url = flask.request.values.get("next", flask.url_for("webpages.home"))
 
-    if flask.request.method == "POST":
-        app = flask.current_app
-        for email, password in app.config.get("ACCOUNTS", []):
-            if login_email == email and login_password == password:
-                log.info("Authentication by %r", login_email)
-                flask.session["logged_in_email"] = login_email
-                return flask.redirect(next_url)
-        else:
-            flask.flash(u"Login failed", "error")
+#     if flask.request.method == "POST":
+#         app = flask.current_app
+#         for email, password in app.config.get("ACCOUNTS", []):
+#             if login_email == email and login_password == password:
+#                 log.info("Authentication by %r", login_email)
+#                 flask.session["logged_in_email"] = login_email
+#                 return flask.redirect(next_url)
+#         else:
+#             flask.flash(u"Login failed", "error")
 
-    return flask.render_template("login.html", **{
-        "email": login_email,
-        "next": next_url,
-    })
+#     return flask.render_template("login.html", **{
+#         "email": login_email,
+#         "next": next_url,
+#     })
 
 
-@webpages.route("/logout")
-def logout():
-    next_url = flask.request.values.get("next", flask.url_for("webpages.home"))
-    if "logged_in_email" in flask.session:
-        del flask.session["logged_in_email"]
-    return flask.redirect(next_url)
+# @webpages.route("/logout")
+# def logout():
+#     next_url = flask.request.values.get("next", flask.url_for("webpages.home"))
+#     if "logged_in_email" in flask.session:
+#         del flask.session["logged_in_email"]
+#     return flask.redirect(next_url)
 
 
 @webpages.route("/")
