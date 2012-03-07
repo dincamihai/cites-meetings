@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% from 'bits.html' import breadcrumb_items, css_link -%}
+{% block extra_head %}
+  {{ css_link("css/print.css", "print") }}
+{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('webpages.meeting'), "Meeting"),
+      (url_for('webpages.meeting_printouts'), "Printouts"),
+      (url_for(page_info.url),
+          page_info.title),
+      ]) }}
+  </li>
+</ul>
+
+<div class="container">
+
+	  <div class="content">
+	    <div class="actions">
+	      <a class="btn btn-success btn-inverse print">
+	        <i class="icon-print icon-white"></i> Print
+	      </a>
+	    </div> {# /.actions #}
+
+
+	    <table class="table pigeon-holes">
+	      <thead>
+	        <tr>
+	          <th colspan="2"><span class="language-label">ENGLISH</span></th>
+	        </tr>
+	      </thead>
+
+	      <tbody>
+	        {% for room, room_lists in participants_in_rooms.items() %}
+	          {% if room_lists["data"] %}
+	            <tr>
+	              <td class="category" colspan="2">
+	                <span>{{ room }} (total = {{ room_lists["count"] }})</span>
+	              </td>
+	            </tr>
+	            {% for room_list, participants in room_lists["data"]|dictsort %}
+	              <tr>
+	                <td class="qty span1">{{ participants|length }}E</td>
+	                <td>{{ room_list }}</td>
+	              </tr>
+	            {% endfor %}
+	          {% endif %}
+	        {% endfor %}
+	      </tbody>
+	    </table>
+	  </div> {# /.content #}
+</div>
+
+{% endblock %}
