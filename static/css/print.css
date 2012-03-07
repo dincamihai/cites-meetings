@@ -1,6 +1,7 @@
 .navbar,
 .breadcrumb ,
-.actions {
+.actions,
+footer {
     display: none;
 }
 
