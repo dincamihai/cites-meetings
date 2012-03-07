@@ -17,7 +17,7 @@
 
 
 {% macro _url(view_name) -%}
-  {{ url_for('webpages.' + view_name) }}
+  {{ url_for("meeting." + view_name) }}
 {%- endmacro %}
 
 

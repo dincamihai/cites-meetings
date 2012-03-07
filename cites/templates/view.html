@@ -6,7 +6,7 @@
 <ul class="breadcrumb">
   {{ breadcrumb_items([
       (url_for('webpages.meeting'), "Meeting"),
-      (url_for('webpages.meeting_registration'), "Registration"),
+      (url_for('meeting.meeting_registration'), "Registration"),
       (url_for('webpages.view', person_id=person.id), person.name),
       ]) }}
 </ul>
@@ -29,7 +29,7 @@
        data-toggle="dropdown">Actions <span class="caret"></span></a>
     <ul class="dropdown-menu">
       <li><a href="{{ url_for('webpages.credentials', person_id=person.id) }}">Acknowledge details</a></li>
-      <li><a href="{{ url_for('webpages.send_mail', person_id=person.id) }}">
+      <li><a href="{{ url_for('meeting.meeting_send_mail', person_id=person.id) }}">
         Acknowledge email</a></li>
       <li class="divider"></li>
       <li><a href="{{ url_for('webpages.badge', person_id=person.id) }}">Print badge</a></li>
@@ -102,7 +102,7 @@
           type: "DELETE",
           url: "/meeting/1/participant/" + $(this).data("id")
         }).done(function () {
-          document.location = "{{ url_for('webpages.meeting_registration') }}";
+          document.location = "{{ url_for('meeting.meeting_registration') }}";
         });
       });
     });

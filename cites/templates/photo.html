@@ -6,7 +6,7 @@
 <ul class="breadcrumb">
   {{ breadcrumb_items([
       (url_for('webpages.meeting'), "Meeting"),
-      (url_for('webpages.meeting_registration'), "Registration"),
+      (url_for('meeting.meeting_registration'), "Registration"),
       (url_for('webpages.view', person_id=person.id), person.name),
       (url_for('webpages.edit_photo', person_id=person.id), "Participant picture"),
       ]) }}
@@ -20,7 +20,7 @@
 <div class="row">
   <div class="span6">
     <div class="thumbnail">
-        <img src="{{ url_for('webpages.photo', person_id=person.id) }}"><br>
+        <img src="{{ url_for('meeting.photo', person_id=person.id) }}"><br>
 
     </div>
   </div>

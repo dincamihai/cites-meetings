@@ -2,13 +2,11 @@
 
 import os.path
 import flask
-import flaskext.script
+
 import database
 import webpages
-
-from blueprints import auth
-
-from data_import import to_json, data_import
+import auth
+import meeting
 
 default_config = {
     "DATABASE_URI": "postgresql://localhost/cites",
@@ -16,27 +14,19 @@ default_config = {
     "SEND_REAL_EMAILS": False,
 }
 
-def create_app():
-    app = flask.Flask(__name__, instance_relative_config=True)
+
+def create_app(instance_path=None):
+    app = flask.Flask(__name__,
+                      instance_path=instance_path,
+                      instance_relative_config=True)
     app.config.update(default_config)
-    app.config.from_pyfile('settings.py', silent=True)
+    app.config.from_pyfile("settings.py")
     database.initialize_app(app)
     webpages.initialize_app(app)
     auth.initialize_app(app)
+    meeting.initialize_app(app)
     return app
 
-manager = flaskext.script.Manager(create_app)
-
-@manager.command
-def resetdb():
-    database.get_session().drop_all()
-
-@manager.command
-def syncdb():
-    database.get_session().create_all()
-
-to_json = manager.command(to_json)
-data_import = manager.command(data_import)
 
 def _production_logging(app):
     import logging
@@ -55,16 +45,3 @@ def _production_logging(app):
     info_handler.setLevel(logging.INFO)
     logging.getLogger().addHandler(info_handler)
 
-class FcgiCommand(flaskext.script.Command):
-
-    def handle(self, app):
-        _production_logging(app)
-        from flup.server.fcgi import WSGIServer
-        sock_path = os.path.join(app.instance_path, 'fcgi.sock')
-        server = WSGIServer(app, bindAddress=sock_path, umask=0)
-        server.run()
-
-manager.add_command('fcgi', FcgiCommand())
-
-if __name__ == '__main__':
-    manager.run()

@@ -5,6 +5,7 @@ import itertools
 
 import flask
 import jinja2
+import flatland.out.markup
 
 import schema
 import database
@@ -19,7 +20,20 @@ log.setLevel(logging.INFO)
 
 webpages = flask.Blueprint("webpages", __name__)
 
+MEETING_DESCRIPTION = "Sixty-first meeting of the Standing Committee"
+MEETING_ADDRESS = "Geneva (Switzerland), 15-19 August 2011"
 
+def auth_required(view):
+    @wraps(view)
+    def wrapper(*args, **kwargs):
+        if "ACCOUNTS" not in flask.current_app.config:
+            pass
+        elif flask.session.get("logged_in_email", None) is None:
+            login_url = flask.url_for("auth.login", next=flask.request.url)
+            return flask.redirect(login_url)
+        return view(*args, **kwargs)
+
+    return wrapper
 
 
 def initialize_app(app):
@@ -31,35 +45,6 @@ def initialize_app(app):
 
     app.register_blueprint(webpages)
 
-
-# @webpages.route("/login", methods=["GET", "POST"])
-# def login():
-#     login_email = flask.request.form.get("email", "")
-#     login_password = flask.request.form.get("password", "")
-#     next_url = flask.request.values.get("next", flask.url_for("webpages.home"))
-
-#     if flask.request.method == "POST":
-#         app = flask.current_app
-#         for email, password in app.config.get("ACCOUNTS", []):
-#             if login_email == email and login_password == password:
-#                 log.info("Authentication by %r", login_email)
-#                 flask.session["logged_in_email"] = login_email
-#                 return flask.redirect(next_url)
-#         else:
-#             flask.flash(u"Login failed", "error")
-
-#     return flask.render_template("login.html", **{
-#         "email": login_email,
-#         "next": next_url,
-#     })
-
-
-# @webpages.route("/logout")
-# def logout():
-#     next_url = flask.request.values.get("next", flask.url_for("webpages.home"))
-#     if "logged_in_email" in flask.session:
-#         del flask.session["logged_in_email"]
-#     return flask.redirect(next_url)
 
 
 @webpages.route("/")
@@ -209,8 +194,5 @@ def photo(person_id):
         flask.abort(404)
     return flask.Response(''.join(db_file.iter_data()), # TODO stream response
                           mimetype="application/octet-stream")
-
-
-
 
 

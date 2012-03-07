@@ -41,14 +41,14 @@
 <ul class="breadcrumb">
   {{ breadcrumb_items([
       (url_for('webpages.meeting'), "Meeting"),
-      (url_for('webpages.meeting_registration'), "Registration"),
+      (url_for('meeting.meeting_registration'), "Registration"),
       (url_for('webpages.view', person_id=person.id), person.name),
-      (url_for('webpages.send_mail', person_id=person.id), "Acknowledge email"),
+      (url_for('meeting.meeting_send_mail', person_id=person.id), "Acknowledge email"),
       ]) }}
 </ul>
 
 <h2>Send email to {{ mail_schema.to.value }}</h2>
-<form action="{{ url_for('webpages.send_mail', person_id=person.id) }}"
+<form action="{{ url_for('meeting.meeting_send_mail', person_id=person.id) }}"
       method="POST"
       class="send-mail-container well">
 
