@@ -18,7 +18,7 @@ a {
     cursor: pointer;
 }
 
-textarea {
+input, textarea {
     color: #333;
 }
 
