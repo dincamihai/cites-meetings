@@ -56,8 +56,8 @@ def parent(element, parent_tag):
         raise ValueError("No parent for %r with tag %r" % (element, parent_tag))
 
 def value_for_label(html, label, text=True):
-    [title] = select(html, 'div.title:contains("%s")' % label)
-    [content] = select(parent(title, 'li'), 'div.content')
+    [title] = select(html, 'td.title:contains("%s")' % label)
+    [content] = select(parent(title, 'tr'), 'td.content')
     if text:
         return content.text_content()
     else:
