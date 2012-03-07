@@ -20,6 +20,9 @@ log.setLevel(logging.INFO)
 
 webpages = flask.Blueprint("webpages", __name__)
 
+MEETING_DESCRIPTION = "Sixty-first meeting of the Standing Committee"
+MEETING_ADDRESS = "Geneva (Switzerland), 15-19 August 2011"
+
 def auth_required(view):
     @wraps(view)
     def wrapper(*args, **kwargs):
@@ -358,17 +361,18 @@ def send_mail(person_id):
             if mail_data["cc"]:
                 recipients.append(mail_data["cc"])
 
-            recipients = ["dragos.catarahia@gmail.com"]
+            # recipients = ["dragos.catarahia@gmail.com"]
 
             # send email
             msg = Message(mail_data["subject"], sender="meeting@cites.edw.ro",
                           recipients=recipients, body=mail_data["message"])
 
             pdf = generate_pdf_from_html(
-                flask.render_template(
-                    "credentials.html",
-                     **{"person": schema.Person.get_or_404(person_id)}
-                )
+                flask.render_template("credentials.html", **{
+                    "person": schema.Person.get_or_404(person_id),
+                    "meeting_description": MEETING_DESCRIPTION,
+                    "meeting_address": MEETING_ADDRESS,
+                })
             )
             msg.attach("credentials.pdf", "application/pdf", pdf)
 
@@ -401,16 +405,21 @@ def send_mail(person_id):
         "mail_schema": mail_schema,
     })
 
+
 @webpages.route("/meeting/1/participant/<int:person_id>/credentials.pdf",
                 methods=["GET", "POST"])
 @auth_required
 def view_pdf(person_id):
     app = flask.current_app
     pdf = generate_pdf_from_html(
-        flask.render_template("credentials.html",
-                        **{"person": schema.Person.get_or_404(person_id)})
+        flask.render_template("credentials.html", **{
+            "person": schema.Person.get_or_404(person_id),
+            "meeting_description": MEETING_DESCRIPTION,
+            "meeting_address": MEETING_ADDRESS,
+        })
     )
     return flask.Response(response=pdf, mimetype="application/pdf")
+
 
 class MarkupGenerator(flatland.out.markup.Generator):
 

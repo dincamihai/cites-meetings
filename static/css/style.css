@@ -176,20 +176,22 @@ dl.phrases dd {
     background: #ccc;
 }
 
-.credentials-header ul {
+.credentials-header table {
+    width: 600px;
     list-style-type: none;
-    margin: 15px 200px;
+    margin: 20px 250px;
+}
+.credentials-header table td {
+    vertical-align: top;
 }
 .credentials-header .title {
     font-weight: bold;
     font-style: italic;
     font-size: 16px;
-    float: left;
-    width: 160px;
+    width: 180px;
 }
 .credentials-header .content {
     line-height: 24px;
-    margin-left : 165px;
     font-size: 16px;
 }
 .credentials-content p {

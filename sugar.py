@@ -1,5 +1,6 @@
 from functools import wraps
-from flask import request, render_template
+from flask import request, render_template, url_for, Flask
+import re
 
 def templated(template=None):
     def decorator(f):
