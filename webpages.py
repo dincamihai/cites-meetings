@@ -270,6 +270,86 @@ def meeting_verified_short_list():
         "meeting": meeting
     })
 
+@webpages.route("/meeting/1/printouts/verified/pigeon_holes_verified")
+@auth_required
+def meeting_verified_pigeon_holes():
+    # get all room and sort them by room_sort
+    # rooms => [(1, 'Members'), (3, 'Alternate members & Observers, Party')]
+    rooms = [(c["room_sort"], c["room"]) for c in schema.category.values()
+             if c["room_sort"] > 0]
+    rooms = sorted(rooms)
+
+    # dictionary with ordered items => OrderedDict([(u'Members', {'data': [], 'id': 1}),])
+    participants_in_rooms = collections.OrderedDict()
+    for room in rooms:
+        participants_in_rooms[room[1]] = {
+            "id": room[0],
+            "count": 0,
+            "data": collections.defaultdict(list),
+        }
+
+    for person_row in database.get_all_persons():
+        category = schema.category[person_row["personal_category"]]
+        if (not person_row["meeting_flags_verified"] and
+            not category["registered"]):
+            continue
+
+        person = schema.Person.from_flat(person_row)
+        if person.room_list:
+            participants_in_rooms[category["room"]]["data"][person.room_list] \
+                .append(person)
+            participants_in_rooms[category["room"]]["count"] += 1
+
+    page_info = {
+        "title": "Print list for pigeon holes (verified)",
+        "url": "webpages.meeting_verified_pigeon_holes"
+    }
+
+    return flask.render_template("print_pigeon_holes.html", **{
+        "page_info": page_info,
+        "participants_in_rooms": participants_in_rooms,
+    })
+
+@webpages.route("/meeting/1/printouts/verified/pigeon_holes_attended")
+@auth_required
+def meeting_attended_pigeon_holes():
+    # get all room and sort them by room_sort
+    # rooms => [(1, 'Members'), (3, 'Alternate members & Observers, Party')]
+    rooms = [(c["room_sort"], c["room"]) for c in schema.category.values()
+             if c["room_sort"] > 0]
+    rooms = sorted(rooms)
+
+    # dictionary with ordered items => OrderedDict([(u'Members', {'data': [], 'id': 1}),])
+    participants_in_rooms = collections.OrderedDict()
+    for room in rooms:
+        participants_in_rooms[room[1]] = {
+            "id": room[0],
+            "count": 0,
+            "data": collections.defaultdict(list),
+        }
+
+    for person_row in database.get_all_persons():
+        category = schema.category[person_row["personal_category"]]
+        if (not person_row["meeting_flags_attended"] and
+            not category["registered"]):
+            continue
+
+        person = schema.Person.from_flat(person_row)
+        if person.room_list:
+            participants_in_rooms[category["room"]]["data"][person.room_list] \
+                .append(person)
+            participants_in_rooms[category["room"]]["count"] += 1
+
+    page_info = {
+        "title": "Print list for pigeon holes (attended)",
+        "url": "webpages.meeting_attended_pigeon_holes"
+    }
+
+    return flask.render_template("print_pigeon_holes.html", **{
+        "page_info": page_info,
+        "participants_in_rooms": participants_in_rooms,
+    })
+
 @webpages.route("/meeting/1/printouts/verified/meeting_room")
 @auth_required
 @templated("print_meeting_room_verified.html")

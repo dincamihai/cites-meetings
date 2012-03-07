@@ -111,6 +111,21 @@ dl.phrases dd {
     font-size: 1.2em;
     font-weight: bold;
 }
+
+.container .content .language-label{
+	background: #000;
+	padding: 0.2em 0.5em;
+	color: #fff;
+}
+
+.container .content .pigeon-holes td{
+	font-weight: bold;
+	font-size:1.4em;
+	border-top: 1px solid #000;
+	padding: 10px;
+}
+
+
 .send-mail-container .add-container   {
     font-size: 11px;
     height: 15px;
