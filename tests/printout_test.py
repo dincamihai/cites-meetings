@@ -300,3 +300,40 @@ class MeetingRoom(_BasePrintoutTest):
         [qty] = select(resp.data, ".qty")
         self.assertEqual(qty.text_content(), "2")
 
+class PigeonHoles(_BasePrintoutTest):
+
+    @patch("schema.category", deepcopy(CATEGORY_MOCK))
+    def test_verified_representing_country(self):
+        import webpages
+
+        self._create_participant(u"10")
+        self._create_participant(u"10")
+        self._create_participant(u"20")
+
+        with self.app.test_request_context("/meeting/1/printouts/verified/pigeon_holes_verified"):
+            flask.session["logged_in_email"] = "tester@example.com"
+            resp = webpages.meeting_verified_pigeon_holes.original()
+            participants_in_rooms = resp["participants_in_rooms"]
+
+            # (Cat>9 and Cat<98)
+            self.assertEqual(participants_in_rooms.keys(),
+                            ["Members", "Alternate members & Observers, Party"])
+
+            values =  participants_in_rooms.values()
+            # first user should have region - country room list
+            self.assertIn(u"Europe - Romania", values[0]["data"].keys())
+            self.assertEqual(values[0]["count"], 2)
+
+            # second user should have country room list
+            self.assertIn(u"Romania", values[1]["data"].keys())
+            self.assertEqual(values[1]["count"], 1)
+
+    def test_qty(self):
+        self._create_participant(u"10")
+        self._create_participant(u"10")
+
+        resp = self.client.get("/meeting/1/printouts/verified/pigeon_holes_verified")
+        [qty] = select(resp.data, ".qty")
+        self.assertEqual(qty.text_content(), "2E")
+
+

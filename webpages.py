@@ -272,6 +272,7 @@ def meeting_verified_short_list():
 
 @webpages.route("/meeting/1/printouts/verified/pigeon_holes_verified")
 @auth_required
+@templated("print_pigeon_holes.html")
 def meeting_verified_pigeon_holes():
     # get all room and sort them by room_sort
     # rooms => [(1, 'Members'), (3, 'Alternate members & Observers, Party')]
@@ -305,13 +306,14 @@ def meeting_verified_pigeon_holes():
         "url": "webpages.meeting_verified_pigeon_holes"
     }
 
-    return flask.render_template("print_pigeon_holes.html", **{
+    return {
         "page_info": page_info,
         "participants_in_rooms": participants_in_rooms,
-    })
+    }
 
 @webpages.route("/meeting/1/printouts/verified/pigeon_holes_attended")
 @auth_required
+@templated("print_pigeon_holes.html")
 def meeting_attended_pigeon_holes():
     # get all room and sort them by room_sort
     # rooms => [(1, 'Members'), (3, 'Alternate members & Observers, Party')]
@@ -345,10 +347,10 @@ def meeting_attended_pigeon_holes():
         "url": "webpages.meeting_attended_pigeon_holes"
     }
 
-    return flask.render_template("print_pigeon_holes.html", **{
+    return {
         "page_info": page_info,
         "participants_in_rooms": participants_in_rooms,
-    })
+    }
 
 @webpages.route("/meeting/1/printouts/verified/meeting_room")
 @auth_required
