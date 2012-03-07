@@ -18,6 +18,10 @@ a {
     cursor: pointer;
 }
 
+textarea {
+    color: #333;
+}
+
 /* DataTables with Twitter Boostrap v2
    http://datatables.net/blog/Twitter_Bootstrap_2
    http://datatables.net/media/blog/bootstrap_2/DT_bootstrap.css */
