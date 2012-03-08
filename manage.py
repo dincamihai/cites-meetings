@@ -11,7 +11,6 @@ def create_app():
 
 manager = flaskext.script.Manager(create_app)
 
-
 @manager.command
 def resetdb():
     database.get_session().drop_all()
