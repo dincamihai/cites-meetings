@@ -40,7 +40,9 @@ def view(person_id):
     person.id = person_id
 
     return {
-        "mk": sugar.MarkupGenerator(app.jinja_env.get_template("widgets_view.html")),
+        "mk": sugar.MarkupGenerator(
+            app.jinja_env.get_template("widgets/widgets_view.html")
+        ),
         "person_schema": person_schema,
         "person": person,
     }
@@ -110,7 +112,9 @@ def edit(person_id=None):
             person_schema = schema.PersonSchema.from_flat(person_row)
 
     return flask.render_template(template, **{
-        "mk": sugar.MarkupGenerator(app.jinja_env.get_template("widgets_edit.html")),
+        "mk": sugar.MarkupGenerator(
+            app.jinja_env.get_template("widgets/widgets_edit.html")
+        ),
         "person_schema": person_schema,
         "person_id": person_id,
     })
@@ -234,7 +238,9 @@ def send_mail(person_id):
         })
 
     return {
-        "mk": sugar.MarkupGenerator(app.jinja_env.get_template("widgets_mail.html")),
+        "mk": sugar.MarkupGenerator(
+            app.jinja_env.get_template("widgets/widgets_mail.html")
+        ),
         "person": person,
         "mail_schema": mail_schema,
     }
