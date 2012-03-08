@@ -125,7 +125,8 @@ def edit(person_id=None):
 @auth_required
 def get_us_states():
     us_states = schema._load_json("refdata/us.states.json")
-    return flask.jsonify(us_states)
+    return flask.Response(response=flask.json.dumps(us_states),
+                          mimetype="application/json")
 
 
 @participant.route("/meeting/1/participant/<int:person_id>/edit_photo",
