@@ -26,7 +26,7 @@ Quick installation
 
     createdb cites
     psql cites -c 'create extension hstore'
-    python manage.py syncdb
+    ./manage.py syncdb
 
 6. Create a testing database and run the unit tests::
 
@@ -36,7 +36,7 @@ Quick installation
 
 7. Run a test server::
 
-    python manage.py runserver
+    ./manage.py runserver
 
 8. Deploy (after customizing `local_fabfile.py`)::
 
