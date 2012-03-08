@@ -1,0 +1,14 @@
+{% extends "participant/edit.html" %}
+
+{% block heading %}
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('meeting.home'), "Meeting"),
+      (url_for('meeting.registration'), "Registration"),
+      (url_for('participant.edit'), "New participant"),
+      ]) }}
+</ul>
+
+<h1>New participant</h1>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "meeting/meeting.html" %}
+{% block meeting_content %}
+
+  {% from "meeting/meeting.html" import nav_tabs %}
+  {{ nav_tabs('settings') }}
+
+  {% block meeting_settings_content %}{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+  <script id="attachement-html" type="text/template">
+    <div class="attachement-container label label-info">
+      <div class="title">Attachement:</div>
+      <div class="value">
+        <a href="{{ url_for('participant.view_pdf', person_id=person.id) }}">
+          credentials.pdf
+        </a>
+      </div>
+    </div>
+  </script>
+
+  <script>
+    $(function () {
+      $("#field-cc").parents(".control-group").hide();
+      // $("#field-to").addClass("disabled").attr("readonly", "" );
+
+      var add_container = $("<div />").attr({"class": "add-container"});
+      var add_cc = $("<a />")
+          .attr({"id": "add-cc", "class": "add"})
+          .text("+Add CC")
+          .click(function () {
+            $("#field-cc").parents(".control-group").slideDown("fast")
+                          .find("input").focus();
+            $(this).fadeOut("fast");
+          });
+      add_container.append(add_cc);
+
+      var attachement_html = $("#attachement-html").html()
+      $("#field-to").after(add_container);
+      $("#field-subject").after(attachement_html);
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('meeting.home'), "Meeting"),
+      (url_for('meeting.registration'), "Registration"),
+      (url_for('participant.view', person_id=person.id), person.name),
+      (url_for('participant.send_mail', person_id=person.id), "Acknowledge email"),
+      ]) }}
+</ul>
+
+<h2>Send email to {{ mail_schema.to.value }}</h2>
+<form action="{{ url_for('participant.send_mail', person_id=person.id) }}"
+      method="POST"
+      class="send-mail-container well">
+
+  {{ mk.widget(mail_schema) }}
+
+  <div class="form-actions">
+    <button class="btn btn-primary " type="submit">Send email</button>
+    <a href="{{ url_for('participant.view', person_id=person.id) }}"
+       class="btn" type="button">Cancel</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('meeting.home'), "Meeting"),
+      (url_for('meeting.registration'), "Registration"),
+      (url_for('participant.view', person_id=person.id), person.name),
+      (url_for('participant.edit_photo', person_id=person.id), "Participant picture"),
+      ]) }}
+  </li>
+</ul>
+
+
+<h2>Upload picture for <em>{{ person.name }}</em></h2>
+
+{% if person.has_photo %}
+<div class="row">
+  <div class="span6">
+    <div class="thumbnail">
+        <img src="{{ url_for('meeting.photo', person_id=person.id) }}"><br>
+
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="row">
+  <form method="post" enctype="multipart/form-data"
+        class="form-horizontal span6">
+
+      <div class="control-group">
+        <label class="control-label">Photo</label>
+        <div class="controls">
+          <input type="file" name="photo">
+        </div>
+      </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Upload</button>
+      <a class="btn" href="{{ url_for('participant.view', person_id=person.id)
+          -}}">Cancel</a>
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}
