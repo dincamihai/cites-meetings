@@ -19,9 +19,19 @@ def templated(template=None):
             elif not isinstance(ctx, dict):
                 return ctx
             return flask.render_template(template_name, **ctx)
-        decorated_function.original = f
+        decorated_function.no_templated = f
         return decorated_function
     return decorator
+
+
+
+def jsonify(view):
+    @wraps(view)
+    def wrapper(*args, **kwargs):
+        return flask.Response(flask.json.dumps(view(*args, **kwargs)),
+                              mimetype='application/json')
+    return wrapper
+
 
 from xhtml2pdf import pisa
 from cStringIO import StringIO

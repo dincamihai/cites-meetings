@@ -8,9 +8,9 @@
 {% block content %}
 <ul class="breadcrumb">
   {{ breadcrumb_items([
-      (url_for('webpages.meeting'), "Meeting"),
-      (url_for('webpages.meeting_printouts'), "Printouts"),
-      (url_for('webpages.meeting_verified_short_list'),
+      (url_for('meeting.home'), "Meeting"),
+      (url_for('meeting.printouts'), "Printouts"),
+      (url_for('meeting.verified_short_list'),
           "Print list of registered participants (verified)"),
       ]) }}
   </li>

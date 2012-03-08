@@ -50,7 +50,7 @@
         if(self.data("content")) {
           popover();
         } else {
-          $.get("{{ url_for('webpages.get_us_states') }}", function (data) {
+          $.get("{{ url_for('participant.get_us_states') }}", function (data) {
             // cache data
             var template = $("#us_states_tpl").html();
             var html = Mustache.to_html(template, {"data": data});
@@ -80,9 +80,9 @@
 {% from 'bits.html' import breadcrumb_items -%}
 <ul class="breadcrumb">
   {{ breadcrumb_items([
-      (url_for('webpages.meeting'), "Meeting"),
-      (url_for('meeting.meeting_registration'), "Registration"),
-      (url_for('webpages.view', person_id=person_id), person_name),
+      (url_for('meeting.home'), "Meeting"),
+      (url_for('meeting.registration'), "Registration"),
+      (url_for('participant.view', person_id=person_id), person_name),
       ]) }}
 </ul>
 
@@ -93,7 +93,7 @@
   {{ mk.widget(person_schema) }}
   <div class="form-actions">
     <button type="submit" class="btn btn-primary">Save changes</button>
-    <a class="btn" href="{{ url_for('webpages.home') }}">Cancel</a>
+    <a class="btn" href="{{ url_for('participant.home') }}">Cancel</a>
   </div>
 </form>
 {% endblock %}

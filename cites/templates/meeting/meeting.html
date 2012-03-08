@@ -25,11 +25,11 @@
 <ul class="nav nav-tabs">
 
   <li class="{{ 'active' if active == 'registration' else '' }}">
-    <a href="{{ _url('meeting_registration') }}">Registration</a>
+    <a href="{{ _url('registration') }}">Registration</a>
   </li>
 
   <li class="{{ 'active' if active == 'printouts' else '' }}">
-    <a href="{{ _url('meeting_printouts') }}">Printouts</a>
+    <a href="{{ _url('printouts') }}">Printouts</a>
   </li>
 
   <li class="dropdown {{ 'active' if active == 'settings' else '' }}">
@@ -42,15 +42,15 @@
     <ul class="dropdown-menu">
 
       <li>
-        <a href="{{ _url('meeting_settings_phrases') }}">Phrases</a>
+        <a href="{{ _url('settings_phrases') }}">Phrases</a>
       </li>
 
       <li>
-        <a href="{{ _url('meeting_settings_fees') }}">Fees</a>
+        <a href="{{ _url('settings_fees') }}">Fees</a>
       </li>
 
       <li>
-        <a href="{{ _url('meeting_settings_categories') }}">Categories</a>
+        <a href="{{ _url('settings_categories') }}">Categories</a>
       </li>
 
     </ul>

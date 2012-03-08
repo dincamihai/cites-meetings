@@ -1,11 +1,11 @@
 import unittest
 from StringIO import StringIO
 import flask
+from cites import database
 from common import create_mock_app
 
 
 def _get_person(person_id):
-    import database
     return database.get_session().table(database.PersonRow).get(person_id)
 
 
@@ -17,7 +17,6 @@ class PersonModelTest(unittest.TestCase):
         self.client = self.app.test_client()
 
     def test_save(self):
-        import database
         with self.app.test_request_context():
             session = database.get_session()
             session.save(database.PersonRow(hello="world"))
@@ -30,7 +29,6 @@ class PersonModelTest(unittest.TestCase):
             self.assertEqual(row[1], {u"hello": u"world"})
 
     def test_autoincrement_id(self):
-        import database
         with self.app.test_request_context():
             p1 = database.PersonRow()
             p2 = database.PersonRow()
@@ -49,7 +47,6 @@ class PersonModelTest(unittest.TestCase):
             self.assertEqual(row2[0], 2)
 
     def test_load(self):
-        import database
         with self.app.test_request_context():
             session = database.get_session()
             session.save(database.PersonRow(hello="world"))
@@ -60,13 +57,11 @@ class PersonModelTest(unittest.TestCase):
             self.assertEqual(person, {"hello": "world"})
 
     def test_load_not_found(self):
-        import database
         with self.app.test_request_context():
             with self.assertRaises(KeyError) as e:
                 _get_person(13)
 
     def test_load404_ok(self):
-        import database
         with self.app.test_request_context():
             session = database.get_session()
             session.save(database.PersonRow(hello="world"))
@@ -78,14 +73,12 @@ class PersonModelTest(unittest.TestCase):
             self.assertEqual(person, {"hello": "world"})
 
     def test_load404_error(self):
-        import database
         import werkzeug.exceptions
         with self.app.test_request_context():
             with self.assertRaises(werkzeug.exceptions.NotFound) as e:
                 database.get_person_or_404(13)
 
     def test_load_all(self):
-        import database
         with self.app.test_request_context():
             session = database.get_session()
             session.save(database.PersonRow(hello="world"))
@@ -101,7 +94,6 @@ class PersonModelTest(unittest.TestCase):
             self.assertEqual(all_persons[1].id, 2)
 
     def test_update(self):
-        import database
         with self.app.test_request_context():
             session = database.get_session()
             session.save(database.PersonRow(k1="v1", k2="v2", k3="v3"))
@@ -122,7 +114,6 @@ class PersonModelTest(unittest.TestCase):
             self.assertEqual(person, {"k2": "vX", "k3": "v3", "k4": "v4"})
 
     def test_delete(self):
-        import database
         with self.app.test_request_context():
             session = database.get_session()
             session.save(database.PersonRow(hello="world"))
@@ -139,7 +130,6 @@ class PersonModelTest(unittest.TestCase):
             self.assertEqual(list(cursor), [])
 
     def test_large_file(self):
-        import database
         with self.app.test_request_context():
             session = database.get_session()
             db_file = session.get_db_file()
@@ -154,7 +144,6 @@ class PersonModelTest(unittest.TestCase):
             self.assertEqual(data, "hello large data")
 
     def test_large_file_error(self):
-        import database
         import psycopg2
         with self.app.test_request_context():
             db_file = database.get_session().get_db_file(13)
@@ -167,7 +156,6 @@ class PersonModelTest(unittest.TestCase):
                 db_file.save_from(StringIO("bla bla"))
 
     def test_remove_large_file(self):
-        import database
         with self.app.test_request_context():
             session = database.get_session()
             db_file = session.get_db_file()

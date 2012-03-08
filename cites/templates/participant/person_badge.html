@@ -30,7 +30,7 @@
   <div class="badge-content">
     {% if person.has_photo %}
       <img class="photo"
-           src="{{ url_for('webpages.photo', person_id=person.id) }}">
+           src="{{ url_for('participant.photo', person_id=person.id) }}">
     {% endif %}
     <p class="badge-text">
       <span class="person-name">
@@ -66,9 +66,9 @@
 {% from 'bits.html' import breadcrumb_items -%}
 <ul class="breadcrumb">
   {{ breadcrumb_items([
-      (url_for('webpages.meeting'), "Meeting"),
-      (url_for('meeting.meeting_registration'), "Registration"),
-      (url_for('webpages.view', person_id=person.id), person.name),
+      (url_for('meeting.home'), "Meeting"),
+      (url_for('meeting.registration'), "Registration"),
+      (url_for('participant.view', person_id=person.id), person.name),
       ]) }}
 </ul>
 

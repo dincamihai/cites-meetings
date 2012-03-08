@@ -19,7 +19,7 @@
 
     <tr>
       <td>
-        <a href="{{ url_for('webpages.view', person_id=person_id) }}">
+        <a href="{{ url_for('participant.view', person_id=person_id) }}">
           {{- person.name -}}
         </a>
       </td>
@@ -53,7 +53,7 @@
 
 </table>
 
-<a class="btn btn-primary" href="{{ url_for('webpages.edit') }}">Add new participant</a>
+<a class="btn btn-primary" href="{{ url_for('participant.edit') }}">Add new participant</a>
 
 
 {% endblock %}

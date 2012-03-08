@@ -4,9 +4,9 @@ import os.path
 import flask
 
 import database
-import webpages
 import auth
 import meeting
+import participant
 
 default_config = {
     "DATABASE_URI": "postgresql://localhost/cites",
@@ -22,8 +22,8 @@ def create_app(instance_path=None):
     app.config.update(default_config)
     app.config.from_pyfile("settings.py")
     database.initialize_app(app)
-    webpages.initialize_app(app)
     auth.initialize_app(app)
+    participant.initialize_app(app)
     meeting.initialize_app(app)
     return app
 

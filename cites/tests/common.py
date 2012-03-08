@@ -1,7 +1,7 @@
 _testing_db_uri = None
 def _get_testing_db_uri():
     global _testing_db_uri
-    from app import create_app
+    from cites.app import create_app
     if _testing_db_uri is None:
         tmp_app = create_app()
         _testing_db_uri = tmp_app.config['TESTING_DATABASE_URI']
@@ -9,8 +9,8 @@ def _get_testing_db_uri():
 
 
 def create_mock_app():
-    from app import create_app
-    import database
+    from cites.app import create_app
+    from cites import database
 
     app = create_app()
     app.config['DATABASE_URI'] = _get_testing_db_uri()

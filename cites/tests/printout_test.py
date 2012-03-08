@@ -4,8 +4,8 @@ from copy import deepcopy
 import unittest
 import flask
 
-import database
-import schema
+from cites import database
+from cites import schema
 
 from common import create_mock_app, select
 from mock import patch
@@ -56,8 +56,8 @@ def parent(element, parent_tag):
         raise ValueError("No parent for %r with tag %r" % (element, parent_tag))
 
 def value_for_label(html, label, text=True):
-    [title] = select(html, 'div.title:contains("%s")' % label)
-    [content] = select(parent(title, 'li'), 'div.content')
+    [title] = select(html, 'td.title:contains("%s")' % label)
+    [content] = select(parent(title, 'tr'), 'td.content')
     if text:
         return content.text_content()
     else:
@@ -266,9 +266,9 @@ class BadgeTest(_BasePrintoutTest):
 
 class MeetingRoom(_BasePrintoutTest):
 
-    @patch("schema.category", deepcopy(CATEGORY_MOCK))
+    @patch("cites.schema.category", deepcopy(CATEGORY_MOCK))
     def test_meeting_room(self):
-        import webpages
+        from cites import meeting
 
         self._create_participant(u"10")
         self._create_participant(u"10")
@@ -276,7 +276,7 @@ class MeetingRoom(_BasePrintoutTest):
 
         with self.app.test_request_context("/meeting/1/printouts/verified/meeting_room"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = webpages.meeting_verified_meeting_room.original()
+            resp = meeting.verified_meeting_room.no_templated()
             participants_in_rooms = resp["participants_in_rooms"]
 
             # (Cat>9 and Cat<98)

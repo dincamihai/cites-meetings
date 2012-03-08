@@ -9,9 +9,9 @@
 {% from 'bits.html' import breadcrumb_items -%}
 <ul class="breadcrumb">
   {{ breadcrumb_items([
-      (url_for("webpages.meeting"), "Meeting"),
-      (url_for("webpages.meeting_printouts"), "Printouts"),
-      (url_for("webpages.meeting_verified_meeting_room"),
+      (url_for("meeting.home"), "Meeting"),
+      (url_for("meeting.printouts"), "Printouts"),
+      (url_for("meeting.verified_meeting_room"),
           "Print list of delegations (to prepare the meeting room)"),
       ]) }}
   </li>

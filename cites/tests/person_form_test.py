@@ -13,7 +13,7 @@ class PersonFormTest(unittest.TestCase):
             session["logged_in_email"] = "tester@example.com"
 
     def _get_person_data(self):
-        import database
+        from cites import database
         with self.app.test_request_context():
             return list(database.get_all_persons())
 
@@ -33,7 +33,7 @@ class PersonFormTest(unittest.TestCase):
         self.assertEqual(data['personal_last_name'], u"Smith")
 
     def test_no_clobber(self):
-        import database
+        from cites import database
         with self.app.test_request_context():
             session = database.get_session()
             session.save(database.PersonRow(random_key="random value"))
@@ -201,7 +201,7 @@ class PhoneValidatorTest(unittest.TestCase):
     ]
 
     def test_ok_values(self):
-        from schema import IsPhone, CommonString
+        from cites.schema import IsPhone, CommonString
         PhoneField = CommonString.including_validators(IsPhone())
 
         for value in self.ok_values:
@@ -210,7 +210,7 @@ class PhoneValidatorTest(unittest.TestCase):
                             "Valid phone %r triggered error" % value)
 
     def test_bad_values(self):
-        from schema import IsPhone, CommonString
+        from cites.schema import IsPhone, CommonString
         PhoneField = CommonString.including_validators(IsPhone())
 
         for value in self.bad_values:
