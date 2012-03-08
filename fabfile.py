@@ -41,7 +41,7 @@ def install():
 def start():
     run("/sbin/start-stop-daemon --start --background "
         "--pidfile %(var)s/fcgi.pid --make-pidfile "
-        "--exec %(sandbox)s/bin/python %(repo)s/app.py fcgi"
+        "--exec %(sandbox)s/bin/python %(repo)s/manage.py fcgi"
         % paths, pty=False)
 
 
