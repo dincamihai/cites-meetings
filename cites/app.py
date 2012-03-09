@@ -11,7 +11,7 @@ import participant
 default_config = {
     "DATABASE_URI": "postgresql://localhost/cites",
     "TESTING_DATABASE_URI": "postgresql://localhost/cites_test",
-    "SEND_REAL_EMAILS": False,
+    "MAIL_SUPPRESS_SEND": True,
 }
 
 
