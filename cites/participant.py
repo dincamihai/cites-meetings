@@ -72,6 +72,16 @@ def badge(person_id):
     }
 
 
+@participant.route("/meeting/1/participant/<int:person_id>/envelope")
+@auth_required
+@sugar.templated("participant/print_envelope.html")
+def envelope(person_id):
+    return {
+        "secretariat": schema.secretariat,
+        "person": schema.Person.get_or_404(person_id),
+    }
+
+
 @participant.route("/meeting/1/participant/new",
                    methods=["GET", "POST"])
 @participant.route("/meeting/1/participant/<int:person_id>/edit",

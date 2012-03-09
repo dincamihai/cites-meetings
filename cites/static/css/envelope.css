@@ -1,0 +1,42 @@
+.envelope-content {
+    margin-top:10em;
+    float: right;
+    width: 9.5cm;
+    height: 0.44cm;
+    top: 5cm;
+    left: 10cm;
+    font-size: 9pt;
+    font-family: arial;
+}
+
+.envelope-footer {
+    margin-top:25em;
+    margin-left:15em;
+}
+
+.envelope-footer address {
+    float: left;
+    width: 5.45cm;
+    height: 2.35cm;
+    font-size: 8pt;
+    font-family: arial;
+    text-align: center;
+}
+
+img {
+    margin-top:0.5cm;
+}
+
+.cites-logo {
+    width: 2cm;
+    height: 1.1cm;
+}
+
+.unep-logo {
+    width: 1.2cm;
+    height: 1.1cm;
+}
+
+.page-info{
+   margin-top:1em;
+}
