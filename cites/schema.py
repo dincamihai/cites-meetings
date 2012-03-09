@@ -41,6 +41,7 @@ sorted_country_codes = sorted(country.items(), key=itemgetter(1))
 sorted_country_codes = [c[0] for c in sorted_country_codes]
 
 language = _load_json("refdata/languages.json")
+secretariat = _load_json("refdata/secretariat.json")
 
 category = {c["id"]: c for c in _load_json("refdata/categories.json")}
 category_labels = {c["id"]: c["name"] for c in category.values()}
@@ -266,6 +267,10 @@ class Person(dict):
     @property
     def country(self):
         return country.get(self["representing"]["country"], "")
+
+    @property
+    def personal_country(self):
+        return country.get(self["personal"]["country"], "")
 
     @property
     def fee(self):
