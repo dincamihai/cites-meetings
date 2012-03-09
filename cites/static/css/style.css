@@ -1,0 +1,745 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+footer {
+    margin-top: 45px;
+    padding: 35px 0 36px;
+    border-top: 1px solid #ccc;
+}
+
+footer p {
+    margin-bottom: 0;
+    color: #555;
+}
+
+a {
+    cursor: pointer;
+}
+
+input, textarea {
+    color: #333;
+}
+
+/* DataTables with Twitter Boostrap v2
+   http://datatables.net/blog/Twitter_Bootstrap_2
+   http://datatables.net/media/blog/bootstrap_2/DT_bootstrap.css */
+
+div.dataTables_length label { float: left; text-align: left; }
+div.dataTables_length select { width: 75px; }
+div.dataTables_filter label { float: right; }
+div.dataTables_info { padding-top: 8px; }
+div.dataTables_paginate { float: right; margin: 0; }
+table.table { clear: both; /*margin-bottom: 6px !important;*/ }
+
+table.table thead .sorting,
+table.table thead .sorting_asc,
+table.table thead .sorting_desc,
+table.table thead .sorting_asc_disabled,
+table.table thead .sorting_desc_disabled {
+    cursor: pointer;
+    *cursor: hand;
+}
+
+table.table thead .sorting { background: url('../js/lib/datatables/images/sort_both.png') no-repeat center right; }
+table.table thead .sorting_asc { background: url('../js/lib/datatables/images/sort_asc.png') no-repeat center right; }
+table.table thead .sorting_desc { background: url('../js/lib/datatables/images/sort_desc.png') no-repeat center right; }
+
+table.table thead .sorting_asc_disabled { background: url('../js/lib/datatables/images/sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { background: url('../js/lib/datatables/images/sort_desc_disabled.png') no-repeat center right; }
+
+
+.credentials-header h1,
+.credentials-header .subheader {
+    text-align: center;
+}
+
+.credentials-header .subheader {
+    margin-top: 15px;
+    font-style: italic;
+    background: #ccc;
+}
+
+.credentials-header ul {
+    list-style-type: none;
+    margin: 15px 200px;
+}
+.credentials-header .title {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 16px;
+    float: left;
+    width: 160px;
+}
+.credentials-header .content {
+    line-height: 20px; /* 24px */
+    margin-left : 165px;
+    font-size: 16px;
+}
+.credentials-content p {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+
+/* ################### SONIA'S STYLE ######################### */
+
+/* global */
+body {
+	background: #222;
+}
+
+/* remove the background from navbar by overriding some styles from bootstrap.css */
+body .navbar-inner {
+	background: none;
+	webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+/* upper navbar (will be transformed into h1 */
+.navbar-inner .container {
+	background: transparent;
+	border: none;
+}
+
+body .navbar .brand {
+	font-size: 24px;
+}
+
+/* the big container */
+.container {
+	background: #ddd;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	border: 0px solid #fff;
+	margin-bottom: 20px;
+}
+
+.container h1,
+.container hgroup h1 {
+	margin: 10px 10px 0px;
+	font-size: 20px;
+}
+
+.container hgroup h2 {
+	margin: -15px 10px 0px;
+	font-size: 16px;
+	color: #999;
+}
+
+ul.nav-tabs {
+	background-color: #555;
+	height: 50px;
+	border-top: 1px solid #999;
+}
+
+ul.nav-tabs li {
+	height: 65%;
+	margin: 17px 5px 0px; 
+	border-top-left-radius: 4px; 
+	border-top-right-radius: 4px; 
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
+	background-color: #444;
+	background-image: -moz-linear-gradient(top, #777, #555);
+	background-image: -ms-linear-gradient(top, #777, #555);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#777', endColorstr='#555'); /* For Internet Explorer 5.5 - 7 */
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#777, endColorstr=#555)"; /* For Internet Explorer 8 */
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#777), to(#555));
+	background-image: -webkit-linear-gradient(top, #777, #555);
+	background-image: -o-linear-gradient(top, #777, #555);
+	background-image: linear-gradient(top, #777, #555);
+	border-top: 1px solid #999;
+}
+
+ul.nav-tabs li > a:hover {
+	color: #444;
+	border-bottom-color: transparent; 
+    background: #ddd;
+}
+
+body ul.nav-tabs li a {
+	color: #ddd;
+}
+
+body ul.nav-tabs li.active {
+	background: transparent;
+}
+
+body .nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+	background: #ddd;
+}
+
+/* the select for number of records per page */
+div.dataTables_length label {
+	margin-left: 20px;
+}
+
+/* the table with records */
+body .table-bordered {
+	margin: 0px;
+	border-radius: 0px;
+	-moz-border-radius: 0px;
+	/*width: 1110px; it destroys the flexible layout on small screens */
+	background: #fff; 
+}
+
+.dataTables_info {
+	margin: 10px 20px 20px;
+}
+
+body .dataTables_paginate {
+	margin: 10px 40px 20px 0px;
+}
+
+body .pagination a {
+	border: 1px solid #ccc;
+}
+
+body .dataTables_filter {
+	margin: 10px 40px 0px;
+}
+
+body .table-bordered.span6,
+body .table-bordered.span3 {
+	width: 520px;
+	margin-left: 50px;
+	margin-bottom: 20px;
+}
+
+.container h2,
+.container h3 {
+	margin-left: 20px;
+}
+
+ul.nav-tabs ul.dropdown-menu li {
+	background: #999;
+	border-top: none;
+}
+
+body .nav-tabs .dropdown-toggle .caret, 
+body .nav-pills .dropdown-toggle .caret {
+	border-top-color: white;
+	opacity: 0.6;
+	filter:alpha(opacity: 60);
+}
+
+.btn.btn-primary {
+	margin-left: 20px;
+/*margin-bottom: 10px;*/
+}
+
+.container h2 {
+	font-size: 20px;
+}
+
+/* settings menu item */
+body ul.nav-tabs ul.dropdown-menu li a {
+	color: #ddd;
+}
+
+body ul.nav-tabs ul.dropdown-menu li a:hover {
+	background: #999;
+	color: #eee;
+}
+
+body ul.nav-tabs ul.dropdown-menu {
+	background: #999;
+	border-top: none;
+}
+
+body ul.nav-tabs ul.dropdown-menu li {
+	margin: 0px;
+}
+
+/* footer */
+.pull-right {
+	margin-right: 20px;
+}
+
+/* upper fixed navbar */
+body .navbar.navbar-fixed-top {
+	position: relative;
+	top: 0px;
+	margin: 0;
+}
+
+/* form for adding a new person */
+.form-horizontal fieldset {
+	margin-top: 4px;
+	vertical-align: top;
+display: inline;
+}
+
+.form-horizontal fieldset legend {
+	background: #ddd;
+	border: none;
+	text-align: center;
+
+}
+
+#f_representing_organization,
+#f_personal_address,
+#f_more_info_text {
+	max-width: 24em;
+}
+
+body .form-horizontal .control-group {
+	padding-bottom: 5px;
+	margin-bottom: 0px;
+}
+
+body .form-actions {
+	background: transparent;
+	border: none;
+}
+
+/* Phrases page */
+dl.phrases form textarea {
+	width: 97%;
+	margin-left: 5px;
+}
+
+body .row .span9 {
+	background: #fff;
+margin-top: 0px;
+}
+
+.nav-stacked > li {
+	border-bottom: 1px solid #EEE;
+}
+
+.nav-stacked > li.active {
+	background: #fff;
+	padding: 1px 0px;
+border-bottom: 1px solid #EEE;
+}
+
+.nav-stacked > li:hover {
+	background: #eee;
+}
+
+.nav-stacked > li.active:hover {
+	background: white;
+}
+
+body .nav-pills .active > a, 
+body .nav-pills .active > a:hover {
+	background: #fff;
+	color: #333;
+}
+
+body .row .span9 {
+	margin-left: 0px;
+}
+
+.phrases form {
+	margin-top: 40px;
+}
+
+body .nav > li > a:hover {
+	background: #eee;
+	color: #333;
+}
+
+body .nav-pills > li > a:hover {
+	border-radius: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+}
+
+/* page with a person's details */
+.btn-toolbar {
+	margin-left: 10px;
+}
+
+body .row .span6 table th {
+	background: #ddd;
+	text-align: right;
+	color: #888;
+	font-weight: normal;
+}
+
+.row .span6 table td {
+	background: #fff;
+}
+
+body .alert {
+	margin-bottom: 0px;
+}
+
+.row .span6 table~h2 {
+	color: #777;
+	font-size: 16px;
+}
+
+.row .span3 {
+	clear: both;
+}
+
+body .span3 .thumbnail {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+}
+
+/* credentials page */
+.credentials-header,
+.credentials-content,
+body .container .subheader  {
+	background: #fff;
+}
+
+.credentials-header .title,
+.credentials-header .content {
+	font-size: 14px;
+}
+
+footer {
+	margin-top: 10px;
+	padding-top: 15px;
+}
+
+.credentials-header ul {
+	width: 45%;
+	margin: 0px auto;
+}
+
+.credentials-content div {
+	margin: 20px 10px 0px;
+}
+
+.credentials-content p {
+	font-size: 12px;
+}
+
+.breadcrumb {
+	margin-bottom: 0px;
+}
+
+/* email page */
+body .send-mail-container {
+	background: #ddd;
+	margin-bottom: 0px;
+}
+
+body .well {
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	-moz-box-shadow: none;
+}
+
+textarea#field-message {
+	max-width: 900px;
+}
+
+/* manage fees */
+.form-actions button[type="submit"].btn.btn-primary {
+	margin-left: 0px;
+}
+
+/* badge page */
+body .badge {
+	background: #fff;
+}
+
+
+
+/* VARIOUS */
+.blue-badge .header {
+    position: relative;
+    background-color: #0080FF;
+    height: 1.7cm;
+}
+
+.blue-badge .header .cites-logo {
+    position: absolute;
+    width: 1.5cm;
+    height: 0.9cm;
+    top: 0.3cm;
+    left: 0.2cm;
+}
+
+.blue-badge .header .unep-logo {
+    position: absolute;
+    width: 0.82cm;
+    height: 0.9cm;
+    top: 0.3cm;
+    right: 0.2cm;
+}
+
+.blue-badge .header h1 {
+    position: absolute;
+    font-size: 0.4cm;
+    top: 0.3cm;
+    left: 2cm;
+    right: 1.5cm;
+    text-align: center;
+    line-height: 1;
+    color: white;
+    font-family: Arial Narrow;
+}
+
+.blue-badge .content {
+    background-color: #FFF;
+}
+
+
+.us_states_container {
+    list-style-type: none;
+    font-size: 10px;
+    margin: 0;
+    width: 36em;  /* room for 3 columns */
+}
+.us_states_container li {
+    float: left;
+    width: 12em;  /* accommodate the widest item */
+}
+
+.us_states_container .title {
+    font-weight: bold;
+    float: left;
+    width: 26px;
+}
+
+dl.phrases {
+    margin-top: -4px;
+    display: none;
+    magin: 0;
+}
+dl.phrases textarea {
+    width: 100%;
+    height: 250px;
+}
+dl.phrases h3 {
+    margin-bottom: 15px;
+}
+
+dl.phrases dd {
+    margin: 0;
+}
+
+
+/* meeting_verified_short_list */
+.container {
+    position: relative;
+}
+.container .header h1,
+.container .header h4,
+.container .subheader {
+    text-align: center;
+}
+.container .subheader {
+    margin: 15px 250px;
+    background: #ccc;
+    padding: 0.5em;
+    border: 1px solid black;
+    box-shadow:4px 4px #000;
+}
+.container .subheader ul {
+    list-style-type: none;
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.container .content .category{
+    background: #F9F9F9;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.container .content .language-label{
+	background: #000;
+	padding: 0.2em 0.5em;
+	color: #fff;
+}
+
+.container .content .pigeon-holes td{
+	font-weight: bold;
+	font-size:1.4em;
+	border-top: 1px solid #000;
+	padding: 10px;
+}
+
+
+.send-mail-container .add-container   {
+    font-size: 11px;
+    height: 15px;
+}
+.send-mail-container input,
+.send-mail-container textarea  {
+    width: 100%;
+}
+.send-mail-container textarea {
+    height: 300px;
+}
+.send-mail-container .add-container a {
+    margin-right: 10px;
+}
+.send-mail-container label {
+    font-weight: bold;
+}
+.send-mail-container .control-group {
+    margin: 0;
+    margin-bottom: 15px;
+}
+.send-mail-container .help-inline {
+    padding: 0;
+}
+
+.actions {
+    float: right;
+    margin-bottom: 1em;
+}
+
+
+/* fix ie7 stuff */
+.breadcrumb {
+    overflow: hidden;
+}
+.breadcrumb, .breadcrumb li {
+    list-style-type: none!important;
+}
+.breadcrumb li {
+    float:left;
+}
+.modal-backdrop {
+    filter:alpha(opacity=0)!important;
+}
+
+
+
+/* PRINT version for Credentials and Printouts verified list */
+/*@media print {*/
+
+	@page {
+	 margin: 28pt;
+	 size: landscape;
+	}
+
+	@page:first {
+	 margin-top: 0pt;
+	}
+
+	body {
+	 font: 12pt Georgia, "Times New Roman", Times, serif;
+	 line-height: 12pt;
+	 background: #fff;
+	}
+
+	.navbar-fixed-top,
+	.breadcrumb,
+	footer,
+	.actions {
+	 display: none;
+	}
+
+	.credentials-header h1 {
+	 width: 70%;
+	 margin-left: 0;
+	 text-align: left;
+	}
+
+	.credentials-header ul {
+	 width: 80%;
+	 margin-left: 0;
+	}
+
+	.credentials-header .title {
+	 font-style: normal;
+	 text-align: left;
+	}
+
+	.credentials-header .content {
+	 word-wrap: break-word;
+	}
+
+	.subheader {
+	 width: 280pt;
+	 margin-left: 0% !important;
+	 -webkit-box-shadow: none !important;
+	 -moz-box-shadow: none !important;
+	 box-shadow: none !important;
+	}
+
+	.credentials-content div {
+	 margin-left: 0px;
+	}
+
+	p.alert,
+	.alert-info {
+	 border: 1px solid #999;
+	 color: #999;
+	 max-width: 90%;
+	 padding-right: 0px;
+	}
+
+	a {
+	 color: #000;
+	}
+
+	.alert-info p a:after {
+	 content: " (" attr(href) ")";
+	}
+
+	.container .header~.subheader {
+	 border: 1px solid red;
+	 margin-left: 200px;
+	}
+/*}*/
+
+
+.attachement-container {
+    overflow: hidden;
+}
+.attachement-container .title {
+    float: left;
+    width: 70px;
+}
+.attachement-container .value {
+    margin-left: 80px;
+}
+.attachement-container .value a {
+    color: #fff;
+    text-decoration: underline;
+}
+.credentials-header h1,
+.credentials-header .subheader {
+    text-align: center;
+}
+
+.credentials-header .subheader {
+    margin-top: 15px;
+    font-style: italic;
+    background: #ccc;
+}
+
+.credentials-header table {
+    width: 600px;
+    list-style-type: none;
+    margin: 20px 250px;
+}
+.credentials-header table td {
+    vertical-align: top;
+}
+.credentials-header .title {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 16px;
+    width: 180px;
+}
+.credentials-header .content {
+    line-height: 24px;
+    font-size: 16px;
+}
+.credentials-content p {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+
+

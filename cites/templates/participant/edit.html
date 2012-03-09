@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+
+  {{ script_src("bootstrap/js/bootstrap-tooltip.js") }}
+  {{ script_src("bootstrap/js/bootstrap-popover.js") }}
+  {{ script_src("bootstrap/js/mustache.js") }}
+
+  <script type="text/template" id="us_states_tpl">
+    {% raw %}
+    <ul class="us_states_container">
+      {{#data}}
+        <li>
+          <div class="title"><a>{{id}}</a></div>
+          <div class="content">{{name}}</div>
+        </li>
+      {{/data}}
+    </ul>
+    {% endraw %}
+  </script>
+
+  <script>
+    $(function () {
+      var handleUsStates = function (e) {
+        e.stopPropagation();
+        var self = $(this);
+
+        var popover = function () {
+          // show popover
+          self.popover({trigger: "manual"});
+          self.popover("toggle");
+
+          // $(".popover").css("top", "361px");
+          $(".popover").find(".popover-inner").css("width", "auto");
+          $(".popover").find(".popover-content").css("height", "334");
+
+
+          $(".us_states_container")
+              .off("click")
+              .off("click", "a")
+              .on("click", "a",
+                function () {
+                  $("#f_personal_place").val(
+                    $("#f_personal_place").val() + $(this).text()
+                  );
+                 })
+              .on("click", function(e) { e.stopPropagation(); });
+         };
+
+        if(self.data("content")) {
+          popover();
+        } else {
+          $.get("{{ url_for('participant.get_us_states') }}", function (data) {
+            // cache data
+            var template = $("#us_states_tpl").html();
+            var html = Mustache.to_html(template, {"data": data});
+            self.data("content", html);
+            popover();
+          }, "json");
+        }
+      };
+      // add us code button near place input
+      var us_states = $("<a />").attr({"class": "btn", "id": "us-states"})
+                                .data("title", "US Codes")
+                                .text("US Codes")
+                                .click(handleUsStates);
+      $(document).on("click", function () {
+        us_states.popover("hide");
+      });
+      $("#f_personal_place").after(us_states);
+      $("#f_meeting_flags_acknowledged").datepicker();
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+
+{% block heading %}
+{% set person_name = person_schema.value.name %}
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('meeting.home'), "Meeting"),
+      (url_for('meeting.registration'), "Registration"),
+      (url_for('participant.view', person_id=person_id), person_name),
+      ]) }}
+</ul>
+
+<h1>{{ person_name }} &ndash; edit</h1>
+{% endblock %}
+
+<form class="form-horizontal" method="post">
+  {{ mk.widget(person_schema) }}
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a class="btn" href="{{ url_for('participant.home') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

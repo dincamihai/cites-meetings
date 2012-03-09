@@ -1,0 +1,82 @@
+{% extends "meeting/meeting.html" %}
+{% block meeting_content %}
+
+{% from "meeting/meeting.html" import nav_tabs %}
+{{ nav_tabs('registration') }}
+
+<table class="table table-bordered table-striped people-listing">
+
+  <thead>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Attended</th>
+    <th>Verified</th>
+    <th class="hidden"></th>
+  </thead>
+
+  <tbody>
+  {% for person_id, person in people %}
+
+    <tr>
+      <td>
+        <a href="{{ url_for('participant.view', person_id=person_id) }}">
+          {{- person.name -}}
+        </a>
+      </td>
+      <td>
+        {{- person.category["name"] -}}
+      </td>
+      <td class="attended">
+        {% if person["meeting_flags"]["attended"] %}
+          <i class="icon-ok"></i>
+        {% endif %}
+      </td>
+      <td class="attended">
+        {% if person["meeting_flags"]["verified"] %}
+          <i class="icon-ok"></i>
+        {% endif %}
+      </td>
+      <td class="hidden">
+        {{ person["personal"]["address"] }}
+        {{ person["personal"]["email"] }}
+        {{ person["personal"]["place"] }}
+        {{ person["personal"]["country"] }}
+        {{ person["representing"]["country"] }}
+        {{ person["representing"]["region"] }}
+        {{ person["representing"]["organisation"] }}
+        {{ person["more_info"]["text"] }}
+      </td>
+    </tr>
+
+  {% endfor %}
+  </tbody>
+
+</table>
+
+<a class="btn btn-primary" href="{{ url_for('participant.edit') }}">Add new participant</a>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% from 'bits.html' import script_src -%}
+{{ script_src('js/lib/datatables/jquery.dataTables.min.js') }}
+{{ script_src('js/lib/datatables/DT_bootstrap.js') }}
+<script>
+$(document).ready(function() {
+    // DataTables + Bootstrap 2: http://datatables.net/blog/Twitter_Bootstrap_2
+    $('.people-listing').dataTable({
+        "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+        "aoColumnDefs": [
+            {"bVisible": false, "aTargets": [4]}
+        ],
+        "sPaginationType": "bootstrap",
+        "oLanguage": {
+            "sLengthMenu": "_MENU_ records per page"
+        }
+    });
+
+});
+</script>
+{% endblock %}

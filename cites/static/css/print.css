@@ -1,0 +1,45 @@
+.navbar,
+.breadcrumb ,
+.actions,
+footer {
+    display: none;
+}
+
+h1 {
+    font-size: 18px;
+}
+
+.table,
+.table th {
+    border: none;
+    -webkit-border-radius: 0!important;
+    -moz-border-radius: 0!important;
+    border-radius: 0!important;
+}
+.table th {
+    border-left: none!important;
+    border-right: none!important;
+    border-top: 1px solid #333!important;
+    border-bottom: 1px solid #333!important;
+}
+td.category {
+    background-color: #999;
+    font-style: italic;
+}
+td.category span {
+    font-size: 16px;
+}
+.table td {
+    border-right: none!important;
+    border-left: none!important;
+}
+
+.subheader {
+    position: relative;
+    width: 450px;
+    left: -180px;
+}
+.subheader h3 {
+    font-size: 16px!important;
+}
+.

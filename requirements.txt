@@ -8,3 +8,4 @@ flatland==dev
 psycopg2==2.4.4
 flup==1.0.2
 Flask-Mail==0.6.1
+xhtml2pdf
