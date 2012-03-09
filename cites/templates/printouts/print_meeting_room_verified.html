@@ -10,12 +10,12 @@
 <ul class="breadcrumb">
   {{ breadcrumb_items([
       (url_for("meeting.home"), "Meeting"),
-      (url_for("meeting.printouts"), "Printouts"),
-      (url_for("meeting.verified_meeting_room"),
+      (url_for("printouts.home"), "Printouts"),
+      (url_for("printouts.verified_meeting_room"),
           "Print list of delegations (to prepare the meeting room)"),
       ]) }}
   </li>
-</ul> {# /.breadcrum #}
+</ul> {# /.breadcrumb #}
 
 <div class="container">
   <div class="header">

@@ -268,7 +268,7 @@ class MeetingRoom(_BasePrintoutTest):
 
     @patch("cites.schema.category", deepcopy(CATEGORY_MOCK))
     def test_meeting_room(self):
-        from cites import meeting
+        from cites import printouts
 
         self._create_participant(u"10")
         self._create_participant(u"10")
@@ -276,7 +276,7 @@ class MeetingRoom(_BasePrintoutTest):
 
         with self.app.test_request_context("/meeting/1/printouts/verified/meeting_room"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = meeting.verified_meeting_room.not_templated()
+            resp = printouts.verified_meeting_room.not_templated()
             participants_in_rooms = resp["participants_in_rooms"]
 
             # (Cat>9 and Cat<98)
@@ -304,15 +304,15 @@ class PigeonHoles(_BasePrintoutTest):
 
     @patch("cites.schema.category", deepcopy(CATEGORY_MOCK))
     def test_verified_representing_country(self):
-        from cites import meeting
+        from cites import printouts
 
         self._create_participant(u"10")
         self._create_participant(u"10")
         self._create_participant(u"20")
 
-        with self.app.test_request_context("/meeting/1/printouts/verified/pigeon_holes_verified"):
+        with self.app.test_request_context("/meeting/1/printouts/verified/pigeon_holes"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = meeting.verified_pigeon_holes.not_templated()
+            resp = printouts.verified_pigeon_holes.not_templated()
             participants_in_rooms = resp["participants_in_rooms"]
 
             # (Cat>9 and Cat<98)
@@ -332,7 +332,7 @@ class PigeonHoles(_BasePrintoutTest):
         self._create_participant(u"10")
         self._create_participant(u"10")
 
-        resp = self.client.get("/meeting/1/printouts/verified/pigeon_holes_verified")
+        resp = self.client.get("/meeting/1/printouts/verified/pigeon_holes")
         [qty] = select(resp.data, ".qty")
         self.assertEqual(qty.text_content(), "2E")
 

@@ -282,15 +282,33 @@ class Person(dict):
 
         if category_id == "10":
             room_list = "%s - %s" % (
-                            region[self["representing"]["region"]],
-                            country[self["representing"]["country"]],
-                           )
-        elif category_id in ["20", "30", "40"]:
+                region[self["representing"]["region"]],
+                country[self["representing"]["country"]],
+           )
+        elif category_id in ("20", "30", "40"):
             room_list = country[self["representing"]["country"]]
         elif category_id > 40:
-            roomt_list = self["representing"]["organization"]
+            room_list = self["representing"]["organization"]
 
         return room_list
+
+    @property
+    def ref_list(self):
+        category_id = self["personal"]["category"]
+        ref_list = None
+
+        if category_id == "10":
+            ref_list = "%s-%s" % (
+                region[self["representing"]["region"]],
+                country[self["representing"]["country"]],
+            )
+        elif category_id in ("20", "30", "40"):
+            ref_list = country[self["representing"]["country"]]
+        elif category_id in ("98", "99"):
+            ref_list = self["representing"]["organization"]
+
+        return ref_list
+
 
 MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(

@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% from 'bits.html' import css_link -%}
+{% block extra_head %}
+  {{ css_link("css/print.css", "print") }}
+{% endblock %}
+
+{% block content %}
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for("meeting.home"), "Meeting"),
+      (url_for("printouts.home"), "Printouts"),
+      (url_for("printouts.verified_meeting_room"),
+          "Distribution of documents"),
+      ]) }}
+  </li>
+</ul> {# /.breadcrumb #}
+
+<div class="container">
+  <div class="header">
+    <h4> {{ meeting["description"] }} <br /> {{ meeting["address"] }}</h4>
+    <h1>Distribution of documents</h1>
+  </div> {# /.header #}
+
+  <div class="content">
+    <div class="actions">
+      <a class="btn btn-success btn-inverse print">
+        <i class="icon-print icon-white"></i> Print
+      </a>
+    </div> {# /.actions #}
+
+    {% for language, categories in participants.items() %}
+    <table class="table table-condensed table-bordered">
+      <caption><span class="label label-info">{{ language }}</span></caption>
+      <thead>
+        <tr>
+          <th>Qty</th>
+          <th>Delegation</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for room, room_lists in categories.items() %}
+          {% if room_lists["data"] %}
+            <tr>
+              <td class="category" colspan="2">
+                <span>{{ room }} (total = {{ room_lists["count"] }})</span>
+              </td>
+             </tr>
+
+             {% for room_list, participants in room_lists["data"]|dictsort %}
+               <tr>
+                 <td class="qty">{{ participants }}</td>
+                 <td>{{ room_list }}</td>
+               </tr>
+             {% endfor %}
+
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endfor %}
+
+</div> {# /.container #}
+{% endblock %}

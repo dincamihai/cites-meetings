@@ -16,8 +16,8 @@
 {% endblock %}
 
 
-{% macro _url(view_name) -%}
-  {{ url_for("meeting." + view_name) }}
+{% macro _url(view_name, blueprint="meeting") -%}
+  {{ url_for(blueprint + "." + view_name) }}
 {%- endmacro %}
 
 
@@ -29,7 +29,7 @@
   </li>
 
   <li class="{{ 'active' if active == 'printouts' else '' }}">
-    <a href="{{ _url('printouts') }}">Printouts</a>
+    <a href="{{ _url('home', 'printouts') }}">Printouts</a>
   </li>
 
   <li class="dropdown {{ 'active' if active == 'settings' else '' }}">
