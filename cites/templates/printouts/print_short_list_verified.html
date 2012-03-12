@@ -10,8 +10,7 @@
   {{ breadcrumb_items([
       (url_for('meeting.home'), "Meeting"),
       (url_for('printouts.home'), "Printouts"),
-      (url_for('printouts.verified_short_list'),
-          "Print list of registered participants (verified)"),
+      (url_for(page_info.url), page_info.title),
       ]) }}
   </li>
 </ul>

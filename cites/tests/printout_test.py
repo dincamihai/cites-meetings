@@ -213,14 +213,14 @@ class MeetingRoom(_BaseTest):
 
         with self.app.test_request_context("/meeting/1/printouts/verified/meeting_room"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = printouts.verified_meeting_room.not_templated()
-            participants_in_rooms = resp["participants_in_rooms"]
+            resp = printouts.meeting_room.not_templated()
+            participants = resp["participants"]
 
             # (Cat>9 and Cat<98)
-            self.assertEqual(participants_in_rooms.keys(),
+            self.assertEqual(participants.keys(),
                             ["Members", "Alternate members & Observers, Party"])
 
-            values =  participants_in_rooms.values()
+            values =  participants.values()
             # first user should have region - country room list
             self.assertIn(u"Europe - Romania", values[0]["data"].keys())
             self.assertEqual(values[0]["count"], 2)
@@ -249,14 +249,14 @@ class PigeonHoles(_BaseTest):
 
         with self.app.test_request_context("/meeting/1/printouts/verified/pigeon_holes"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = printouts.verified_pigeon_holes.not_templated()
-            participants_in_rooms = resp["participants_in_rooms"]
+            resp = printouts.pigeon_holes.not_templated(type="verified")
+            participants = resp["participants"]
 
             # (Cat>9 and Cat<98)
-            self.assertEqual(participants_in_rooms.keys(),
+            self.assertEqual(participants.keys(),
                             ["Members", "Alternate members & Observers, Party"])
 
-            values =  participants_in_rooms.values()
+            values =  participants.values()
             # first user should have region - country room list
             self.assertIn(u"Europe - Romania", values[0]["data"].keys())
             self.assertEqual(values[0]["count"], 2)
@@ -329,7 +329,7 @@ class ListfForVerification(_BaseTest):
 
     def test_list_for_verification(self):
         self._create_participant("42", {"meeting_flags_attended": True})
-        resp = self.client.get("/meeting/1/printouts/attended/document_distribution")
+        resp = self.client.get("/meeting/1/printouts/attended/list_for_verification")
 
         [group] = select(resp.data, ".group")
         group = group.text_content()

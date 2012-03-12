@@ -11,15 +11,14 @@
   {{ breadcrumb_items([
       (url_for("meeting.home"), "Meeting"),
       (url_for("printouts.home"), "Printouts"),
-      (url_for("printouts.list_for_verification"),
-          "List of participants for checking"),
+      (url_for(page_info.url), page_info.title),
       ]) }}
   </li>
 </ul> {# /.breadcrumb #}
 
 <div class="container">
   <div class="header">
-    <h4>List of participants for checking</h4>
+    <h4>{{ page_info.title }}</h4>
   </div>
 
   {% for group in participants|groupby("verifpart") %}

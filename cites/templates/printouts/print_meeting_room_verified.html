@@ -11,8 +11,7 @@
   {{ breadcrumb_items([
       (url_for("meeting.home"), "Meeting"),
       (url_for("printouts.home"), "Printouts"),
-      (url_for("printouts.verified_meeting_room"),
-          "Print list of delegations (to prepare the meeting room)"),
+      (url_for(page_info.url), page_info.title),
       ]) }}
   </li>
 </ul> {# /.breadcrumb #}
@@ -40,16 +39,16 @@
       </thead>
 
       <tbody>
-        {% for room, room_lists in participants_in_rooms.items() %}
+        {% for room, room_lists in participants.items() %}
           {% if room_lists["data"] %}
             <tr>
               <td class="category" colspan="2">
                 <span>{{ room }} (total = {{ room_lists["count"] }})</span>
               </td>
             </tr>
-            {% for room_list, participants in room_lists["data"]|dictsort %}
+            {% for room_list, qty in room_lists["data"]|dictsort %}
               <tr>
-                <td class="qty">{{ participants|length }}</td>
+                <td class="qty">{{ qty }}</td>
                 <td>{{ room_list }}</td>
               </tr>
             {% endfor %}

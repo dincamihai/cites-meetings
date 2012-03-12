@@ -11,8 +11,7 @@
   {{ breadcrumb_items([
       (url_for("meeting.home"), "Meeting"),
       (url_for("printouts.home"), "Printouts"),
-      (url_for("printouts.verified_meeting_room"),
-          "Distribution of documents"),
+      (url_for(page_info.url, type=page_info.type), page_info.title),
       ]) }}
   </li>
 </ul> {# /.breadcrumb #}
@@ -22,7 +21,7 @@
     <h4>
       {{ meeting["description"] }} <br /> {{ meeting["address"] }}
     </h4>
-    <h1>Distribution of documents</h1>
+    <h1>{{ page_info.title }}</h1>
   </div> {# /.header #}
 
   <div class="content">
