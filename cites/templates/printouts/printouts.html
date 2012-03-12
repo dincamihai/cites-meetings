@@ -25,8 +25,18 @@
       </tr>
       <tr>
         <th>For distribution of documents</th>
-        <td><a class="btn disabled" href="#">verified</a></td>
-        <td><a class="btn disabled" href="#">attending</a></td>
+        <td>
+          <a class="btn"
+             href="{{ url_for('printouts.document_distribution', type='verified') }}">
+             verified
+          </a>
+        </td>
+        <td>
+          <a class="btn"
+             href="{{ url_for('printouts.document_distribution', type='attended') }}">
+             attending
+          </a>
+        </td>
       </tr>
       <tr>
         <th>Labels</th>

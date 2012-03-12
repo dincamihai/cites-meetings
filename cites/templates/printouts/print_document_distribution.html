@@ -30,7 +30,7 @@
       </a>
     </div> {# /.actions #}
 
-    {% for language, categories in participants.items() %}
+    {% for language, categories in participants|dictsort %}
     <table class="table table-condensed table-bordered">
       <caption><span class="label label-info">{{ language }}</span></caption>
       <thead>

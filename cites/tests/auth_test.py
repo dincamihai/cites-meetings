@@ -17,8 +17,10 @@ PROTECTED_ROUTES = (
     "/meeting/1/printouts",
     "/meeting/1/printouts/verified/short_list",
     "/meeting/1/printouts/verified/meeting_room",
-    "/meeting/1/printouts/verified/pigeon_holes_verified",
-    "/meeting/1/printouts/verified/pigeon_holes_attended",
+    "/meeting/1/printouts/verified/pigeon_holes",
+    "/meeting/1/printouts/verified/pigeon_holes",
+    "/meeting/1/printouts/verified/document_distribution",
+    "/meeting/1/printouts/attended/document_distribution",
     "/meeting/1/settings/phrases",
     "/meeting/1/settings/fees",
     "/meeting/1/settings/categories",
@@ -33,6 +35,7 @@ class AuthTest(_BaseTest):
 
         for route in PROTECTED_ROUTES:
             resp = self.client.get(route)
+            print "route", route
             self.assertEqual(resp.status_code, 302)
             self.assertIn("/login?next", resp.headers["Location"])
 
