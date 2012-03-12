@@ -10,43 +10,6 @@ from cites import schema
 from common import _BaseTest, create_mock_app, select
 from mock import patch
 
-
-CATEGORY_MOCK = {
-    "1": {
-        "name": "Visitor",
-        "room_sort": 0,
-        "registered": False,
-        "id": "1",
-        "reg_sort": 0,
-        "room": "NULL"
-
-    },
-    "10" : {
-        "name": "Member",
-        "room_sort": 1,
-        "registered": True,
-        "id": "10",
-        "room": "Members"
-    },
-    "20": {
-        "name": "Alternate member",
-        "room_sort": 3,
-        "registered": True,
-        "id": "20",
-        "room": "Alternate members & Observers, Party"
-    },
-
-    "99" :{
-        "name": "CITES Secretariat",
-        "room_sort": 0,
-        "id": "99",
-        "reg_sort": 0,
-        "stat_sort": 3,
-        "room": "NULL"
-    }
-}
-
-
 def parent(element, parent_tag):
     while element is not None:
         if element.tag == parent_tag:
@@ -240,7 +203,7 @@ class BadgeTest(_BaseTest):
 
 class MeetingRoom(_BaseTest):
 
-    @patch("cites.schema.category", deepcopy(CATEGORY_MOCK))
+    @patch("cites.schema.category", deepcopy(_BaseTest.CATEGORY_MOCK))
     def test_meeting_room(self):
         from cites import printouts
 
@@ -276,7 +239,7 @@ class MeetingRoom(_BaseTest):
 
 class PigeonHoles(_BaseTest):
 
-    @patch("cites.schema.category", deepcopy(CATEGORY_MOCK))
+    @patch("cites.schema.category", deepcopy(_BaseTest.CATEGORY_MOCK))
     def test_verified_representing_country(self):
         from cites import printouts
 
@@ -309,5 +272,56 @@ class PigeonHoles(_BaseTest):
         resp = self.client.get("/meeting/1/printouts/verified/pigeon_holes")
         [qty] = select(resp.data, ".qty")
         self.assertEqual(qty.text_content(), "2E")
+
+class DocumentDistribution(_BaseTest):
+
+    @patch("cites.schema.category", deepcopy(_BaseTest.CATEGORY_MOCK))
+    @patch("cites.schema.language", deepcopy(_BaseTest.LANGUAGE_MOCK))
+    def test_verified_document_distribution(self):
+        from cites import printouts
+
+        self._create_participant(u"10")
+        self._create_participant(u"10")
+        self._create_participant(u"20")
+
+        with self.app.test_request_context("/meeting/1/printouts/verified/document_distribution"):
+            flask.session["logged_in_email"] = "tester@example.com"
+            resp = printouts.document_distribution.not_templated(type="verified")
+            participants = resp["participants"]
+
+            self.assertEqual(participants.keys(), ["English", "French"])
+            self.assertEqual(participants["English"].keys(),
+                             ["Members", "Alternate members & Observers, Party"])
+            self.assertEqual(dict(participants["English"]["Members"]["data"]), {})
+
+
+            self.assertEqual(participants["French"]["Members"]["data"].keys(),
+                             ["Europe-Romania"])
+            self.assertEqual(participants["French"]["Members"]["data"]["Europe-Romania"],
+                             2)
+
+            self.assertEqual(participants["French"]\
+                            ["Alternate members & Observers, Party"]\
+                            ["data"].keys(), ["Romania"])
+
+            self.assertEqual(participants["French"]\
+                            ["Alternate members & Observers, Party"]\
+                            ["data"]["Romania"], 1)
+
+    @patch("cites.schema.category", deepcopy(_BaseTest.CATEGORY_MOCK))
+    @patch("cites.schema.language", deepcopy(_BaseTest.LANGUAGE_MOCK))
+    def test_attended_document_distribution(self):
+        from cites import printouts
+
+        self._create_participant(u"10", {"meeting_flags_attended": True})
+        self._create_participant(u"10", {"meeting_flags_attended": False})
+
+        with self.app.test_request_context("/meeting/1/printouts/attended/document_distribution"):
+            flask.session["logged_in_email"] = "tester@example.com"
+            resp = printouts.document_distribution.not_templated(type="attended")
+            participants = resp["participants"]
+
+            self.assertEqual(participants["French"]["Members"]\
+                            ["data"]["Europe-Romania"], 1)
 
 

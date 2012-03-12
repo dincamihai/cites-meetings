@@ -1,7 +1,50 @@
 
 import unittest
 
+
+
+
 class _BaseTest(unittest.TestCase):
+
+    CATEGORY_MOCK = {
+        "1": {
+            "name": "Visitor",
+            "room_sort": 0,
+            "registered": False,
+            "id": "1",
+            "reg_sort": 0,
+            "room": "NULL"
+
+        },
+        "10" : {
+            "name": "Member",
+            "room_sort": 1,
+            "registered": True,
+            "id": "10",
+            "room": "Members"
+        },
+        "20": {
+            "name": "Alternate member",
+            "room_sort": 3,
+            "registered": True,
+            "id": "20",
+            "room": "Alternate members & Observers, Party"
+        },
+
+        "99" :{
+            "name": "CITES Secretariat",
+            "room_sort": 0,
+            "id": "99",
+            "reg_sort": 0,
+            "stat_sort": 3,
+            "room": "NULL"
+        }
+    }
+
+    LANGUAGE_MOCK = {
+        "E": "English",
+        "F": "French",
+    }
 
     def setUp(self):
         self.app, app_teardown = create_mock_app()
@@ -66,4 +109,5 @@ def select(container, selector):
         doc = container
     xpath = lxml.cssselect.CSSSelector(selector)
     return xpath(doc)
+
 
