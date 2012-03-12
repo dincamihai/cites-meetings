@@ -69,7 +69,12 @@
       <tr>
         <th>for verification (by delegation)</th>
         <td class="span2"></td>
-        <td class="span2"><a class="btn disabled" href="#">attending</a></td>
+        <td class="span2">
+          <a class="btn"
+             href="{{ url_for('printouts.list_for_verification') }}">
+             attending
+          </a>
+        </td>
       </tr>
       <tr>
         <th>final (All participants)</th>

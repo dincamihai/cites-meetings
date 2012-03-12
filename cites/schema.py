@@ -314,6 +314,18 @@ class Person(dict):
 
         return ref_list
 
+    @property
+    def verifpart(self):
+        category_id = self["personal"]["category"]
+        verifpart = None
+
+        if category_id in ["10", "20", "30", "40"]:
+            verifpart = country[self["representing"]["country"]]
+        else:
+            verifpart = self["representing"]["organization"]
+
+        return verifpart
+
 
 MailSchema = fl.Dict.with_properties(widget="mail") \
               .of(

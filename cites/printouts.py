@@ -205,6 +205,29 @@ def document_distribution(type):
     }
 
 
+@printouts.route("/meeting/1/printouts/attended/document_distribution")
+@auth_required
+@sugar.templated("printouts/print_list_for_verification.html")
+def list_for_verification():
+
+    # participants = defaultdict(list)
+    participants = []
+    for person_row in database.get_all_persons():
+        c = schema.category[person_row["personal_category"]]
+        if not person_row["meeting_flags_attended"] or not c["registered"]:
+           continue
+
+        p = schema.Person.from_flat(person_row)
+        p["verifpart"] = p.verifpart
+        participants.append(p)
+
+    participants = sorted(participants, key=lambda k: k["personal"]["last_name"])
+
+    return {
+        "participants": participants
+    }
+
+
 # rooms => [(1, 'Members'), (3, 'Alternate members & Observers, Party')]
 def _sorted_rooms():
     rooms = [(c["room_sort"], c["room"]) for c in schema.category.values()
