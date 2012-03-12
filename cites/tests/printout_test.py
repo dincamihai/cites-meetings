@@ -7,7 +7,7 @@ import flask
 from cites import database
 from cites import schema
 
-from common import create_mock_app, select
+from common import _BaseTest, create_mock_app, select
 from mock import patch
 
 
@@ -63,34 +63,8 @@ def value_for_label(html, label, text=True):
     else:
         return content
 
-class _BasePrintoutTest(unittest.TestCase):
 
-    def setUp(self):
-        self.app, app_teardown = create_mock_app()
-        self.addCleanup(app_teardown)
-        self.client = self.app.test_client()
-        with self.client.session_transaction() as session:
-            session["logged_in_email"] = "tester@example.com"
-
-    def _create_participant(self, category, default_data={}):
-        data = {
-            "personal_first_name": u"Joe",
-            "personal_last_name": u"Smith",
-            "personal_category": category,
-            "personal_language": u"F", # "F": "French"
-            "personal_fee": "1",
-            "meeting_flags_invitation": True,
-            "meeting_flags_credentials": False,
-            "meeting_flags_verified": True,
-            "representing_region": "4",
-            "representing_country": u"RO",
-            "representing_organization": u"International Environmental Law Project",
-        }
-        data.update(default_data)
-        return self.client.post('/meeting/1/participant/new', data=data)
-
-
-class CredentialsTest(_BasePrintoutTest):
+class CredentialsTest(_BaseTest):
 
     def test_common_fields(self):
         self._create_participant(u"10") # 10: "Member"
@@ -209,7 +183,7 @@ class CredentialsTest(_BasePrintoutTest):
                       value_for_label(resp.data, "Category"))
 
 
-class ListOfParticipantsTest(_BasePrintoutTest):
+class ListOfParticipantsTest(_BaseTest):
 
     def test_list_of_participants(self):
         self._create_participant(u"10")
@@ -246,7 +220,7 @@ class ListOfParticipantsTest(_BasePrintoutTest):
         self.assertTrue(select(resp.data, "table .printout-webalert .icon-check"))
 
 
-class BadgeTest(_BasePrintoutTest):
+class BadgeTest(_BaseTest):
 
     def test_badge(self):
         self._create_participant(u"10")
@@ -264,7 +238,7 @@ class BadgeTest(_BasePrintoutTest):
         self.assertIn(u"Europe", representative)
 
 
-class MeetingRoom(_BasePrintoutTest):
+class MeetingRoom(_BaseTest):
 
     @patch("cites.schema.category", deepcopy(CATEGORY_MOCK))
     def test_meeting_room(self):
@@ -300,7 +274,7 @@ class MeetingRoom(_BasePrintoutTest):
         [qty] = select(resp.data, ".qty")
         self.assertEqual(qty.text_content(), "2")
 
-class PigeonHoles(_BasePrintoutTest):
+class PigeonHoles(_BaseTest):
 
     @patch("cites.schema.category", deepcopy(CATEGORY_MOCK))
     def test_verified_representing_country(self):

@@ -38,7 +38,7 @@
       <li class="divider"></li>
       <li><a href="#"><del>Print separator</del></a></li>
       <li><a href="#"><del>Print label</del></a></li>
-      <li><a href="#"><del>Print envelope</del></a></li>
+      <li><a href="{{ url_for('participant.envelope', person_id=person.id) }}">Print envelope</a></li>
     </ul>
   </div>
 </div>

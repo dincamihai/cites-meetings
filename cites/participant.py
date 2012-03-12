@@ -1,5 +1,6 @@
 import flask
 from jinja2 import Markup
+from flaskext.mail import Mail, Message
 
 from auth import auth_required
 import schema
@@ -68,6 +69,16 @@ def badge(person_id):
         "meeting_description": Markup("61<sup>st</sup> meeting of the "
                                       "Standing Committee"),
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011",
+        "person": schema.Person.get_or_404(person_id),
+    }
+
+
+@participant.route("/meeting/1/participant/<int:person_id>/envelope")
+@auth_required
+@sugar.templated("participant/print_envelope.html")
+def envelope(person_id):
+    return {
+        "secretariat": schema.secretariat,
         "person": schema.Person.get_or_404(person_id),
     }
 
@@ -195,16 +206,14 @@ def send_mail(person_id):
             mail_data = {}
             mail_data.update(mail_schema.flatten())
 
-            # construct recipients from "to" and "cc"
+            # construct recipients from "to"
             recipients = [mail_data["to"]]
-            if mail_data["cc"]:
-                recipients.append(mail_data["cc"])
-
             # recipients = ["dragos.catarahia@gmail.com"]
 
             # send email
             msg = Message(mail_data["subject"], sender="meeting@cites.edw.ro",
-                          recipients=recipients, body=mail_data["message"])
+                          recipients=recipients, cc=[mail_data["cc"]],
+                          body=mail_data["message"])
 
             pdf = sugar.generate_pdf_from_html(
                 flask.render_template("participant/credentials.html", **{
@@ -214,18 +223,16 @@ def send_mail(person_id):
                 })
             )
             msg.attach("credentials.pdf", "application/pdf", pdf)
+            mail.send(msg)
 
-            if app.config["SEND_REAL_EMAILS"]:
-                mail.send(msg)
-
+            if app.config["MAIL_SUPPRESS_SEND"]:
+                flask.flash(u"This is a demo, no real email was sent", "info")
+            else:
                 # flash a success message
                 success_msg = u"Mail sent to %s" % mail_data["to"]
                 if mail_data["cc"]:
                     success_msg += u" and to %s" % mail_data["cc"]
                 flask.flash(success_msg, "success")
-
-            else:
-                flask.flash(u"This is a demo, no real email was sent", "info")
 
         else:
             flask.flash(u"Errors in mail information", "error")
@@ -260,5 +267,3 @@ def view_pdf(person_id):
         })
     )
     return flask.Response(response=pdf, mimetype="application/pdf")
-
-
