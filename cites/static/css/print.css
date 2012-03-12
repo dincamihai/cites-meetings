@@ -1,6 +1,9 @@
 .navbar,
 .breadcrumb ,
 .actions,
+.page-info,
+hr,
+header,
 footer {
     display: none;
 }
@@ -42,4 +45,7 @@ td.category span {
 .subheader h3 {
     font-size: 16px!important;
 }
-.
+
+hr {
+    page-break-after:always;
+}

@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block extra_head %}
+  {% from 'bits.html' import css_link -%}
+  {{ css_link('css/envelope.css') }}
+  {{ css_link("css/print.css", "print") }}
+{% endblock %}
+
+
+{% block content %}
+
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('meeting.home'), "Meeting"),
+      (url_for('meeting.registration'), "Registration"),
+      (url_for('participant.view', person_id=person.id), person.name),
+      ]) }}
+</ul>
+
+<div class="actions">
+  <a class="btn btn-success btn-inverse disabled" href="#">
+    <i class="icon-print icon-white"></i>
+    Print
+  </a>
+</div>
+
+<header>
+    <h1>Print preview envelope for {{ person.name }}</h1>
+</header>
+
+<p class="page-info">
+    <span class="label label-info">Page 1</span>
+    Envelope front side.
+</p>
+
+<div class="envelope-content row">
+    <p class="badge-text">
+        <span class="person-name">
+            {{ person['personal']['name_title'] }}
+            {{ person['personal']['first_name'] }}
+            {{ person['personal']['last_name']|upper }}
+        </span>
+        <br />
+        <span class="person-organisation">
+            {{ person["representing"]["organization"] }}
+        </span>
+        <br />
+        <span class="person-address">
+            {{ person["personal"]["address"] }}
+        </span>
+        <br />
+        <span class="person-representing">
+            {{ person["personal"]["place"] }}
+        </span>
+        <br />
+        <span class="person-country">
+            {{ person.personal_country }}
+        </span>
+    </p>
+</div>
+
+<div class="envelope-footer row">
+  <img class="span1 cites-logo" src="{{ url_for('static', filename='img/CITES.jpg') }}" />
+  <address>
+      {{ secretariat.name }} <br />
+      {{ secretariat.description }} <br />
+      {{ secretariat.address }}
+  </address>
+  <img class="span1 unep-logo" src="{{ url_for('static', filename='img/UNEP.jpg') }}" />
+</div>
+
+<hr />
+
+<p class="page-info">
+    <span class="label label-info">Page 2</span>
+    Envelope back side.
+</p>
+
+<div class="envelope-footer row envelope-back">
+  <img class="span1 cites-logo" src="{{ url_for('static', filename='img/CITES.jpg') }}" />
+  <address>
+      {{ secretariat.name }} <br />
+      {{ secretariat.description }} <br />
+      {{ secretariat.address }}
+  </address>
+  <img class="span1 unep-logo" src="{{ url_for('static', filename='img/UNEP.jpg') }}" />
+</div>
+
+
+{% endblock %}
