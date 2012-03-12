@@ -325,3 +325,20 @@ class DocumentDistribution(_BaseTest):
                             ["data"]["Europe-Romania"], 1)
 
 
+class ListfForVerification(_BaseTest):
+
+    def test_list_for_verification(self):
+        self._create_participant("42", {"meeting_flags_attended": True})
+        resp = self.client.get("/meeting/1/printouts/attended/document_distribution")
+
+        [group] = select(resp.data, ".group")
+        group = group.text_content()
+
+        self.assertEqual(group, u"International Environmental Law Project")
+
+        [name] = select(resp.data, ".name")
+        name = name.text_content()
+
+        self.assertIn(u"smith joe", name.lower())
+
+

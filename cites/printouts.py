@@ -209,8 +209,6 @@ def document_distribution(type):
 @auth_required
 @sugar.templated("printouts/print_list_for_verification.html")
 def list_for_verification():
-
-    # participants = defaultdict(list)
     participants = []
     for person_row in database.get_all_persons():
         c = schema.category[person_row["personal_category"]]
@@ -218,6 +216,7 @@ def list_for_verification():
            continue
 
         p = schema.Person.from_flat(person_row)
+        # we need to group by verifpart in template
         p["verifpart"] = p.verifpart
         participants.append(p)
 
