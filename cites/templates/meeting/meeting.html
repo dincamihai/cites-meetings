@@ -26,19 +26,11 @@
 <ul class="nav nav-tabs">
 
   <li class="{{ 'active' if active == 'registration' else '' }}">
-<<<<<<< HEAD
-    <a href="{{ _url('meeting_registration') }}" data-toggle="tab">Registration</a>
+    <a href="{{ _url('registration') }}" data-toggle="tab">Registration</a>
   </li>
 
   <li class="{{ 'active' if active == 'printouts' else '' }}">
-    <a href="{{ _url('meeting_printouts') }}" data-toggle="tab">Printouts</a>
-=======
-    <a href="{{ _url('registration') }}">Registration</a>
-  </li>
-
-  <li class="{{ 'active' if active == 'printouts' else '' }}">
-    <a href="{{ _url('printouts') }}">Printouts</a>
->>>>>>> 9fa00a1a3fa6a5999514fcf1de3ff5ac0a0f9f64
+    <a href="{{ _url('printouts') }}" data-toggle="tab">Printouts</a>
   </li>
 
   <li class="dropdown {{ 'active' if active == 'settings' else '' }}">
