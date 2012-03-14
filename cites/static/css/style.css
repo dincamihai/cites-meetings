@@ -228,7 +228,7 @@ body .nav-pills .dropdown-toggle .caret {
 
 .btn.btn-primary {
 	margin-left: 20px;
-/*margin-bottom: 10px;*/
+	/*margin-bottom: 10px;*//*otherwise Edit button is too high*/ 
 }
 
 .container h2 {
@@ -398,8 +398,13 @@ body .container .subheader  {
 }
 
 footer {
-	margin-top: 10px;
+	margin-top: 10px; /*otherwise the 'Add new participant is too low*/
 	padding-top: 15px;
+}
+
+.credentials-header,
+.alert {
+	margin-top: -10px;
 }
 
 .credentials-header ul {
@@ -415,7 +420,7 @@ footer {
 	font-size: 12px;
 }
 
-.breadcrumb {
+body .breadcrumb {
 	margin-bottom: 0px;
 }
 
@@ -447,8 +452,252 @@ body .badge {
 }
 
 
+/* meeting_verified_short_list */
+.container {
+    position: relative;
+}
+
+.container .header h1,
+.container .header h4,
+.container .subheader {
+    text-align: center;
+}
+
+.container .subheader {
+    margin: 15px 250px;
+    background: #ccc;
+    padding: 0.5em;
+    border: 1px solid black;
+    box-shadow:4px 4px #000;
+}
+
+.container .subheader ul {
+    list-style-type: none;
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.container .content .category{
+    background: #F9F9F9;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.container .content .language-label{
+	background: #000;
+	padding: 0.2em 0.5em;
+	color: #fff;
+}
+
+.container .content .pigeon-holes td{
+	/*font-weight: bold;
+	font-size:1.4em;*/
+	border-top: 1px solid #999;
+	padding: 10px;
+}
+
+
+/* 'List of announced participants' page */
+a.print { /*print button*/
+	margin-right: 10px;
+}
+
+/* 'Print list for pigeon holes (attended)' page */
+body a.btn.btn-inverse.print {
+	margin-top: 10px;
+}
+
+table.pigeon-holes {
+	margin-bottom: 0px;
+	background: #fff;
+}
+
+
+
+/* fix ie7 stuff */
+.breadcrumb {
+    overflow: hidden;
+}
+.breadcrumb, .breadcrumb li {
+    list-style-type: none!important;
+}
+.breadcrumb li {
+    float:left;
+}
+.modal-backdrop {
+    filter:alpha(opacity=0)!important;
+}
+
+
+
+/* PRINT version for Credentials and Printouts verified list */
+@media print {
+
+	@page {
+	 margin: 28pt; /* 28pt~=1cm, 42.67pt~=1.5cm */
+	 size: landscape;
+	}
+
+	@page:first {
+	 margin-top: 0pt;
+	}
+
+	body {
+	 font: 12pt Georgia, "Times New Roman", Times, serif;
+	 line-height: 12pt;
+	 background: #fff;
+	}
+
+	.navbar-fixed-top,
+	.breadcrumb,
+	footer,
+	.actions {
+	 display: none;
+	}
+
+	.table-bordered {
+	 border: 1px solid #DDD;
+	}
+
+	.table-bordered tr {/* DOESN'T WORK */
+	/*break-after: always !important; 
+	break-before: avoid;
+	break-inside: avoid; 
+	color: green;*/
+	}
+
+	.container .content .category,
+	.container,
+	ul.nav-tabs {
+	 background: #fff;
+	}
+
+	ul.nav-tabs {
+	 border-top: none;
+	}
+
+	.credentials-header h1 {
+	 width: 100%;
+	 margin-left: 0;
+	 text-align: center;
+	}
+
+	/*.credentials-header ul {
+	 width: 80%;
+	 margin-left: 0;
+	}*/
+
+	.credentials-header .title {
+	 font-style: normal;
+	 text-align: left;
+	}
+
+	.credentials-header .content {
+	 word-wrap: break-word;
+	}
+
+	body .container .subheader {
+	 width: 100%;/*280pt;*/
+	 text-align: center;
+	 margin-left: 0;
+	 border: none;
+	 -webkit-box-shadow: none !important;
+	 -moz-box-shadow: none !important;
+	 box-shadow: none !important;
+	}
+
+	body .container .subheader h3 {
+	 width: 60%;
+	 margin: 0px auto;
+	 border: 1px solid #999;
+	}
+
+	body .container .subheader ul {
+	 width: 100%;
+	 margin: 0px auto;
+	}
+
+	body .credentials-header table {
+	 width: 80%;
+	 margin-left: 0 !important;
+	 text-align: left; 
+	}
+
+	.credentials-header td.content {
+	 text-align: left;
+	}
+
+	.credentials-content div {
+	 margin-left: 0px;
+	}
+
+	p.alert {
+	 border: 1px solid #999;
+	 color: #555;
+	 max-width: 90%;
+	 padding-right: 0px;
+	}
+
+	a {
+	 color: #000;
+	}
+
+	body .alert-info, 
+	body .alert-info .alert-heading {
+	 background: #fff;
+	 border-color: #000;
+ 	 color: #555;
+	}
+
+	.alert-info p a:after {
+	 content: " (" attr(href) ")";
+	}
+
+	body .icon-check { /*DOESN'T WORK*/
+	 display: inline-block;
+	 width: 14px;
+	 height: 14px;
+	 line-height: 14px;
+	 vertical-align: text-top;
+	 background-image: url("../img/checked_icon.png");
+	 background-repeat: no-repeat;
+	 visibility: visible !important;
+	}
+}  /* end print styles */
+
 
 /* VARIOUS */
+.send-mail-container .add-container   {
+    font-size: 11px;
+    height: 15px;
+}
+.send-mail-container input,
+.send-mail-container textarea  {
+    width: 100%;
+}
+.send-mail-container textarea {
+    height: 300px;
+}
+.send-mail-container .add-container a {
+    margin-right: 10px;
+}
+.send-mail-container label {
+    font-weight: bold;
+}
+.send-mail-container .control-group {
+    margin: 0;
+    margin-bottom: 15px;
+}
+.send-mail-container .help-inline {
+    padding: 0;
+}
+
+.actions {
+    float: right;
+    margin-bottom: 1em;
+}
+
 .blue-badge .header {
     position: relative;
     background-color: #0080FF;
@@ -487,7 +736,6 @@ body .badge {
     background-color: #FFF;
 }
 
-
 .us_states_container {
     list-style-type: none;
     font-size: 10px;
@@ -521,177 +769,6 @@ dl.phrases h3 {
 dl.phrases dd {
     margin: 0;
 }
-
-
-/* meeting_verified_short_list */
-.container {
-    position: relative;
-}
-.container .header h1,
-.container .header h4,
-.container .subheader {
-    text-align: center;
-}
-.container .subheader {
-    margin: 15px 250px;
-    background: #ccc;
-    padding: 0.5em;
-    border: 1px solid black;
-    box-shadow:4px 4px #000;
-}
-.container .subheader ul {
-    list-style-type: none;
-    font-size: 0.8em;
-    margin: 0;
-}
-
-.container .content .category{
-    background: #F9F9F9;
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-.container .content .language-label{
-	background: #000;
-	padding: 0.2em 0.5em;
-	color: #fff;
-}
-
-.container .content .pigeon-holes td{
-	font-weight: bold;
-	font-size:1.4em;
-	border-top: 1px solid #000;
-	padding: 10px;
-}
-
-
-.send-mail-container .add-container   {
-    font-size: 11px;
-    height: 15px;
-}
-.send-mail-container input,
-.send-mail-container textarea  {
-    width: 100%;
-}
-.send-mail-container textarea {
-    height: 300px;
-}
-.send-mail-container .add-container a {
-    margin-right: 10px;
-}
-.send-mail-container label {
-    font-weight: bold;
-}
-.send-mail-container .control-group {
-    margin: 0;
-    margin-bottom: 15px;
-}
-.send-mail-container .help-inline {
-    padding: 0;
-}
-
-.actions {
-    float: right;
-    margin-bottom: 1em;
-}
-
-
-/* fix ie7 stuff */
-.breadcrumb {
-    overflow: hidden;
-}
-.breadcrumb, .breadcrumb li {
-    list-style-type: none!important;
-}
-.breadcrumb li {
-    float:left;
-}
-.modal-backdrop {
-    filter:alpha(opacity=0)!important;
-}
-
-
-
-/* PRINT version for Credentials and Printouts verified list */
-/*@media print {*/
-
-	@page {
-	 margin: 28pt;
-	 size: landscape;
-	}
-
-	@page:first {
-	 margin-top: 0pt;
-	}
-
-	body {
-	 font: 12pt Georgia, "Times New Roman", Times, serif;
-	 line-height: 12pt;
-	 background: #fff;
-	}
-
-	.navbar-fixed-top,
-	.breadcrumb,
-	footer,
-	.actions {
-	 display: none;
-	}
-
-	.credentials-header h1 {
-	 width: 70%;
-	 margin-left: 0;
-	 text-align: left;
-	}
-
-	.credentials-header ul {
-	 width: 80%;
-	 margin-left: 0;
-	}
-
-	.credentials-header .title {
-	 font-style: normal;
-	 text-align: left;
-	}
-
-	.credentials-header .content {
-	 word-wrap: break-word;
-	}
-
-	.subheader {
-	 width: 280pt;
-	 margin-left: 0% !important;
-	 -webkit-box-shadow: none !important;
-	 -moz-box-shadow: none !important;
-	 box-shadow: none !important;
-	}
-
-	.credentials-content div {
-	 margin-left: 0px;
-	}
-
-	p.alert,
-	.alert-info {
-	 border: 1px solid #999;
-	 color: #999;
-	 max-width: 90%;
-	 padding-right: 0px;
-	}
-
-	a {
-	 color: #000;
-	}
-
-	.alert-info p a:after {
-	 content: " (" attr(href) ")";
-	}
-
-	.container .header~.subheader {
-	 border: 1px solid red;
-	 margin-left: 200px;
-	}
-/*}*/
-
 
 .attachement-container {
     overflow: hidden;
@@ -737,7 +814,7 @@ dl.phrases dd {
     font-size: 16px;
 }
 .credentials-content p {
-    font-size: 16px;
+    font-size: 12px;
     line-height: 24px;
 }
 
