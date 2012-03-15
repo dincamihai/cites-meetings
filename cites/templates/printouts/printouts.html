@@ -10,14 +10,14 @@
     <tbody>
       <tr>
         <th>Short list (by category)</th>
-        <td class="span2"><a class="btn" href="{{ url_for('meeting.verified_short_list') }}">verified</a></td>
+        <td class="span2"><a class="btn" href="{{ url_for('printouts.short_list') }}">verified</a></td>
         <td class="span2"><a class="btn disabled" href="#">attending</a></td>
       </tr>
       <tr>
         <th>For meeting room</th>
         <td>
           <a class="btn"
-             href="{{ url_for('meeting.verified_meeting_room') }}">
+             href="{{ url_for('printouts.meeting_room') }}">
              verified
           </a>
         </td>
@@ -25,8 +25,18 @@
       </tr>
       <tr>
         <th>For distribution of documents</th>
-        <td><a class="btn disabled" href="#">verified</a></td>
-        <td><a class="btn disabled" href="#">attending</a></td>
+        <td>
+          <a class="btn"
+             href="{{ url_for('printouts.document_distribution', type='verified') }}">
+             verified
+          </a>
+        </td>
+        <td>
+          <a class="btn"
+             href="{{ url_for('printouts.document_distribution', type='attended') }}">
+             attending
+          </a>
+        </td>
       </tr>
       <tr>
         <th>Labels</th>
@@ -45,8 +55,10 @@
       </tr>
       <tr>
         <th>Labels for pigeon holes</th>
-        <td><a class="btn" href="{{ url_for('meeting.verified_pigeon_holes') }}">verified</a></td>
-        <td><a class="btn" href="{{ url_for('meeting.attended_pigeon_holes') }}">attending</a></td>
+        <td><a class="btn"
+               href="{{ url_for('printouts.pigeon_holes', type='verified') }}">verified</a></td>
+        <td><a class="btn"
+               href="{{ url_for('printouts.pigeon_holes', type='attended') }}">attending</a></td>
       </tr>
     </tbody>
   </table>
@@ -59,7 +71,12 @@
       <tr>
         <th>for verification (by delegation)</th>
         <td class="span2"></td>
-        <td class="span2"><a class="btn disabled" href="#">attending</a></td>
+        <td class="span2">
+          <a class="btn"
+             href="{{ url_for('printouts.list_for_verification') }}">
+             attending
+          </a>
+        </td>
       </tr>
       <tr>
         <th>final (All participants)</th>

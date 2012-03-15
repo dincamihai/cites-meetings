@@ -10,17 +10,18 @@
 <ul class="breadcrumb">
   {{ breadcrumb_items([
       (url_for("meeting.home"), "Meeting"),
-      (url_for("meeting.printouts"), "Printouts"),
-      (url_for("meeting.verified_meeting_room"),
-          "Print list of delegations (to prepare the meeting room)"),
+      (url_for("printouts.home"), "Printouts"),
+      (url_for(page_info.url, type=page_info.type), page_info.title),
       ]) }}
   </li>
-</ul> {# /.breadcrum #}
+</ul> {# /.breadcrumb #}
 
 <div class="container">
   <div class="header">
-    <h4> {{ meeting["description"] }} <br /> {{ meeting["address"] }}</h4>
-    <h1>List of delegations (to prepare the meeting room)</h1>
+    <h4>
+      {{ meeting["description"] }} <br /> {{ meeting["address"] }}
+    </h4>
+    <h1>{{ page_info.title }}</h1>
   </div> {# /.header #}
 
   <div class="content">
@@ -30,8 +31,9 @@
       </a>
     </div> {# /.actions #}
 
-
+    {% for language, categories in participants|dictsort %}
     <table class="table table-condensed table-bordered">
+      <caption><span class="label label-info">{{ language }}</span></caption>
       <thead>
         <tr>
           <th>Qty</th>
@@ -40,23 +42,26 @@
       </thead>
 
       <tbody>
-        {% for room, room_lists in participants_in_rooms.items() %}
+        {% for room, room_lists in categories.items() %}
           {% if room_lists["data"] %}
             <tr>
               <td class="category" colspan="2">
                 <span>{{ room }} (total = {{ room_lists["count"] }})</span>
               </td>
-            </tr>
-            {% for room_list, participants in room_lists["data"]|dictsort %}
-              <tr>
-                <td class="qty">{{ participants|length }}</td>
-                <td>{{ room_list }}</td>
-              </tr>
-            {% endfor %}
+             </tr>
+
+             {% for room_list, participants in room_lists["data"]|dictsort %}
+               <tr>
+                 <td class="qty">{{ participants }}</td>
+                 <td>{{ room_list }}</td>
+               </tr>
+             {% endfor %}
+
           {% endif %}
         {% endfor %}
       </tbody>
     </table>
-  </div> {# /.content #}
+    {% endfor %}
+
 </div> {# /.container #}
 {% endblock %}

@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% from 'bits.html' import css_link -%}
+{% block extra_head %}
+  {{ css_link("css/print.css", "print") }}
+{% endblock %}
+
+{% block content %}
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for("meeting.home"), "Meeting"),
+      (url_for("printouts.home"), "Printouts"),
+      (url_for(page_info.url), page_info.title),
+      ]) }}
+  </li>
+</ul> {# /.breadcrumb #}
+
+<div class="container">
+  <div class="header">
+    <h4>{{ page_info.title }}</h4>
+  </div>
+
+  {% for group in participants|groupby("verifpart") %}
+    <h1 style="text-align: center" class="group">{{ group.grouper}}</h1>
+    <div class="subheader">
+       Please check and return to the CITES Secretariat at the Registration desk
+as soon as possible. Thank you.
+    </div>
+
+    {% for p in group.list %}
+    <table>
+      <tr>
+        <td class="name">
+          {{ p["personal"]["last_name"]|upper }} {{ p["personal"]["first_name"] }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          {% if p["representing"]["organization_show"] %}
+            {{ p["representing"]["organization"] }}
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <td>{{ p["personal"]["address"] }}</td>
+      </tr>
+      <tr>
+        <td>{{ p["personal"]["place"] }}</td>
+      </tr>
+      {% if p["personal"]["phone"] %}
+      <tr>
+        <td>phone: {{ p["personal"]["phone"] }}</td>
+      </tr>
+      {% endif %}
+      {% if p["personal"]["cellular"] %}
+      <tr>
+        <td>cellular: {{ p["personal"]["cellular"] }}</td>
+      </tr>
+      {% endif %}
+      {% if p["personal"]["fax"] %}
+      <tr>
+        <td>fax: {{ p["personal"]["fax"] }}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <td>{{ p["personal"]["email"] }}</td>
+      </tr>
+    </table>
+    <hr />
+    {% endfor %}
+  {% endfor %}
+
+</div> {# /.container #}
+
+{% endblock %}

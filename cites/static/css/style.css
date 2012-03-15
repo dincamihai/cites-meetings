@@ -48,6 +48,11 @@ table.table thead .sorting_desc { background: url('../js/lib/datatables/images/s
 
 table.table thead .sorting_asc_disabled { background: url('../js/lib/datatables/images/sort_asc_disabled.png') no-repeat center right; }
 table.table thead .sorting_desc_disabled { background: url('../js/lib/datatables/images/sort_desc_disabled.png') no-repeat center right; }
+table.table caption {
+    text-align: left;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
 
 
 .credentials-header h1,
@@ -428,6 +433,7 @@ body .breadcrumb {
 body .send-mail-container {
 	background: #ddd;
 	margin-bottom: 0px;
+max-width: 1100px;
 }
 
 body .well {
@@ -441,14 +447,19 @@ textarea#field-message {
 	max-width: 900px;
 }
 
+.attachement-container {
+	width: 170px;
+}
+
+
 /* manage fees */
 .form-actions button[type="submit"].btn.btn-primary {
 	margin-left: 0px;
 }
 
 /* badge page */
-body .badge {
-	background: #fff;
+.badge-grey-stripe .badge-stripe {
+	
 }
 
 
@@ -583,11 +594,6 @@ table.pigeon-holes {
 	 text-align: center;
 	}
 
-	/*.credentials-header ul {
-	 width: 80%;
-	 margin-left: 0;
-	}*/
-
 	.credentials-header .title {
 	 font-style: normal;
 	 text-align: left;
@@ -654,7 +660,7 @@ table.pigeon-holes {
 	 content: " (" attr(href) ")";
 	}
 
-	body .icon-check { /*DOESN'T WORK*/
+	body .icon-check { /* DOESN'T WORK IN CHROME */
 	 display: inline-block;
 	 width: 14px;
 	 height: 14px;
@@ -664,6 +670,11 @@ table.pigeon-holes {
 	 background-repeat: no-repeat;
 	 visibility: visible !important;
 	}
+
+	.badge {
+	 border: 1px dashed #ddd; /* it helps when you cut the paper */
+	}
+
 }  /* end print styles */
 
 
@@ -674,7 +685,7 @@ table.pigeon-holes {
 }
 .send-mail-container input,
 .send-mail-container textarea  {
-    width: 100%;
+    width: 98%;
 }
 .send-mail-container textarea {
     height: 300px;

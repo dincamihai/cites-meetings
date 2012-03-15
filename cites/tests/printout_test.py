@@ -10,43 +10,6 @@ from cites import schema
 from common import _BaseTest, create_mock_app, select
 from mock import patch
 
-
-CATEGORY_MOCK = {
-    "1": {
-        "name": "Visitor",
-        "room_sort": 0,
-        "registered": False,
-        "id": "1",
-        "reg_sort": 0,
-        "room": "NULL"
-
-    },
-    "10" : {
-        "name": "Member",
-        "room_sort": 1,
-        "registered": True,
-        "id": "10",
-        "room": "Members"
-    },
-    "20": {
-        "name": "Alternate member",
-        "room_sort": 3,
-        "registered": True,
-        "id": "20",
-        "room": "Alternate members & Observers, Party"
-    },
-
-    "99" :{
-        "name": "CITES Secretariat",
-        "room_sort": 0,
-        "id": "99",
-        "reg_sort": 0,
-        "stat_sort": 3,
-        "room": "NULL"
-    }
-}
-
-
 def parent(element, parent_tag):
     while element is not None:
         if element.tag == parent_tag:
@@ -240,9 +203,9 @@ class BadgeTest(_BaseTest):
 
 class MeetingRoom(_BaseTest):
 
-    @patch("cites.schema.category", deepcopy(CATEGORY_MOCK))
+    @patch("cites.schema.category", deepcopy(_BaseTest.CATEGORY_MOCK))
     def test_meeting_room(self):
-        from cites import meeting
+        from cites import printouts
 
         self._create_participant(u"10")
         self._create_participant(u"10")
@@ -250,14 +213,14 @@ class MeetingRoom(_BaseTest):
 
         with self.app.test_request_context("/meeting/1/printouts/verified/meeting_room"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = meeting.verified_meeting_room.not_templated()
-            participants_in_rooms = resp["participants_in_rooms"]
+            resp = printouts.meeting_room.not_templated()
+            participants = resp["participants"]
 
             # (Cat>9 and Cat<98)
-            self.assertEqual(participants_in_rooms.keys(),
+            self.assertEqual(participants.keys(),
                             ["Members", "Alternate members & Observers, Party"])
 
-            values =  participants_in_rooms.values()
+            values =  participants.values()
             # first user should have region - country room list
             self.assertIn(u"Europe - Romania", values[0]["data"].keys())
             self.assertEqual(values[0]["count"], 2)
@@ -276,24 +239,24 @@ class MeetingRoom(_BaseTest):
 
 class PigeonHoles(_BaseTest):
 
-    @patch("cites.schema.category", deepcopy(CATEGORY_MOCK))
+    @patch("cites.schema.category", deepcopy(_BaseTest.CATEGORY_MOCK))
     def test_verified_representing_country(self):
-        from cites import meeting
+        from cites import printouts
 
         self._create_participant(u"10")
         self._create_participant(u"10")
         self._create_participant(u"20")
 
-        with self.app.test_request_context("/meeting/1/printouts/verified/pigeon_holes_verified"):
+        with self.app.test_request_context("/meeting/1/printouts/verified/pigeon_holes"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = meeting.verified_pigeon_holes.not_templated()
-            participants_in_rooms = resp["participants_in_rooms"]
+            resp = printouts.pigeon_holes.not_templated(type="verified")
+            participants = resp["participants"]
 
             # (Cat>9 and Cat<98)
-            self.assertEqual(participants_in_rooms.keys(),
+            self.assertEqual(participants.keys(),
                             ["Members", "Alternate members & Observers, Party"])
 
-            values =  participants_in_rooms.values()
+            values =  participants.values()
             # first user should have region - country room list
             self.assertIn(u"Europe - Romania", values[0]["data"].keys())
             self.assertEqual(values[0]["count"], 2)
@@ -306,8 +269,76 @@ class PigeonHoles(_BaseTest):
         self._create_participant(u"10")
         self._create_participant(u"10")
 
-        resp = self.client.get("/meeting/1/printouts/verified/pigeon_holes_verified")
+        resp = self.client.get("/meeting/1/printouts/verified/pigeon_holes")
         [qty] = select(resp.data, ".qty")
         self.assertEqual(qty.text_content(), "2E")
+
+class DocumentDistribution(_BaseTest):
+
+    @patch("cites.schema.category", deepcopy(_BaseTest.CATEGORY_MOCK))
+    @patch("cites.schema.language", deepcopy(_BaseTest.LANGUAGE_MOCK))
+    def test_verified_document_distribution(self):
+        from cites import printouts
+
+        self._create_participant(u"10")
+        self._create_participant(u"10")
+        self._create_participant(u"20")
+
+        with self.app.test_request_context("/meeting/1/printouts/verified/document_distribution"):
+            flask.session["logged_in_email"] = "tester@example.com"
+            resp = printouts.document_distribution.not_templated(type="verified")
+            participants = resp["participants"]
+
+            self.assertEqual(participants.keys(), ["English", "French"])
+            self.assertEqual(participants["English"].keys(),
+                             ["Members", "Alternate members & Observers, Party"])
+            self.assertEqual(dict(participants["English"]["Members"]["data"]), {})
+
+
+            self.assertEqual(participants["French"]["Members"]["data"].keys(),
+                             ["Europe-Romania"])
+            self.assertEqual(participants["French"]["Members"]["data"]["Europe-Romania"],
+                             2)
+
+            self.assertEqual(participants["French"]\
+                            ["Alternate members & Observers, Party"]\
+                            ["data"].keys(), ["Romania"])
+
+            self.assertEqual(participants["French"]\
+                            ["Alternate members & Observers, Party"]\
+                            ["data"]["Romania"], 1)
+
+    @patch("cites.schema.category", deepcopy(_BaseTest.CATEGORY_MOCK))
+    @patch("cites.schema.language", deepcopy(_BaseTest.LANGUAGE_MOCK))
+    def test_attended_document_distribution(self):
+        from cites import printouts
+
+        self._create_participant(u"10", {"meeting_flags_attended": True})
+        self._create_participant(u"10", {"meeting_flags_attended": False})
+
+        with self.app.test_request_context("/meeting/1/printouts/attended/document_distribution"):
+            flask.session["logged_in_email"] = "tester@example.com"
+            resp = printouts.document_distribution.not_templated(type="attended")
+            participants = resp["participants"]
+
+            self.assertEqual(participants["French"]["Members"]\
+                            ["data"]["Europe-Romania"], 1)
+
+
+class ListfForVerification(_BaseTest):
+
+    def test_list_for_verification(self):
+        self._create_participant("42", {"meeting_flags_attended": True})
+        resp = self.client.get("/meeting/1/printouts/attended/list_for_verification")
+
+        [group] = select(resp.data, ".group")
+        group = group.text_content()
+
+        self.assertEqual(group, u"International Environmental Law Project")
+
+        [name] = select(resp.data, ".name")
+        name = name.text_content()
+
+        self.assertIn(u"smith joe", name.lower())
 
 
