@@ -403,7 +403,7 @@ body .container .subheader  {
 }
 
 footer {
-	margin-top: 10px; /*otherwise the 'Add new participant is too low*/
+	margin-top: 10px; /*otherwise the button 'Add new participant' is too low*/
 	padding-top: 15px;
 }
 
@@ -455,11 +455,6 @@ textarea#field-message {
 /* manage fees */
 .form-actions button[type="submit"].btn.btn-primary {
 	margin-left: 0px;
-}
-
-/* badge page */
-.badge-grey-stripe .badge-stripe {
-	
 }
 
 
@@ -524,6 +519,16 @@ table.pigeon-holes {
 	background: #fff;
 }
 
+/* Print preview envelope */
+p.badge-text,
+.envelope-footer,
+.envelope-footer.envelope-back {
+	background: #fff;
+}
+
+span.label.label-info {
+	margin-left: 10px;
+}
 
 
 /* fix ie7 stuff */
@@ -542,7 +547,7 @@ table.pigeon-holes {
 
 
 
-/* PRINT version for Credentials and Printouts verified list */
+/* PRINT version for Credentials, Printouts, badges, envelopes */
 @media print {
 
 	@page {
@@ -571,7 +576,7 @@ table.pigeon-holes {
 	 border: 1px solid #DDD;
 	}
 
-	.table-bordered tr {/* DOESN'T WORK */
+	.table-bordered tr {/* DOESN'T WORK IN CHROME */
 	/*break-after: always !important; 
 	break-before: avoid;
 	break-inside: avoid; 
