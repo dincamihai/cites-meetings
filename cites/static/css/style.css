@@ -222,5 +222,61 @@ dl.phrases dd {
     font-size: 16px;
     line-height: 24px;
 }
-
+.bar-chart {
+    padding-left: 290px;
+    margin-top: 15px;
+}
+.progress {
+    margin-bottom: 10px;
+}
+.progress .title {
+    padding-left: 16px;
+    position: absolute;
+    margin-top: -19px;
+    font-weight: bold;
+    left: 0;
+}
+.progress .bar {
+    text-shadow: none;
+    color: #333;
+    text-align: right;
+}
+.progress .value  {
+    text-shadow: 1px 0 1px #fff;
+    position: relative;
+    font-size: 11px;
+    right: -10px;
+}
+.progress .value-double-digits {
+    right: -15px;
+}
+.progress .value-null {
+    right: -4px;
+}
+.pie-chart li {
+    list-style-type: none;
+}
+.pie-chart .color {
+    border: 1px solid #333;
+    background: red;
+    display: block;
+    width: 10px;
+    height: 10px;
+    float: left;
+    margin-right: 6px;
+}
+.pie-chart .legend span {
+    position: relative;
+    top: -3px;
+}
+.pie-chart .legend {
+    position: absolute;
+    left: 350px;
+}
+.pie-chart ul {
+    margin-top: 10px;
+}
+.pie-chart li {
+    padding: 3px 0;
+}
 

@@ -40,7 +40,6 @@
     </a>
 
     <ul class="dropdown-menu">
-
       <li>
         <a href="{{ _url('settings_phrases') }}">Phrases</a>
       </li>
@@ -52,9 +51,12 @@
       <li>
         <a href="{{ _url('settings_categories') }}">Categories</a>
       </li>
-
     </ul>
 
+  </li>
+
+  <li class="{{ 'active' if active == 'charts' else '' }}">
+    <a href="{{ _url('home', 'charts') }}">Charts</a>
   </li>
 
 </ul>

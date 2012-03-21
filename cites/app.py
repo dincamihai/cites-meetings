@@ -8,6 +8,7 @@ import auth
 import meeting
 import participant
 import printouts
+import charts
 
 default_config = {
     "DATABASE_URI": "postgresql://localhost/cites",
@@ -27,5 +28,6 @@ def create_app(instance_path=None):
     participant.initialize_app(app)
     meeting.initialize_app(app)
     printouts.initialize_app(app)
+    charts.initialize_app(app)
     return app
 
