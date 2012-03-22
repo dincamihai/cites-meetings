@@ -26,4 +26,3 @@ class ChartsTest(_BaseTest):
                             [(u"Member", 62),
                              (u"Alternate member", 31),
                              (u"Conference staff", 6)])
-
