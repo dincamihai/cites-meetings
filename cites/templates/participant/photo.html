@@ -13,14 +13,13 @@
   </li>
 </ul>
 
-
 <h2>Upload picture for <em>{{ person.name }}</em></h2>
 
 {% if person.has_photo %}
 <div class="row">
   <div class="span6">
     <div class="thumbnail">
-        <img src="{{ url_for('meeting.photo', person_id=person.id) }}"><br>
+        <img src="{{ url_for('participant.photo', person_id=person.id) }}"><br>
 
     </div>
   </div>

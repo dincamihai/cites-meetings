@@ -28,17 +28,41 @@
     <a class="btn dropdown-toggle"
        data-toggle="dropdown">Actions <span class="caret"></span></a>
     <ul class="dropdown-menu">
-      <li><a href="{{ url_for('participant.credentials', person_id=person.id) }}">Acknowledge details</a></li>
-      <li><a href="{{ url_for('participant.send_mail', person_id=person.id) }}">
-        Acknowledge email</a></li>
+      <li>
+        <a href="{{ url_for('participant.credentials', person_id=person.id) }}">
+          Acknowledge details
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ url_for('participant.send_mail', person_id=person.id) }}">
+          Acknowledge email
+        </a>
+      </li>
+
       <li class="divider"></li>
-      <li><a href="{{ url_for('participant.badge', person_id=person.id) }}">Print badge</a></li>
+
+      <li>
+        <a href="{{ url_for('participant.badge', person_id=person.id) }}">
+          Print badge
+        </a>
+      </li>
+
       <li><a href="#"><del>Print badge (no stripe)</del></a></li>
+
       <li><a href="#"><del>Print badge (visitor)</del></a></li>
+
       <li class="divider"></li>
+
       <li><a href="#"><del>Print separator</del></a></li>
+
       <li><a href="#"><del>Print label</del></a></li>
-      <li><a href="{{ url_for('participant.envelope', person_id=person.id) }}">Print envelope</a></li>
+
+      <li>
+        <a href="{{ url_for('participant.envelope', person_id=person.id) }}">
+          Print envelope
+        </a>
+      </li>
     </ul>
   </div>
 </div>
@@ -51,18 +75,42 @@
 
   <div class="span3">
 
-    <div class="thumbnail">
+    <div class="thumbnail" style="position: relative">
 
+      <div id="participant-photo">
       {% if person.has_photo %}
-        <img src="{{ url_for('participant.photo', person_id=person.id) }}"><br>
+        <img src="{{ url_for('participant.photo', person_id=person.id) }}" />
+        <br />
       {% endif %}
+      </div>
 
       <div class="caption">
         <p>
           <a class="btn btn-primary"
              href="{{ url_for('participant.edit_photo', person_id=person.id)
-             -}}">{% if person.has_photo -%} Change {%- else -%} Upload {%- endif %} photo</a>
+             -}}"
+             id="participant-upload-photo">
+             {% if person.has_photo -%}
+               Change
+             {%- else -%}
+               Upload
+             {%- endif %} photo
+          </a>
         </p>
+
+        <form action="{{ url_for('participant.edit_photo',
+                                  person_id=person.id) -}}"
+              method="POST"
+              enctype="multipart/form-data"
+              target="file-input-iframe">
+
+          <div id="file-input-container" class="file-input-container">
+            <input type="file" id="photo" name="photo" />
+            <iframe name="file-input-iframe" id="file-input-iframe"></iframe>
+          </div>
+          <input type="hidden" name="is_ajax" value="1" />
+        </form>
+
       </div>
 
     </div>
@@ -86,26 +134,14 @@
 </div>
 {% endblock %}
 
+{% block extra_head %}
+  {{ css_link("css/uniform.default.css") }}
+{% endblock %}
+
 {% block scripts %}
   {% from 'bits.html' import script_src -%}
-  {{ script_src('bootstrap/js/bootstrap-dropdown.js') }}
-  {{ script_src('bootstrap/js/bootstrap-modal.js') }}
-
-  <script>
-    $(document).ready(function () {
-      $(".modal").on("click", ".btn-cancel", function () {
-        $(".modal").modal("hide");
-      });
-
-      $("#delete-modal").on("click", ".btn-primary", function () {
-        $.ajax({
-          type: "DELETE",
-          url: "/meeting/1/participant/" + $(this).data("id")
-        }).done(function () {
-          document.location = "{{ url_for('meeting.registration') }}";
-        });
-      });
-    });
-  </script>
-
+  {{ script_src("bootstrap/js/bootstrap-dropdown.js") }}
+  {{ script_src("bootstrap/js/bootstrap-modal.js") }}
+  {{ script_src("js/lib/jquery.uniform.js") }}
+  {{ script_src("js/view.js") }}
 {% endblock %}

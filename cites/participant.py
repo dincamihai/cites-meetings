@@ -147,6 +147,8 @@ def get_us_states():
 def edit_photo(person_id):
     if flask.request.method == "POST":
         photo_file = flask.request.files["photo"]
+        is_ajax = flask.request.form.get("is_ajax", None)
+        response = {"status": "error"}
 
         if photo_file.filename != u'':
             session = database.get_session()
@@ -160,12 +162,21 @@ def edit_photo(person_id):
 
             session.commit()
 
-            flask.flash("New photo saved", "success")
             url = flask.url_for("participant.view", person_id=person_id)
-            return flask.redirect(url)
 
+            response["status"] = "success"
+            response["url"] = flask.url_for("participant.photo", person_id=person_id)
+
+            if not is_ajax:
+                flask.flash("New photo saved", "success")
+                return flask.redirect(url)
         else:
-            flask.flash("Please select a photo", "error")
+            response["error"] = "Please select a photo"
+            if not is_ajax:
+                flask.flash(response["error"], "error")
+
+        if is_ajax:
+            return flask.json.dumps(response)
 
     return {
         "person": schema.Person.get_or_404(person_id),
