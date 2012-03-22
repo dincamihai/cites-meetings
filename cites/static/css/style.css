@@ -280,3 +280,12 @@ dl.phrases dd {
     padding: 3px 0;
 }
 
+.file-input-container {
+    display: none;
+}
+.file-input-container input[type="file"] {
+    font-size: 12px;
+}
+.file-input-container iframe {
+    display: none;
+}
