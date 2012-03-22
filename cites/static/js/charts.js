@@ -82,6 +82,12 @@
     function pie_chart_lengend_color(color) {
         var legends = $(".legend").children("li");
         $.each(legends, function (i) {
+            if (i > 1) {
+                i = i - 1;
+            }
+            if(i == 1) {
+                i = legends.length - 1;
+            }
             $(this).find(".color").css("background", color(i));
         });
     };
