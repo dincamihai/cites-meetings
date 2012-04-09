@@ -56,7 +56,11 @@
 
       <li><a href="#"><del>Print separator</del></a></li>
 
-      <li><a href="#"><del>Print label</del></a></li>
+      <li>
+        <a href="{{ url_for('participant.label', person_id=person.id) }}">
+            Print label
+        </a>
+      </li>
 
       <li>
         <a href="{{ url_for('participant.envelope', person_id=person.id) }}">

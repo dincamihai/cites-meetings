@@ -5,6 +5,7 @@ import flask
 import flaskext.script
 
 from cites.data_import import to_json, data_import
+from cites import database
 
 def create_app():
     import cites.app
