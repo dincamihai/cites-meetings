@@ -72,6 +72,14 @@ def badge(person_id):
         "person": schema.Person.get_or_404(person_id),
     }
 
+@participant.route("/meeting/1/participant/<int:person_id>/label")
+@auth_required
+@sugar.templated("participant/person_label.html")
+def label(person_id):
+    return {
+        "person": schema.Person.get_or_404(person_id),
+    }
+
 
 @participant.route("/meeting/1/participant/<int:person_id>/envelope")
 @auth_required

@@ -40,6 +40,7 @@ sorted_country_codes = sorted(country.items(), key=itemgetter(1))
 # ["iso_code", "iso_code"]
 sorted_country_codes = [c[0] for c in sorted_country_codes]
 
+personal_title = _load_json("refdata/titles.json")
 language = _load_json("refdata/languages.json")
 secretariat = _load_json("refdata/secretariat.json")
 
@@ -75,7 +76,8 @@ _PersonSchemaDefinition = fl.Dict.with_properties(widget="schema") \
               .using(label="") \
               .of(
 
-        CommonString.named("name_title") \
+        CommonEnum.named("name_title") \
+                    .valued(*sorted(personal_title.keys())) \
                     .using(label=u"Personal title") \
                     .with_properties(attr={"autofocus": ""}),
 

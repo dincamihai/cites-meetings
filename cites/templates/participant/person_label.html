@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block extra_head %}
+  {% from 'bits.html' import css_link -%}
+  {{ css_link('css/label.css') }}
+{% endblock %}
+
+{% macro label(person) -%}
+<section>
+    <div class="label-content">
+        <p class="label-text">
+            <span>
+                {{person.personal.name_title}}
+            </span>
+            <span class="person-name">
+                {%- if person['representing']['country'] == 'CN' -%}
+                  {{ person["personal"]["last_name"]|upper }}
+                  {{ person['personal']['first_name'] }}
+                {%- else -%}
+                  {{ person['personal']['first_name'] }}
+                  {{ person['personal']['last_name']|upper }}
+                {%- endif -%}
+            </span>
+            <br />
+            <span class="person-organization">
+                {{person["representing"]["organization"]|default('')}}
+            </span>
+
+            <br />
+
+            <span class="person-address">
+                {{ person["personal"]["address"] }}
+            </span>
+
+            <span class="person-representing">
+                {{ person["personal"]["place"]|upper }}
+            </span>
+
+            <br />
+
+            <span class="person-country">
+                {{ person.personal_country }}
+            </span>
+        </p>
+    </div>
+</section>
+{% endmacro %}
+
+{% block content %}
+
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('meeting.home'), "Meeting"),
+      (url_for('meeting.registration'), "Registration"),
+      (url_for('participant.view', person_id=person.id), person.name),
+      ]) }}
+</ul>
+<div class="actions">
+  <a class="btn btn-success btn-inverse disabled print" href="#">
+    <i class="icon-print icon-white"></i>
+    Print
+  </a>
+</div>
+
+{{ label(person) }}
+
+{% endblock %}
