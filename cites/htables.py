@@ -87,7 +87,7 @@ class Table(object):
 
     def _create(self):
         cursor = self._session.conn.cursor()
-        cursor.execute("CREATE TABLE " + self._name + " ("
+        cursor.execute("CREATE TABLE IF NOT EXISTS " + self._name + " ("
                             "id SERIAL PRIMARY KEY, "
                             "data HSTORE)")
 

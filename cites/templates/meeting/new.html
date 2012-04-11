@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% block heading %}
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('meeting.home'), "Meetings"),
+      (url_for('meeting.new'), "New Meeting"),
+      ]) }}
+</ul>
+<h1>List of meetings</h1>
+{% endblock %}
+
+<form class="form-horizontal" method="post">
+
+  {{ mk.widget(meeting_schema) }}
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a class="btn" href="{{ url_for('meeting.home') }}">Cancel</a>
+  </div>
+
+</form>
+
+{% endblock %}

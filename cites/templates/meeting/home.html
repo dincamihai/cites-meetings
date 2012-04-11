@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% block heading %}
+{% from 'bits.html' import breadcrumb_items -%}
+<ul class="breadcrumb">
+  {{ breadcrumb_items([
+      (url_for('meeting.home'), "Meetings"),
+     ]) }}
+</ul>
+<h1>List of meetings</h1>
+{% endblock %}
+
+<ul>
+  {% for id, m in meetings %}
+    <li>
+      <a href="{{ url_for('meeting.view', meeting_id=id) }}">{{ m.description }}</a>
+      <address>{{ m.venue }}</address>
+    </li>
+  {% else %}
+    <li><em>No meetings.</em></li>
+  {% endfor %}
+</ul>
+<a class="btn btn-primary" href="{{ url_for('meeting.new') }}">Add a new meeting</a>
+
+{% endblock %}

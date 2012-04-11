@@ -17,7 +17,7 @@ def initialize_app(app):
     app.register_blueprint(participant)
 
 
-@participant.route("/")
+@participant.route("/participant/home")
 @auth_required
 @sugar.templated("participant/home.html")
 def home():
