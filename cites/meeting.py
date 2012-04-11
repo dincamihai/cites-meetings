@@ -79,36 +79,43 @@ def view(meeting_id):
 @auth_required
 @sugar.templated("meeting/registration.html")
 def registration(meeting_id):
-    meeting_row = database.get_person_or_404(meeting_id)
+    meeting_row = database.get_meeting_or_404(meeting_id)
     people = [(person_row.id, schema.PersonSchema.from_flat(person_row).value)
               for person_row in database.get_all_persons()]
     return {
         "people": people,
+        "meeting_row": meeting_row,
     }
 
 
-@meeting.route("/meeting/1/settings/phrases")
+@meeting.route("/meeting/<int:meeting_id>/settings/phrases")
 @auth_required
 @sugar.templated("meeting/settings_phrases.html")
-def settings_phrases():
+def settings_phrases(meeting_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     return {
-        "phrases": schema._load_json("refdata/phrases.json")
+        "phrases": schema._load_json("../refdata/phrases.json"),
+        "meeting_row": meeting_row,
     }
 
 
-@meeting.route("/meeting/1/settings/fees")
+@meeting.route("/meeting/<int:meeting_id>/settings/fees")
 @auth_required
 @sugar.templated("meeting/settings_fees.html")
-def settings_fees():
+def settings_fees(meeting_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     return {
         "fees": schema.fee,
+        "meeting_row": meeting_row,
     }
 
 
-@meeting.route("/meeting/1/settings/categories")
+@meeting.route("/meeting/<int:meeting_id>/settings/categories")
 @auth_required
 @sugar.templated("meeting/settings_categories.html")
-def settings_categories():
+def settings_categories(meeting_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     return {
         "categories": schema.category,
+        "meeting_row": meeting_row,
     }

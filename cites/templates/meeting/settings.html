@@ -2,7 +2,7 @@
 {% block meeting_content %}
 
   {% from "meeting/meeting.html" import nav_tabs %}
-  {{ nav_tabs('settings') }}
+  {{ nav_tabs('settings', meeting_id=meeting_row.id) }}
 
   {% block meeting_settings_content %}{% endblock %}
 

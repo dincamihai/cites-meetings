@@ -12,10 +12,11 @@ def initialize_app(app):
     app.register_blueprint(charts)
 
 
-@charts.route("/meeting/1/charts")
+@charts.route("/meeting/<int:meeting_id>/charts")
 @auth_required
 @sugar.templated("charts/home.html")
-def home():
+def home(meeting_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     categories = defaultdict(int)
 
     persons = list(database.get_all_persons())
@@ -35,4 +36,5 @@ def home():
         "data": flask.json.dumps(data),
         "labels": flask.json.dumps(labels),
         "categories": categories,
+        "meeting_row": meeting_row,
     }

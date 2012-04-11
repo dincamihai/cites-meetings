@@ -16,20 +16,15 @@
 {% endblock %}
 
 
-{% macro _url(view_name, blueprint="meeting") -%}
-  {{ url_for(blueprint + "." + view_name) }}
-{%- endmacro %}
-
-
-{% macro nav_tabs(active) -%}
+{% macro nav_tabs(active, meeting_id=None) -%}
 <ul class="nav nav-tabs">
 
   <li class="{{ 'active' if active == 'registration' else '' }}">
-    <a href="{{ _url('registration') }}">Registration</a>
+    <a href="{{ url_for('meeting.registration', meeting_id=meeting_id) }}">Registration</a>
   </li>
 
   <li class="{{ 'active' if active == 'printouts' else '' }}">
-    <a href="{{ _url('home', 'printouts') }}">Printouts</a>
+    <a href="{{ url_for('printouts.home', meeting_id=meeting_id) }}">Printouts</a>
   </li>
 
   <li class="dropdown {{ 'active' if active == 'settings' else '' }}">
@@ -41,22 +36,22 @@
 
     <ul class="dropdown-menu">
       <li>
-        <a href="{{ _url('settings_phrases') }}">Phrases</a>
+        <a href="{{ url_for('meeting.settings_phrases', meeting_id=meeting_id) }}">Phrases</a>
       </li>
 
       <li>
-        <a href="{{ _url('settings_fees') }}">Fees</a>
+        <a href="{{ url_for('meeting.settings_fees', meeting_id=meeting_id) }}">Fees</a>
       </li>
 
       <li>
-        <a href="{{ _url('settings_categories') }}">Categories</a>
+        <a href="{{ url_for('meeting.settings_categories', meeting_id=meeting_id) }}">Categories</a>
       </li>
     </ul>
 
   </li>
 
   <li class="{{ 'active' if active == 'charts' else '' }}">
-    <a href="{{ _url('home', 'charts') }}">Charts</a>
+    <a href="{{ url_for('charts.home', meeting_id=meeting_id) }}">Charts</a>
   </li>
 
 </ul>

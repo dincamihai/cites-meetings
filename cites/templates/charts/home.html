@@ -12,7 +12,7 @@
 
 {% block meeting_content %}
     {% from "meeting/meeting.html" import nav_tabs %}
-    {{ nav_tabs("charts") }}
+    {{ nav_tabs("charts", meeting_id=meeting_row.id) }}
     <h2>Charts</h2>
     <div id="bar-chart" class="bar-chart well"></div>
     <div id="pie-chart" class="pie-chart well">

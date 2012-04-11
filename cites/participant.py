@@ -23,11 +23,12 @@ def initialize_app(app):
 def home():
     pass
 
-@participant.route("/meeting/1/participant/<int:person_id>",
+@participant.route("/meeting/<int:meeting_id>/participant/<int:person_id>",
                 methods=["GET", "DELETE"])
 @auth_required
 @sugar.templated("participant/view.html")
-def view(person_id):
+def view(meeting_id, person_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     app = flask.current_app
 
     if flask.request.method == "DELETE":
@@ -47,58 +48,68 @@ def view(person_id):
         ),
         "person_schema": person_schema,
         "person": person,
+        "meeting_row": meeting_row,
     }
 
 
-@participant.route("/meeting/1/participant/<int:person_id>/credentials")
+@participant.route("/meeting/<int:meeting_id>/participant/<int:person_id>/credentials")
 @auth_required
 @sugar.templated("participant/credentials.html")
-def credentials(person_id):
+def credentials(meeting_id, person_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     return {
         "meeting_description": "Sixty-first meeting of the Standing Committee",
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011",
         "person": schema.Person.get_or_404(person_id),
+        "meeting_row": meeting_row,
     }
 
 
-@participant.route("/meeting/1/participant/<int:person_id>/badge")
+@participant.route("/meeting/<int:meeting_id>/participant/<int:person_id>/badge")
 @auth_required
 @sugar.templated("participant/person_badge.html")
-def badge(person_id):
+def badge(meeting_id, person_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     return {
         "meeting_description": Markup("61<sup>st</sup> meeting of the "
                                       "Standing Committee"),
         "meeting_address": "Geneva (Switzerland), 15-19 August 2011",
         "person": schema.Person.get_or_404(person_id),
+        "meeting_row": meeting_row,
     }
 
-@participant.route("/meeting/1/participant/<int:person_id>/label")
+@participant.route("/meeting/<int:meeting_id>/participant/<int:person_id>/label")
 @auth_required
 @sugar.templated("participant/person_label.html")
-def label(person_id):
+def label(meeting_id, person_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     return {
         "person": schema.Person.get_or_404(person_id),
+        "meeting_row": meeting_row,
     }
 
 
-@participant.route("/meeting/1/participant/<int:person_id>/envelope")
+@participant.route("/meeting/<int:meeting_id>/participant/<int:person_id>/envelope")
 @auth_required
 @sugar.templated("participant/print_envelope.html")
-def envelope(person_id):
+def envelope(meeting_id, person_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     return {
         "secretariat": schema.secretariat,
         "person": schema.Person.get_or_404(person_id),
+        "meeting_row": meeting_row,
     }
 
 
-@participant.route("/meeting/1/participant/new",
+@participant.route("/meeting/<int:meeting_id>/participant/new",
                    methods=["GET", "POST"])
-@participant.route("/meeting/1/participant/<int:person_id>/edit",
+@participant.route("/meeting/<int:meeting_id>/participant/<int:person_id>/edit",
                    methods=["GET", "POST"])
 @auth_required
-def edit(person_id=None):
+def edit(meeting_id, person_id=None):
     app = flask.current_app
     session = database.get_session()
+    meeting_row = database.get_meeting_or_404(meeting_id)
 
     if person_id is None:
         person_row = None
@@ -137,6 +148,7 @@ def edit(person_id=None):
         ),
         "person_schema": person_schema,
         "person_id": person_id,
+        "meeting_row": meeting_row,
     })
 
 
@@ -148,11 +160,12 @@ def get_us_states():
                           mimetype="application/json")
 
 
-@participant.route("/meeting/1/participant/<int:person_id>/edit_photo",
+@participant.route("/meeting/<int:meeting_id>/participant/<int:person_id>/edit_photo",
                 methods=["GET", "POST"])
 @auth_required
 @sugar.templated("participant/photo.html")
-def edit_photo(person_id):
+def edit_photo(meeting_id, person_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     if flask.request.method == "POST":
         photo_file = flask.request.files["photo"]
         is_ajax = flask.request.form.get("is_ajax", None)
@@ -188,13 +201,16 @@ def edit_photo(person_id):
 
     return {
         "person": schema.Person.get_or_404(person_id),
+        "meeting_row": meeting_row,
     }
 
 
-@participant.route("/meeting/1/participant/<int:person_id>/photo")
-def photo(person_id):
+@participant.route("/meeting/<int:meeting_id>/participant/<int:person_id>/photo")
+def photo(meeting_id, person_id):
     session = database.get_session()
     person_row = database.get_person_or_404(person_id)
+    meeting_row = database.get_meeting_or_404(meeting_id)
+
     try:
         db_file = session.get_db_file(int(person_row["photo_id"]))
     except KeyError:
@@ -203,13 +219,14 @@ def photo(person_id):
                           mimetype="application/octet-stream")
 
 
-@participant.route("/meeting/1/participant/<int:person_id>/send_mail",
+@participant.route("/meeting/<int:meeting_id>/participant/<int:person_id>/send_mail",
                 methods=["GET", "POST"])
 @auth_required
 @sugar.templated("participant/send_mail.html")
-def send_mail(person_id):
+def send_mail(meeting_id, person_id):
     app = flask.current_app
     session = database.get_session()
+    meeting_row = database.get_meeting_or_404(meeting_id)
 
     person = schema.Person.get_or_404(person_id)
     phrases = {item["id"]: item["name"]  for item in
@@ -270,13 +287,15 @@ def send_mail(person_id):
         ),
         "person": person,
         "mail_schema": mail_schema,
+        "meeting_row": meeting_row,
     }
 
 
-@participant.route("/meeting/1/participant/<int:person_id>/credentials.pdf",
+@participant.route("/meeting/<int:meeting_id>/participant/<int:person_id>/credentials.pdf",
                 methods=["GET", "POST"])
 @auth_required
-def view_pdf(person_id):
+def view_pdf(meeting_id, person_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     app = flask.current_app
     pdf = sugar.generate_pdf_from_html(
         flask.render_template("participant/credentials.html", **{

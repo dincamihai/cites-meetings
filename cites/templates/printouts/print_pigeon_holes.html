@@ -9,7 +9,7 @@
 <ul class="breadcrumb">
   {{ breadcrumb_items([
       (url_for('meeting.home'), "Meeting"),
-      (url_for('printouts.home'), "Printouts"),
+      (url_for('printouts.home', meeting_id=meeting_row.id), "Printouts"),
       (url_for(page_info.url, type=page_info.type),
           page_info.title),
       ]) }}

@@ -18,17 +18,19 @@ def initialize_app(app):
     app.register_blueprint(printouts)
 
 
-@printouts.route("/meeting/1/printouts")
+@printouts.route("/meeting/<int:meeting_id>/printouts")
 @auth_required
 @sugar.templated("printouts/printouts.html")
-def home():
-    pass
+def home(meeting_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
+    return {"meeting_row": meeting_row}
 
 
-@printouts.route("/meeting/1/printouts/verified/short_list")
+@printouts.route("/meeting/<int:meeting_id>/printouts/verified/short_list")
 @auth_required
 @sugar.templated("printouts/print_short_list_verified.html")
-def short_list():
+def short_list(meeting_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     registered = defaultdict(list)
 
     for person_row in database.get_all_persons():
@@ -51,14 +53,16 @@ def short_list():
         "page_info": page_info,
         "registered": registered,
         "registered_total": sum(len(cat) for cat in registered.values()),
-        "meeting": meeting
+        "meeting": meeting,
+        "meeting_row": meeting_row,
     }
 
 
-@printouts.route("/meeting/1/printouts/verified/meeting_room")
+@printouts.route("/meeting/<int:meeting_id>/printouts/verified/meeting_room")
 @auth_required
 @sugar.templated("printouts/print_meeting_room_verified.html")
-def meeting_room():
+def meeting_room(meeting_row):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     rooms = _sorted_rooms()
     participants = _participants_blueprint(rooms)
 
@@ -81,19 +85,22 @@ def meeting_room():
     return {
         "page_info": page_info,
         "meeting": meeting,
+        "meeting_row": meeting_row,
         "participants": participants,
     }
 
 
-@printouts.route("/meeting/1/printouts/verified/pigeon_holes",
+@printouts.route("/meeting/<int:meeting_id>/printouts/verified/pigeon_holes",
                  defaults={"type": "verified"})
-@printouts.route("/meeting/1/printouts/attended/pigeon_holes",
+@printouts.route("/meeting/<int:meeting_id>/printouts/attended/pigeon_holes",
                  defaults={"type": "attended"})
 @auth_required
 @sugar.templated("printouts/print_pigeon_holes.html")
-def pigeon_holes(type):
+def pigeon_holes(meeting_id, type):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     rooms = _sorted_rooms()
     participants = _participants_blueprint(rooms)
+
     for p in _person_row_for_printouts(type):
         if p.room_list:
             room =  participants[p.category["room"]]
@@ -109,16 +116,18 @@ def pigeon_holes(type):
     return {
         "page_info": page_info,
         "participants": participants,
+        "meeting_row": meeting_row,
     }
 
 
-@printouts.route("/meeting/1/printouts/verified/document_distribution",
+@printouts.route("/meeting/<int:meeting_id>/printouts/verified/document_distribution",
                 defaults={"type": "verified"})
-@printouts.route("/meeting/1/printouts/attended/document_distribution",
+@printouts.route("/meeting/<int:meeting_id>/printouts/attended/document_distribution",
                 defaults={"type": "attended"})
 @auth_required
 @sugar.templated("printouts/print_document_distribution.html")
-def document_distribution(type):
+def document_distribution(meeting_id, type):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     rooms = _sorted_rooms()
     participants = OrderedDict([
         (l, _participants_blueprint(rooms)) for l in schema.language.values()
@@ -140,15 +149,18 @@ def document_distribution(type):
     return {
         "page_info": page_info,
         "meeting": MEETING,
+        "meeting_row": meeting_row,
         "participants": participants,
     }
 
 
-@printouts.route("/meeting/1/printouts/attended/list_for_verification")
+@printouts.route("/meeting/<int:meeting_id>/printouts/attended/list_for_verification")
 @auth_required
 @sugar.templated("printouts/print_list_for_verification.html")
-def list_for_verification():
+def list_for_verification(meeting_id):
+    meeting_row = database.get_meeting_or_404(meeting_id)
     participants = []
+
     for p in _person_row_for_printouts(type="attended"):
         # we need to group by verifpart in template
         p["verifpart"] = p.verifpart
@@ -164,6 +176,7 @@ def list_for_verification():
     return {
         "page_info": page_info,
         "participants": participants,
+        "meeting_row": meeting_row,
     }
 
 
