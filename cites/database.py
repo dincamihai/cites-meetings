@@ -5,6 +5,18 @@ import htables
 htables_schema = htables.Schema()
 
 PersonRow = htables_schema.define_table('PersonRow', 'person')
+# MeetingRow = htables_schema.define_table('MeetingRow', 'meeting')
+
+
+# def get_meeting_or_404(meeting_id):
+#     try:
+#         return get_session().table(MeetingRow).get(meeting_id)
+#     except KeyError:
+#         flask.abort(404)
+
+
+# def get_all_meetings():
+#     return get_session().table(MeetingRow).get_all()
 
 
 def get_person_or_404(person_id):

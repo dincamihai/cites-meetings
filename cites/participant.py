@@ -213,7 +213,7 @@ def send_mail(person_id):
 
     person = schema.Person.get_or_404(person_id)
     phrases = {item["id"]: item["name"]  for item in
-               schema._load_json("refdata/phrases.json")}
+               schema._load_json("../refdata/phrases.json")}
 
     if flask.request.method == "POST":
         mail = Mail(app)
