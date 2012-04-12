@@ -226,7 +226,7 @@ class MeetingRoom(_BaseTest):
 
         with self.app.test_request_context("/meeting/1/printouts/verified/meeting_room"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = printouts.meeting_room.not_templated()
+            resp = printouts.meeting_room.not_templated(meeting_id=1)
             participants = resp["participants"]
 
             # (Cat>9 and Cat<98)
@@ -264,7 +264,7 @@ class PigeonHoles(_BaseTest):
 
         with self.app.test_request_context("/meeting/1/printouts/verified/pigeon_holes"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = printouts.pigeon_holes.not_templated(type="verified")
+            resp = printouts.pigeon_holes.not_templated(meeting_id=1, type="verified")
             participants = resp["participants"]
 
             # (Cat>9 and Cat<98)
@@ -303,7 +303,7 @@ class DocumentDistribution(_BaseTest):
 
         with self.app.test_request_context("/meeting/1/printouts/verified/document_distribution"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = printouts.document_distribution.not_templated(type="verified")
+            resp = printouts.document_distribution.not_templated(meeting_id=1, type="verified")
             participants = resp["participants"]
 
             self.assertEqual(participants.keys(), ["English", "French"])
@@ -336,7 +336,7 @@ class DocumentDistribution(_BaseTest):
 
         with self.app.test_request_context("/meeting/1/printouts/attended/document_distribution"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = printouts.document_distribution.not_templated(type="attended")
+            resp = printouts.document_distribution.not_templated(meeting_id=1, type="attended")
             participants = resp["participants"]
 
             self.assertEqual(participants["French"]["Members"]\

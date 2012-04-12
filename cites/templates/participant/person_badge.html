@@ -67,8 +67,9 @@
 <ul class="breadcrumb">
   {{ breadcrumb_items([
       (url_for('meeting.home'), "Meeting"),
-      (url_for('meeting.registration'), "Registration"),
-      (url_for('participant.view', person_id=person.id), person.name),
+      (url_for('meeting.registration', meeting_id=meeting_row.id), "Registration"),
+      (url_for('participant.view', meeting_id=meeting_row.id,
+                person_id=person.id), person.name),
       ]) }}
 </ul>
 

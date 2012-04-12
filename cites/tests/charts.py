@@ -5,6 +5,7 @@ class ChartsTest(_BaseTest):
 
     def test_charts(self):
         from cites import charts
+        self._create_meeting()
         i = 0
         while i < 10:
             self._create_participant(u"10")
@@ -19,7 +20,7 @@ class ChartsTest(_BaseTest):
 
         with self.app.test_request_context("/meeting/1/charts"):
             flask.session["logged_in_email"] = "tester@example.com"
-            resp = charts.home.not_templated()
+            resp = charts.home.not_templated(meeting_id=1)
 
             categories = resp["categories"]
             self.assertEqual(categories,

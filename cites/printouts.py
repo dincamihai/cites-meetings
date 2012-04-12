@@ -61,7 +61,7 @@ def short_list(meeting_id):
 @printouts.route("/meeting/<int:meeting_id>/printouts/verified/meeting_room")
 @auth_required
 @sugar.templated("printouts/print_meeting_room_verified.html")
-def meeting_room(meeting_row):
+def meeting_room(meeting_id):
     meeting_row = database.get_meeting_or_404(meeting_id)
     rooms = _sorted_rooms()
     participants = _participants_blueprint(rooms)

@@ -258,6 +258,7 @@ def send_mail(meeting_id, person_id):
                     "person": schema.Person.get_or_404(person_id),
                     "meeting_description": MEETING_DESCRIPTION,
                     "meeting_address": MEETING_ADDRESS,
+                    "meeting_row": meeting_row,
                 })
             )
             msg.attach("credentials.pdf", "application/pdf", pdf)
@@ -304,6 +305,7 @@ def view_pdf(meeting_id, person_id):
             "person": schema.Person.get_or_404(person_id),
             "meeting_description": MEETING_DESCRIPTION,
             "meeting_address": MEETING_ADDRESS,
+            "meeting_row": meeting_row,
         })
     )
     return flask.Response(response=pdf, mimetype="application/pdf")

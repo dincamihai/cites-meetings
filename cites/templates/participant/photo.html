@@ -39,8 +39,10 @@
 
     <div class="form-actions">
       <button type="submit" class="btn btn-primary">Upload</button>
-      <a class="btn" href="{{ url_for('participant.view', person_id=person.id)
-          -}}">Cancel</a>
+      <a class="btn"
+          href="{{ url_for('participant.view',
+                            meeting_id=meeting_row.id,
+                            person_id=person.id) -}}">Cancel</a>
     </div>
 
   </form>

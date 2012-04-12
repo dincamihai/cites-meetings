@@ -6,8 +6,9 @@
 <ul class="breadcrumb">
   {{ breadcrumb_items([
       (url_for('meeting.home'), "Meeting"),
-      (url_for('meeting.registration'), "Registration"),
-      (url_for('participant.view', person_id=person.id), person.name),
+      (url_for('meeting.registration', meeting_id=meeting_row.id), "Registration"),
+      (url_for('participant.view', meeting_id=meeting_row.id,
+                person_id=person.id), person.name),
       ]) }}
 </ul>
 
@@ -17,7 +18,7 @@
 
   <div class="btn-group">
     <a class="btn btn-primary"
-        href="{{ url_for('participant.edit', person_id=person.id) }}">Edit</a>
+        href="{{ url_for('participant.edit', meeting_id=meeting_row.id, person_id=person.id) }}">Edit</a>
   </div>
 
   <div class="btn-group">
@@ -29,13 +30,13 @@
        data-toggle="dropdown">Actions <span class="caret"></span></a>
     <ul class="dropdown-menu">
       <li>
-        <a href="{{ url_for('participant.credentials', person_id=person.id) }}">
+        <a href="{{ url_for('participant.credentials', meeting_id=meeting_row.id, person_id=person.id) }}">
           Acknowledge details
         </a>
       </li>
 
       <li>
-        <a href="{{ url_for('participant.send_mail', person_id=person.id) }}">
+        <a href="{{ url_for('participant.send_mail', meeting_id=meeting_row.id, person_id=person.id) }}">
           Acknowledge email
         </a>
       </li>
@@ -43,7 +44,7 @@
       <li class="divider"></li>
 
       <li>
-        <a href="{{ url_for('participant.badge', person_id=person.id) }}">
+        <a href="{{ url_for('participant.badge', meeting_id=meeting_row.id, person_id=person.id) }}">
           Print badge
         </a>
       </li>
@@ -57,13 +58,13 @@
       <li><a href="#"><del>Print separator</del></a></li>
 
       <li>
-        <a href="{{ url_for('participant.label', person_id=person.id) }}">
+        <a href="{{ url_for('participant.label', meeting_id=meeting_row.id, person_id=person.id) }}">
             Print label
         </a>
       </li>
 
       <li>
-        <a href="{{ url_for('participant.envelope', person_id=person.id) }}">
+        <a href="{{ url_for('participant.envelope', meeting_id=meeting_row.id, person_id=person.id) }}">
           Print envelope
         </a>
       </li>
@@ -83,7 +84,7 @@
 
       <div id="participant-photo">
       {% if person.has_photo %}
-        <img src="{{ url_for('participant.photo', person_id=person.id) }}" />
+        <img src="{{ url_for('participant.photo', meeting_id=meeting_row.id, person_id=person.id) }}" />
         <br />
       {% endif %}
       </div>
@@ -91,7 +92,7 @@
       <div class="caption">
         <p>
           <a class="btn btn-primary"
-             href="{{ url_for('participant.edit_photo', person_id=person.id)
+             href="{{ url_for('participant.edit_photo', meeting_id=meeting_row.id, person_id=person.id)
              -}}"
              id="participant-upload-photo">
              {% if person.has_photo -%}
@@ -103,6 +104,7 @@
         </p>
 
         <form action="{{ url_for('participant.edit_photo',
+                                  meeting_id=meeting_row.id,
                                   person_id=person.id) -}}"
               method="POST"
               enctype="multipart/form-data"
