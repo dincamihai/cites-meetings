@@ -53,6 +53,15 @@ class _BaseTest(unittest.TestCase):
         with self.client.session_transaction() as session:
             session["logged_in_email"] = "tester@example.com"
 
+
+    def _create_meeting(self, default_data={}):
+        data = {
+            "meeting_description": "Sixty-first meeting of the Standing Committee",
+            "meeting_venue": "Geneva (Switzerland), 15-19 August 2011"
+        }
+        data.update(default_data)
+        return self.client.post("/meeting/new", data=data)
+
     def _create_participant(self, category, default_data={}):
         data = {
             "personal_first_name": u"Joe",
@@ -68,7 +77,7 @@ class _BaseTest(unittest.TestCase):
             "representing_organization": u"International Environmental Law Project",
         }
         data.update(default_data)
-        return self.client.post('/meeting/1/participant/new', data=data)
+        return self.client.post("/meeting/1/participant/new", data=data)
 
 
 _testing_db_uri = None

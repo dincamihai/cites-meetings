@@ -30,7 +30,9 @@ def value_for_label(html, label, text=True):
 class CredentialsTest(_BaseTest):
 
     def test_common_fields(self):
+        self._create_meeting()
         self._create_participant(u"10") # 10: "Member"
+
         resp = self.client.get('/meeting/1/participant/1/credentials')
         self.assertIn(u"Joe Smith", value_for_label(resp.data, "Name and address"))
         self.assertIn(u"French", value_for_label(resp.data, "Language"))
@@ -45,9 +47,10 @@ class CredentialsTest(_BaseTest):
         self.assertTrue(select(credentials_content, ".phrases-credentials"))
 
     def test_member(self):
+        self._create_meeting()
         self._create_participant(u"10") # 10: "Member"
-        resp = self.client.get('/meeting/1/participant/1/credentials')
 
+        resp = self.client.get('/meeting/1/participant/1/credentials')
         self.assertIn(u"Member", value_for_label(resp.data, "Category"))
 
         [details_of_registration] = select(resp.data, ".subheader h3")
@@ -59,9 +62,10 @@ class CredentialsTest(_BaseTest):
         self.assertIn(u"Not required", value_for_label(resp.data, "Invitation received"))
 
     def test_alternate_member(self):
+        self._create_meeting()
         self._create_participant(u"20") # 20: "Alternate Member"
-        resp = self.client.get('/meeting/1/participant/1/credentials')
 
+        resp = self.client.get('/meeting/1/participant/1/credentials')
         self.assertIn(u"Alternate member",
                       value_for_label(resp.data, "Category"))
 
@@ -75,9 +79,10 @@ class CredentialsTest(_BaseTest):
                       value_for_label(resp.data, "Invitation received"))
 
     def test_observer_party(self):
+        self._create_meeting()
         self._create_participant(u"30") # 30: "Observer, Party"
-        resp = self.client.get('/meeting/1/participant/1/credentials')
 
+        resp = self.client.get('/meeting/1/participant/1/credentials')
         self.assertIn(u"Observer, Party",
                       value_for_label(resp.data, "Category"))
 
@@ -91,9 +96,10 @@ class CredentialsTest(_BaseTest):
                       value_for_label(resp.data, "Invitation received"))
 
     def test_observer_international(self):
+        self._create_meeting()
         self._create_participant(u"80") # 80: "Observer, International NGO"
-        resp = self.client.get('/meeting/1/participant/1/credentials')
 
+        resp = self.client.get('/meeting/1/participant/1/credentials')
         self.assertIn(u"Observer, International NGO",
                     value_for_label(resp.data, "Category"))
 
@@ -113,9 +119,10 @@ class CredentialsTest(_BaseTest):
         [phrases_approval] = select(resp.data, ".phrases-approval")
 
     def test_conference_staff(self):
+        self._create_meeting()
         self._create_participant(u"98") # 98: "Conference staff"
-        resp = self.client.get('/meeting/1/participant/1/credentials')
 
+        resp = self.client.get('/meeting/1/participant/1/credentials')
         self.assertIn(u"Conference staff",
                       value_for_label(resp.data, "Category"))
 
@@ -126,22 +133,25 @@ class CredentialsTest(_BaseTest):
                       value_for_label(resp.data, "Representative of"))
 
     def test_visitor(self):
+        self._create_meeting()
         self._create_participant(u"1") # 1: "Visitor"
-        resp = self.client.get('/meeting/1/participant/1/credentials')
 
+        resp = self.client.get('/meeting/1/participant/1/credentials')
         self.assertIn(u"Visitor", value_for_label(resp.data, "Category"))
 
     def test_observer_ngo(self):
+        self._create_meeting()
         self._create_participant(u"80") # 80: "Observer, International NGO"
-        resp = self.client.get('/meeting/1/participant/1/credentials')
 
+        resp = self.client.get('/meeting/1/participant/1/credentials')
         self.assertIn(u"Observer, International NGO",
                       value_for_label(resp.data, "Category"))
 
     def test_special_guest_of_the_secretary_general(self):
+        self._create_meeting()
         self._create_participant(u"0") # 0: "pecial_guest_of_the_secretary_general"
-        resp = self.client.get("/meeting/1/participant/1/credentials")
 
+        resp = self.client.get("/meeting/1/participant/1/credentials")
         self.assertIn(u"Special guest of the Secretary General",
                       value_for_label(resp.data, "Category"))
 
@@ -149,10 +159,11 @@ class CredentialsTest(_BaseTest):
 class ListOfParticipantsTest(_BaseTest):
 
     def test_list_of_participants(self):
+        self._create_meeting()
         self._create_participant(u"10")
         self._create_participant(u"1")
-        resp = self.client.get("/meeting/1/printouts/verified/short_list")
 
+        resp = self.client.get("/meeting/1/printouts/verified/short_list")
         # conditie: Verif and Cat>9 and Cat<98 and Cat["registered"] is Ture
         with self.app.test_request_context():
             person_row = database.get_person_or_404(1)
@@ -170,6 +181,7 @@ class ListOfParticipantsTest(_BaseTest):
         self.assertIn(u"Romania", representing)
 
     def test_list_of_participants_columns(self):
+        self._create_meeting()
         self._create_participant(u"10", default_data={
             "meeting_flags_credentials": True,
             "meeting_flags_approval": True,
@@ -177,7 +189,6 @@ class ListOfParticipantsTest(_BaseTest):
         })
 
         resp = self.client.get("/meeting/1/printouts/verified/short_list")
-
         self.assertTrue(select(resp.data, "table .printout-credentials .icon-check"))
         self.assertTrue(select(resp.data, "table .printout-approval .icon-check"))
         self.assertTrue(select(resp.data, "table .printout-webalert .icon-check"))
@@ -186,9 +197,10 @@ class ListOfParticipantsTest(_BaseTest):
 class BadgeTest(_BaseTest):
 
     def test_badge(self):
+        self._create_meeting()
         self._create_participant(u"10")
-        resp = self.client.get("/meeting/1/participant/1/badge")
 
+        resp = self.client.get("/meeting/1/participant/1/badge")
         self.assertTrue(select(resp.data, ".badge-blue-stripe"))
 
         [person_name] = select(resp.data, ".person-name")
@@ -207,6 +219,7 @@ class MeetingRoom(_BaseTest):
     def test_meeting_room(self):
         from cites import printouts
 
+        self._create_meeting()
         self._create_participant(u"10")
         self._create_participant(u"10")
         self._create_participant(u"20")
@@ -230,6 +243,7 @@ class MeetingRoom(_BaseTest):
             self.assertEqual(values[1]["count"], 1)
 
     def test_meeting_room_qty(self):
+        self._create_meeting()
         self._create_participant(u"10")
         self._create_participant(u"10")
 
@@ -243,6 +257,7 @@ class PigeonHoles(_BaseTest):
     def test_verified_representing_country(self):
         from cites import printouts
 
+        self._create_meeting()
         self._create_participant(u"10")
         self._create_participant(u"10")
         self._create_participant(u"20")
@@ -266,6 +281,7 @@ class PigeonHoles(_BaseTest):
             self.assertEqual(values[1]["count"], 1)
 
     def test_qty(self):
+        self._create_meeting()
         self._create_participant(u"10")
         self._create_participant(u"10")
 
@@ -280,6 +296,7 @@ class DocumentDistribution(_BaseTest):
     def test_verified_document_distribution(self):
         from cites import printouts
 
+        self._create_meeting()
         self._create_participant(u"10")
         self._create_participant(u"10")
         self._create_participant(u"20")
@@ -313,6 +330,7 @@ class DocumentDistribution(_BaseTest):
     def test_attended_document_distribution(self):
         from cites import printouts
 
+        self._create_meeting()
         self._create_participant(u"10", {"meeting_flags_attended": True})
         self._create_participant(u"10", {"meeting_flags_attended": False})
 
@@ -328,6 +346,7 @@ class DocumentDistribution(_BaseTest):
 class ListfForVerification(_BaseTest):
 
     def test_list_for_verification(self):
+        self._create_meeting()
         self._create_participant("42", {"meeting_flags_attended": True})
         resp = self.client.get("/meeting/1/printouts/attended/list_for_verification")
 

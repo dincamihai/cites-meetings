@@ -130,7 +130,9 @@ def edit(meeting_id, person_id=None):
             session.save(person_row)
             session.commit()
             flask.flash("Person information saved", "success")
-            view_url = flask.url_for("participant.view", person_id=person_row.id)
+            view_url = flask.url_for("participant.view",
+                                     meeting_id=meeting_row.id,
+                                     person_id=person_row.id)
             return flask.redirect(view_url)
 
         else:

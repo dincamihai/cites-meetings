@@ -25,7 +25,7 @@ def home():
     }
 
 
-@meeting.route("/new",  methods=["GET", "POST"])
+@meeting.route("/meeting/new",  methods=["GET", "POST"])
 @auth_required
 @sugar.templated("meeting/new")
 def new():

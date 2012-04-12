@@ -93,7 +93,7 @@ class Table(object):
 
     def _drop(self):
         cursor = self._session.conn.cursor()
-        cursor.execute("DROP TABLE person")
+        cursor.execute("DROP TABLE IF EXISTS person")
 
     def save(self, obj):
         cursor = self._session.conn.cursor()
