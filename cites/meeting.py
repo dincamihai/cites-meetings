@@ -35,7 +35,10 @@ def new():
     if flask.request.method == "POST":
         form_data = dict(schema.MeetingSchema.from_defaults().flatten())
         form_data.update(flask.request.form.to_dict())
+
         meeting_schema = schema.MeetingSchema.from_flat(form_data)
+        categories = schema.CategoriesSchema(schema.category.values())
+        meeting_schema["meeting"]["categories"] = categories
 
         if meeting_schema.validate():
             meeting_row = database.MeetingRow()
@@ -115,7 +118,9 @@ def settings_fees(meeting_id):
 @sugar.templated("meeting/settings_categories.html")
 def settings_categories(meeting_id):
     meeting_row = database.get_meeting_or_404(meeting_id)
+    meeting = schema.Meeting.from_flat(meeting_row)["meeting"]
+
     return {
-        "categories": schema.category,
+        "categories": meeting["categories"],
         "meeting_row": meeting_row,
     }

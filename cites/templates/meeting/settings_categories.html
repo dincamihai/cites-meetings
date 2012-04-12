@@ -13,9 +13,9 @@
           </tr>
         </thead>
         <tbody>
-          {%- for category in categories %}
+          {%- for c in categories %}
           <tr>
-            <td>{{ ref['category'][category]["name"] }}</td>
+            <td>{{ c["name"] }}</td>
           </tr>
           {% endfor %}
         </tbody>

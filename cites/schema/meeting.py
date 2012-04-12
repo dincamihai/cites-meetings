@@ -3,42 +3,47 @@ from cites import database
 from .common import *
 
 
-_CategoriesSchemaDefinition = fl.Dict.with_properties(widget="schema") \
-                                     .named("categories") \
+_CategoriesSchemaDefinition = fl.List.named("categories") \
                                      .of(
-    CommonString.named("stat").using(label=u"Stat"),
 
-    CommonBoolean.named("fee").using(label=u"Fee"),
+    CommonDict.of(
 
-    CommonString.named("name").using(label=u"Name"),
+        CommonString.named("stat").using(label=u"Stat"),
 
-    CommonString.named("representative").using(label=u"Representative"),
+        CommonBoolean.named("fee").using(label=u"Fee"),
 
-    CommonInteger.named("credent").using(label=u"Credent"),
+        CommonString.named("name").using(label=u"Name"),
 
-    CommonInteger.named("room_sort").using(label=u"Room sort"),
+        CommonString.named("representative").using(label=u"Representative"),
 
-    CommonBoolean.named("registered").using(label=u"Registered"),
+        CommonInteger.named("credent").using(label=u"Credent"),
 
-    CommonString.named("details_of_registration")
-                .using(label=u"Details of registration"),
+        CommonInteger.named("room_sort").using(label=u"Room sort"),
 
-    CommonInteger.named("id").using(label=u"Id"),
+        CommonBoolean.named("registered").using(label=u"Registered"),
 
-    CommonString.named("invitation_received")
-                .using(label=u"Invitation received"),
+        CommonString.named("details_of_registration")
+                    .using(label=u"Details of registration"),
 
-    CommonInteger.named("reg_sort").using(label=u"Reg sort"),
+        CommonInteger.named("id").using(label=u"Id"),
 
-    CommonBoolean.named("registration_fee").using(label=u"Registration fee"),
+        CommonString.named("invitation_received")
+                    .using(label=u"Invitation received"),
 
-    CommonString.named("badge_color").using(label=u"Badge color"),
+        CommonInteger.named("reg_sort").using(label=u"Reg sort"),
 
-    CommonInteger.named("stat_sort").using(label=u"Stat sort"),
+        CommonBoolean.named("registration_fee").using(label=u"Registration fee"),
 
-    CommonString.named("reg").using(label=u"Reg"),
+        CommonString.named("badge_color").using(label=u"Badge color"),
 
-    CommonString.named("room").using(label=u"Room")
+        CommonInteger.named("stat_sort").using(label=u"Stat sort"),
+
+        CommonString.named("reg").using(label=u"Reg"),
+
+        CommonString.named("room").using(label=u"Room")
+
+    )
+
 )
 
 _MeetingSchemaDefinition = fl.Dict.with_properties(widget="schema") \
@@ -90,3 +95,24 @@ class Meeting(dict):
     @property
     def venue(self):
         return self["meeting"]["venue"]
+
+
+class CategoriesSchema(_CategoriesSchemaDefinition):
+    pass
+
+# class CategoriesSchema(_CategoriesSchemaDefinition):
+
+#     @property
+#     def value(self):
+#         return Category(super(CategoriesSchema, self).value)
+
+# class Categories(list):
+
+#     id = None
+
+#     @staticmethod
+#     def from_flat(category_row):
+#         category = CategoriesSchema.from_flat(category_row).value
+#         category.id = category_row.id
+#         return category
+

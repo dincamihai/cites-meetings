@@ -45,8 +45,8 @@ CommonEnum = fl.Enum.using(optional=True) \
 # required to be True or False (None is not allowed)
 CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
 CommonDict = fl.Dict.with_properties(widget="group")
-CommonInteger = fl.Integer.using(optional=True) \
-                          .including_validators(ValueGreaterThan(boundary=0))
+CommonList = fl.List.using(optional=True).with_properties(widget="list")
+CommonInteger = fl.Integer.using(optional=True)
 
 # Data
 country = {item["id"]: item["name"]  for item in

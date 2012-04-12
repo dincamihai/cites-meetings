@@ -1,6 +1,6 @@
 from .mail import MailSchema
 from .person import PersonSchema, Person
-from .meeting import MeetingSchema, Meeting
+from .meeting import MeetingSchema, Meeting, CategoriesSchema
 
 from .common import (
     country, personal_title, language, secretariat, category, category_labels,
