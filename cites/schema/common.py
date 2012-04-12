@@ -4,7 +4,7 @@ import re
 from operator import itemgetter
 
 import flatland as fl
-from flatland.validation import Validator
+from flatland.validation import Validator, ValueGreaterThan
 from flatland.signals import validator_validated
 from flatland.schema.base import NotEmpty
 
@@ -45,6 +45,8 @@ CommonEnum = fl.Enum.using(optional=True) \
 # required to be True or False (None is not allowed)
 CommonBoolean = fl.Boolean.using(optional=True).with_properties(widget="checkbox")
 CommonDict = fl.Dict.with_properties(widget="group")
+CommonInteger = fl.Integer.using(optional=True) \
+                          .including_validators(ValueGreaterThan(boundary=0))
 
 # Data
 country = {item["id"]: item["name"]  for item in

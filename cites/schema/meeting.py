@@ -3,6 +3,44 @@ from cites import database
 from .common import *
 
 
+_CategoriesSchemaDefinition = fl.Dict.with_properties(widget="schema") \
+                                     .named("categories") \
+                                     .of(
+    CommonString.named("stat").using(label=u"Stat"),
+
+    CommonBoolean.named("fee").using(label=u"Fee"),
+
+    CommonString.named("name").using(label=u"Name"),
+
+    CommonString.named("representative").using(label=u"Representative"),
+
+    CommonInteger.named("credent").using(label=u"Credent"),
+
+    CommonInteger.named("room_sort").using(label=u"Room sort"),
+
+    CommonBoolean.named("registered").using(label=u"Registered"),
+
+    CommonString.named("details_of_registration")
+                .using(label=u"Details of registration"),
+
+    CommonInteger.named("id").using(label=u"Id"),
+
+    CommonString.named("invitation_received")
+                .using(label=u"Invitation received"),
+
+    CommonInteger.named("reg_sort").using(label=u"Reg sort"),
+
+    CommonBoolean.named("registration_fee").using(label=u"Registration fee"),
+
+    CommonString.named("badge_color").using(label=u"Badge color"),
+
+    CommonInteger.named("stat_sort").using(label=u"Stat sort"),
+
+    CommonString.named("reg").using(label=u"Reg"),
+
+    CommonString.named("room").using(label=u"Room")
+)
+
 _MeetingSchemaDefinition = fl.Dict.with_properties(widget="schema") \
                                   .of(
     CommonDict.named("meeting") \
@@ -16,7 +54,10 @@ _MeetingSchemaDefinition = fl.Dict.with_properties(widget="schema") \
 
         CommonString.named("venue") \
                     .using(optional=False,
-                           label=u"Venue")
+                           label=u"Venue"),
+
+        _CategoriesSchemaDefinition.using(label="") \
+                                   .with_properties(widget="hide")
     )
 )
 
